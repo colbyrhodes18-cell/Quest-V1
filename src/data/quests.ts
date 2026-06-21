@@ -75,3 +75,4 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Desk Commander",
     },
   ],
+};
