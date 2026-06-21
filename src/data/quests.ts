@@ -39,3 +39,40 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
     },
   ],
 };
+ "Solo-Indoor-Afternoon": [
+    {
+      title: "Drawer Archaeologist",
+      xp: 15,
+      task: "Clean one drawer, shelf, or messy corner.",
+      flavor: "Ancient receipts and mystery cables await discovery.",
+      unlockTitle: "Drawer Archaeologist",
+    },
+    {
+      title: "Skill Spark",
+      xp: 20,
+      task: "Practice or learn something useful for 20 minutes.",
+      flavor: "Tiny improvements become unfair advantages.",
+      unlockTitle: "Skill Tinkerer",
+    },
+    {
+      title: "Paper Slayer",
+      xp: 15,
+      task: "Throw away or organize 20 pieces of clutter.",
+      flavor: "The kingdom grows cleaner one receipt at a time.",
+      unlockTitle: "Paper Slayer",
+    },
+    {
+      title: "Mini Builder",
+      xp: 20,
+      task: "Create something small: write, draw, build, or repair.",
+      flavor: "Creation is magic with fewer robes.",
+      unlockTitle: "Mini Builder",
+    },
+    {
+      title: "Desk Commander",
+      xp: 15,
+      task: "Completely clear one table, desk, or workspace.",
+      flavor: "Order has entered the chat.",
+      unlockTitle: "Desk Commander",
+    },
+  ],
