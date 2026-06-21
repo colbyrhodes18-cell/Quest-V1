@@ -38,7 +38,6 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Window Watcher",
     },
   ],
-};
  "Solo-Indoor-Afternoon": [
     {
       title: "Drawer Archaeologist",
