@@ -271,11 +271,11 @@ export default function App() {
       return quests.filter((q) => q.mode === mode && q.setting === setting);
     }
 
-    return quests.filter(
-      (q) =>
-        q.mode === mode &&
-        q.setting === setting &&
-        (q.time === time || q.time === "Anytime")
+   return quests.filter(
+  (q) =>
+    q.mode === mode &&
+    q.setting === setting &&
+    q.time === time
     );
   }, [mode, setting, time]);
 
