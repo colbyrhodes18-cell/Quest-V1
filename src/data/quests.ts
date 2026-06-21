@@ -297,4 +297,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Dusk Listener",
     },
   ],
-  };
+ "Solo-Outdoor-Night": [
+    {
+      title: "Night Air Patrol",
+      xp: 15,
+      task: "Step outside for 10 minutes and listen to the night.",
+      flavor: "The darkness is mostly bugs and mystery.",
+      unlockTitle: "Night Air Patrol",
+    },
+    {
+      title: "Star Counter",
+      xp: 15,
+      task: "Find at least 10 stars in the sky.",
+      flavor: "Astronomy but lazy.",
+      unlockTitle: "Star Counter",
+    },
+    {
+      title: "Moon Watcher",
+      xp: 15,
+      task: "Spend 5 minutes looking at the moon.",
+      flavor: "The original nightlight.",
+      unlockTitle: "Moon Watcher",
+    },
+    {
+      title: "Night Walker",
+      xp: 20,
+      task: "Take a safe 15-minute walk after dark.",
+      flavor: "Main character mode activated.",
+      unlockTitle: "Night Walker",
+    },
+    {
+      title: "Cricket Auditor",
+      xp: 10,
+      task: "Count how many different sounds you hear outside.",
+      flavor: "The insects are holding a meeting.",
+      unlockTitle: "Cricket Auditor",
+    },
+  ],
+   };
