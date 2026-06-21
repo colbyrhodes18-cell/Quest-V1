@@ -75,4 +75,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Desk Commander",
     },
   ],
-};
+"Solo-Indoor-Evening": [
+    {
+      title: "Room Tamer",
+      xp: 15,
+      task: "Reset one small area of your home before the night takes over.",
+      flavor: "Chaos retreats. For now.",
+      unlockTitle: "Room Tamer",
+    },
+    {
+      title: "Kitchen Alchemist",
+      xp: 20,
+      task: "Make a snack or meal using only what you already have.",
+      flavor: "The pantry has chosen you.",
+      unlockTitle: "Kitchen Alchemist",
+    },
+    {
+      title: "Lore Keeper",
+      xp: 20,
+      task: "Write one paragraph about an idea, memory, story, or goal.",
+      flavor: "Your internal wizard needed documentation.",
+      unlockTitle: "Lore Keeper",
+    },
+    {
+      title: "Music Pilgrim",
+      xp: 10,
+      task: "Listen to one song from a genre you usually ignore.",
+      flavor: "Your ears are going on a field trip.",
+      unlockTitle: "Music Pilgrim",
+    },
+    {
+      title: "Evening Builder",
+      xp: 20,
+      task: "Work on one personal project for 20 minutes.",
+      flavor: "The dream requires tools.",
+      unlockTitle: "Evening Builder",
+    },
+  ],
+  };
