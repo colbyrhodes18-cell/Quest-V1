@@ -334,4 +334,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Cricket Auditor",
     },
   ],
-   };
+"Solo-Outdoor-Anytime": [
+    {
+      title: "Perimeter Check",
+      xp: 10,
+      task: "Walk around your block, yard, or nearby area and notice 3 things you've never paid attention to before.",
+      flavor: "You are now security for absolutely no one.",
+      unlockTitle: "Perimeter Walker",
+    },
+    {
+      title: "Rock Inspector",
+      xp: 10,
+      task: "Find the coolest rock you can and decide what makes it worthy.",
+      flavor: "Humanity's oldest hobby returns.",
+      unlockTitle: "Rock Inspector",
+    },
+    {
+      title: "Tree Judge",
+      xp: 10,
+      task: "Find your favorite tree nearby and defend your choice.",
+      flavor: "Trees deserve rankings too.",
+      unlockTitle: "Tree Judge",
+    },
+    {
+      title: "Pathfinder",
+      xp: 15,
+      task: "Walk somewhere with no destination in mind for 15 minutes.",
+      flavor: "Sometimes wandering is the objective.",
+      unlockTitle: "Pathfinder",
+    },
+    {
+      title: "Nature Collector",
+      xp: 15,
+      task: "Find three interesting natural objects and take a photo of them.",
+      flavor: "Tiny treasures are everywhere.",
+      unlockTitle: "Nature Collector",
+    },
+  ],
+  };
