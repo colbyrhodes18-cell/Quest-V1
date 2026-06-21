@@ -223,4 +223,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Fresh Air Goblin",
     },
   ],
-};
+"Solo-Outdoor-Afternoon": [
+    {
+      title: "Trail Scout",
+      xp: 20,
+      task: "Walk one mile and photograph the weirdest thing you find.",
+      flavor: "If you find Bigfoot, document him responsibly.",
+      unlockTitle: "Trail Scout",
+    },
+    {
+      title: "Cloud Cartographer",
+      xp: 15,
+      task: "Find and name 3 cloud formations.",
+      flavor: "Meteorologists hate this one trick.",
+      unlockTitle: "Cloud Cartographer",
+    },
+    {
+      title: "Bench Explorer",
+      xp: 15,
+      task: "Sit somewhere you've never sat before for 10 minutes.",
+      flavor: "New bench. New perspective.",
+      unlockTitle: "Bench Explorer",
+    },
+    {
+      title: "Shade Hunter",
+      xp: 15,
+      task: "Find the best shady spot nearby.",
+      flavor: "A noble quest during daylight hours.",
+      unlockTitle: "Shade Hunter",
+    },
+    {
+      title: "Trail Detective",
+      xp: 20,
+      task: "Walk a route you've never taken.",
+      flavor: "Adventure is mostly turning left instead of right.",
+      unlockTitle: "Trail Detective",
+    },
+  ],
+  };
