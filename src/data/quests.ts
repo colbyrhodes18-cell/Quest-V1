@@ -149,4 +149,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Quiet Keeper",
     },
   ],
+"Solo-Indoor-Anytime": [
+    {
+      title: "Book Hunter",
+      xp: 15,
+      task: "Read 10 pages of any book.",
+      flavor: "Knowledge has entered the inventory.",
+      unlockTitle: "Book Hunter",
+    },
+    {
+      title: "Tiny Fix",
+      xp: 20,
+      task: "Fix one small annoying thing you've been ignoring.",
+      flavor: "The squeaky wheel has finally been silenced.",
+      unlockTitle: "Tiny Fixer",
+    },
+    {
+      title: "Snack Wizard",
+      xp: 15,
+      task: "Create a snack using ingredients already in your house.",
+      flavor: "Culinary innovation or disaster awaits.",
+      unlockTitle: "Snack Wizard",
+    },
+    {
+      title: "Memory Vault",
+      xp: 15,
+      task: "Write down one memory you never want to forget.",
+      flavor: "Save file created successfully.",
+      unlockTitle: "Memory Keeper",
+    },
+    {
+      title: "Clutter Duelist",
+      xp: 15,
+      task: "Find and remove 5 unnecessary items from a room.",
+      flavor: "The clutter never saw it coming.",
+      unlockTitle: "Clutter Duelist",
+    },
+  ],
 };
