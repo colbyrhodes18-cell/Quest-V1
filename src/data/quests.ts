@@ -112,4 +112,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Evening Builder",
     },
   ],
-  };
+  "Solo-Indoor-Night": [
+    {
+      title: "Couch Philosopher",
+      xp: 15,
+      task: "Write down 5 things you want to do before you die.",
+      flavor: "Deep thoughts count, even in gym shorts.",
+      unlockTitle: "Couch Philosopher",
+    },
+    {
+      title: "Tomorrow Scout",
+      xp: 15,
+      task: "Set up one thing tonight that tomorrow-you will appreciate.",
+      flavor: "Tomorrow-you owes tonight-you a handshake.",
+      unlockTitle: "Tomorrow Scout",
+    },
+    {
+      title: "Midnight Journal",
+      xp: 15,
+      task: "Write 5 sentences about how today actually went.",
+      flavor: "Congratulations, you became your own narrator.",
+      unlockTitle: "Midnight Scribe",
+    },
+    {
+      title: "Screen Exile",
+      xp: 20,
+      task: "Spend 20 minutes away from your phone, TV, or computer.",
+      flavor: "The glowing rectangle will survive without you.",
+      unlockTitle: "Screen Exile",
+    },
+    {
+      title: "Quiet Keeper",
+      xp: 10,
+      task: "Sit in silence for 5 minutes.",
+      flavor: "The brain goblins may speak. Do not elect them king.",
+      unlockTitle: "Quiet Keeper",
+    },
+  ],
+};
