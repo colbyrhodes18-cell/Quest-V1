@@ -33,71 +33,50 @@ function detectTimeOfDay(): TimeOfDay {
 const questLibrary: Record<string, QuestTemplate[]> = {
   "Solo-Indoor-Morning": [
     { title: "Morning Reset", xp: 10, task: "Make your bed, drink water, and plan one useful thing for today.", flavor: "A tiny civilization has begun.", unlockTitle: "Morning Operator" },
+    { title: "Kitchen Recon", xp: 10, task: "Prepare breakfast without touching your phone.", flavor: "The eggs demand your full attention.", unlockTitle: "Breakfast Ranger" },
     { title: "Sunrise Reader", xp: 10, task: "Read for 10 minutes before scrolling.", flavor: "Your brain has requested better breakfast.", unlockTitle: "Sunrise Scholar" },
+    { title: "Stretch Protocol", xp: 10, task: "Stretch for 10 minutes.", flavor: "Your joints have submitted formal complaints.", unlockTitle: "Flex Keeper" },
+    { title: "Window Watcher", xp: 10, task: "Spend 5 minutes observing the outside world.", flavor: "Free nature documentary. No subscription required.", unlockTitle: "Window Watcher" },
   ],
+
   "Solo-Indoor-Afternoon": [
     { title: "Drawer Archaeologist", xp: 15, task: "Clean one drawer, shelf, or messy corner.", flavor: "Ancient receipts await.", unlockTitle: "Drawer Archaeologist" },
     { title: "Skill Spark", xp: 20, task: "Practice or learn something useful for 20 minutes.", flavor: "Tiny reps. Big future.", unlockTitle: "Skill Tinkerer" },
+    { title: "Paper Slayer", xp: 15, task: "Throw away 20 pieces of clutter.", flavor: "The kingdom grows cleaner.", unlockTitle: "Paper Slayer" },
+    { title: "Mini Builder", xp: 15, task: "Create something small with your hands.", flavor: "Creation is magic with fewer robes.", unlockTitle: "Maker" },
+    { title: "Desk Commander", xp: 15, task: "Clear one workspace or table.", flavor: "Order has entered the chat.", unlockTitle: "Desk Commander" },
   ],
+
   "Solo-Indoor-Evening": [
     { title: "Room Tamer", xp: 15, task: "Reset one small area of your home.", flavor: "Chaos retreats. For now.", unlockTitle: "Room Tamer" },
     { title: "Kitchen Alchemist", xp: 20, task: "Make a snack or meal using only what you already have.", flavor: "The pantry has chosen you.", unlockTitle: "Kitchen Alchemist" },
+    { title: "Lore Keeper", xp: 20, task: "Write one paragraph about an idea, memory, story, or goal.", flavor: "Your internal wizard needed documentation.", unlockTitle: "Lore Keeper" },
+    { title: "Music Pilgrim", xp: 10, task: "Listen to one song from a genre you usually ignore.", flavor: "Your ears are going on a field trip.", unlockTitle: "Music Pilgrim" },
+    { title: "Evening Builder", xp: 20, task: "Work on one personal project for 20 minutes.", flavor: "The dream requires tools.", unlockTitle: "Evening Builder" },
   ],
+
   "Solo-Indoor-Night": [
     { title: "Couch Philosopher", xp: 15, task: "Write down 5 things you want to do before you die.", flavor: "Deep thoughts count, even in gym shorts.", unlockTitle: "Couch Philosopher" },
     { title: "Sleep Prep", xp: 10, task: "Set up one thing tonight that tomorrow-you will appreciate.", flavor: "Tomorrow-you owes tonight-you a handshake.", unlockTitle: "Tomorrow Scout" },
+    { title: "Midnight Journal", xp: 15, task: "Write 5 sentences about how today actually went.", flavor: "Congratulations, you became your own narrator.", unlockTitle: "Midnight Scribe" },
+    { title: "Screen Exile", xp: 20, task: "Spend 20 minutes without scrolling.", flavor: "The rectangle will survive without you.", unlockTitle: "Screen Exile" },
+    { title: "Quiet Room", xp: 10, task: "Sit in silence for 5 minutes.", flavor: "The brain goblins may speak. Do not elect them king.", unlockTitle: "Quiet Keeper" },
   ],
+
   "Solo-Indoor-Anytime": [
     { title: "Book Hunter", xp: 10, task: "Read 10 pages of anything.", flavor: "You touched paper and survived.", unlockTitle: "Book Hunter" },
     { title: "Tiny Fix", xp: 20, task: "Fix one small annoying thing you keep ignoring.", flavor: "The squeaky wheel has lost its campaign.", unlockTitle: "Tiny Fixer" },
+    { title: "Snack Wizard", xp: 15, task: "Make the weirdest acceptable snack you can with what you have.", flavor: "Acceptable is doing a lot of work here.", unlockTitle: "Snack Wizard" },
+    { title: "Memory Vault", xp: 15, task: "Write down one memory you do not want to forget.", flavor: "Save file created.", unlockTitle: "Memory Keeper" },
+    { title: "Clutter Duel", xp: 15, task: "Find 5 things you can throw away immediately.", flavor: "The drawer has grown too powerful.", unlockTitle: "Clutter Duelist" },
   ],
 
-  "Solo-Outdoor-Morning": [
-    { title: "Morning Scout", xp: 10, task: "Take a 20-minute walk before the day gets loud.", flavor: "Your ancestors crossed rivers before breakfast.", unlockTitle: "Morning Scout" },
-  ],
-  "Solo-Outdoor-Afternoon": [
-    { title: "Trail Scout", xp: 20, task: "Walk one mile and photograph the weirdest thing you find.", flavor: "If you find Bigfoot, document him responsibly.", unlockTitle: "Trail Scout" },
-  ],
-  "Solo-Outdoor-Evening": [
-    { title: "Sunset Witness", xp: 15, task: "Watch the sunset without scrolling.", flavor: "Nature has free graphics.", unlockTitle: "Sunset Witness" },
-  ],
-  "Solo-Outdoor-Night": [
-    { title: "Night Air Patrol", xp: 15, task: "Step outside for 10 minutes and listen to the night.", flavor: "The darkness is mostly bugs and mystery.", unlockTitle: "Night Air Patrol" },
-  ],
-  "Solo-Outdoor-Anytime": [
-    { title: "Perimeter Check", xp: 10, task: "Walk around your block, yard, or nearby area and notice 3 things.", flavor: "You are now security for absolutely no one.", unlockTitle: "Perimeter Walker" },
-  ],
-
-  "Solo-City-Morning": [
-    { title: "Coffee Recon", xp: 10, task: "Try coffee from somewhere you normally ignore.", flavor: "Every hero needs a questionable potion.", unlockTitle: "Coffee Wanderer" },
-  ],
-  "Solo-City-Afternoon": [
-    { title: "Urban Wanderer", xp: 20, task: "Walk around a part of town you usually pass by.", flavor: "Low-budget explorer mode activated.", unlockTitle: "Urban Wanderer" },
-  ],
-  "Solo-City-Evening": [
-    { title: "Gas Station Philosopher", xp: 20, task: "Find the strangest snack at a gas station.", flavor: "Civilization peaked between jerky and blue soda.", unlockTitle: "Gas Station Philosopher" },
-  ],
-  "Solo-City-Night": [
-    { title: "Neon Pilgrim", xp: 20, task: "Safely visit one well-lit place you have never been at night.", flavor: "Batman had a budget. You have curiosity.", unlockTitle: "Neon Pilgrim" },
-  ],
-  "Solo-City-Anytime": [
-    { title: "Sidewalk Scout", xp: 10, task: "Walk a new sidewalk, street, or shopping strip.", flavor: "Adventure, but with parking lots.", unlockTitle: "Sidewalk Scout" },
-  ],
-
-  "Solo-Country-Morning": [
-    { title: "Fence Line Scout", xp: 10, task: "Find the quietest outdoor spot nearby.", flavor: "The world is loud. Go find the quiet patch.", unlockTitle: "Fence Line Scout" },
-  ],
-  "Solo-Country-Afternoon": [
-    { title: "Old Road Seeker", xp: 20, task: "Take a road or path you normally ignore.", flavor: "Getting mildly lost builds character. Bring gas.", unlockTitle: "Old Road Seeker" },
-  ],
-  "Solo-Country-Evening": [
-    { title: "Dusk Watcher", xp: 15, task: "Watch the sky change for 10 minutes.", flavor: "Free cinema. Limited seating.", unlockTitle: "Dusk Watcher" },
-  ],
-  "Solo-Country-Night": [
-    { title: "Porch Goblin Watch", xp: 15, task: "Sit outside and listen for wildlife.", flavor: "Do not negotiate with raccoons. They have lawyers.", unlockTitle: "Possum Diplomat" },
-  ],
-  "Solo-Country-Anytime": [
-    { title: "Country Marker", xp: 10, task: "Find one natural thing worth remembering.", flavor: "A rock can be a landmark if you believe hard enough.", unlockTitle: "Country Marker" },
+  "Friends-Outdoor-Night": [
+    { title: "Night Owl Council", xp: 20, task: "Sit outside for 15 minutes and everyone shares one story.", flavor: "Friendship is just campfire lore without the campfire.", unlockTitle: "Night Owl" },
+    { title: "Constellation Liars", xp: 15, task: "Find stars and invent fake constellations.", flavor: "NASA will not be notified.", unlockTitle: "Star Forger" },
+    { title: "Flashlight Expedition", xp: 20, task: "Take a safe flashlight walk and find the weirdest object.", flavor: "The group chat demands proof.", unlockTitle: "Night Scout" },
+    { title: "Moonlight Jury", xp: 20, task: "Debate a ridiculous topic until a winner is declared.", flavor: "Justice has never looked this dumb.", unlockTitle: "Moon Judge" },
+    { title: "Porch Prophets", xp: 20, task: "Everyone predicts where they’ll be in 10 years.", flavor: "Bad predictions become excellent memories.", unlockTitle: "Porch Prophet" },
   ],
 };
 
@@ -138,6 +117,7 @@ export default function App() {
   const [setting, setSetting] = useState<Setting>("Indoor");
   const [time, setTime] = useState<TimeOfDay>(detectTimeOfDay());
   const [currentQuest, setCurrentQuest] = useState<Quest | null>(null);
+  const [lastQuestTitle, setLastQuestTitle] = useState("");
   const [xp, setXp] = useState(0);
   const [titles, setTitles] = useState<string[]>([]);
   const [completedCounts, setCompletedCounts] = useState<Record<string, number>>({});
@@ -147,17 +127,28 @@ export default function App() {
   const nextXp = nextRankXp(xp);
   const progress = nextXp === xp ? 100 : Math.min((xp / nextXp) * 100, 100);
 
-  const availableQuests = useMemo(() => getQuestPool(mode, setting, time), [mode, setting, time]);
+  const availableQuests = useMemo(
+    () => getQuestPool(mode, setting, time),
+    [mode, setting, time]
+  );
 
   function generateQuest() {
     if (availableQuests.length === 0) {
       setCurrentQuest(null);
-      setMessage("No quests written for this combo yet. We need to add this bucket.");
+      setMessage("No quests written for this combo yet. Add quests to this bucket.");
       return;
     }
 
-    const randomQuest = availableQuests[Math.floor(Math.random() * availableQuests.length)];
+    let pool = availableQuests;
+
+    if (availableQuests.length > 1) {
+      pool = availableQuests.filter((q) => q.title !== lastQuestTitle);
+    }
+
+    const randomQuest = pool[Math.floor(Math.random() * pool.length)];
+
     setCurrentQuest(randomQuest);
+    setLastQuestTitle(randomQuest.title);
     setMessage("");
   }
 
@@ -179,21 +170,47 @@ export default function App() {
       setTitles([...titles, currentQuest.unlockTitle]);
       setMessage(`🏆 New Title Unlocked: ${currentQuest.unlockTitle}`);
     } else {
-      setMessage(`+${currentQuest.xp} XP earned. Complete this quest ${Math.max(0, 3 - count)} more time(s) to unlock the title.`);
+      setMessage(
+        `+${currentQuest.xp} XP earned. Complete this quest ${Math.max(
+          0,
+          3 - count
+        )} more time(s) to unlock the title.`
+      );
     }
   }
 
   function shareQuest() {
     if (!currentQuest) return;
+
     const text = `I got a quest: "${currentQuest.title}" — ${currentQuest.task} Reward: ${currentQuest.xp} XP.`;
     window.location.href = `sms:?&body=${encodeURIComponent(text)}`;
+  }
+
+  function changeMode(newMode: Mode) {
+    setMode(newMode);
+    setCurrentQuest(null);
+    setMessage("");
+  }
+
+  function changeSetting(newSetting: Setting) {
+    setSetting(newSetting);
+    setCurrentQuest(null);
+    setMessage("");
+  }
+
+  function changeTime(newTime: TimeOfDay) {
+    setTime(newTime);
+    setCurrentQuest(null);
+    setMessage("");
   }
 
   return (
     <div style={styles.page}>
       <div style={styles.app}>
         <h1 style={styles.logo}>QUEST</h1>
-        <p style={styles.subtitle}>Real-life adventures. Weird titles. Mildly questionable motivation.</p>
+        <p style={styles.subtitle}>
+          Real-life adventures. Weird titles. Mildly questionable motivation.
+        </p>
 
         <div style={styles.profile}>
           <h2>{rank}</h2>
@@ -208,7 +225,13 @@ export default function App() {
           <h3>Who’s playing?</h3>
           <div style={styles.buttonGrid}>
             {modes.map((m) => (
-              <button key={m} onClick={() => setMode(m)} style={mode === m ? styles.selectedButton : styles.button}>{m}</button>
+              <button
+                key={m}
+                onClick={() => changeMode(m)}
+                style={mode === m ? styles.selectedButton : styles.button}
+              >
+                {m}
+              </button>
             ))}
           </div>
         </div>
@@ -217,26 +240,48 @@ export default function App() {
           <h3>Where?</h3>
           <div style={styles.buttonGrid}>
             {settings.map((s) => (
-              <button key={s} onClick={() => setSetting(s)} style={setting === s ? styles.selectedButton : styles.button}>{s}</button>
+              <button
+                key={s}
+                onClick={() => changeSetting(s)}
+                style={setting === s ? styles.selectedButton : styles.button}
+              >
+                {s}
+              </button>
             ))}
           </div>
         </div>
 
         <div style={styles.section}>
           <h3>When?</h3>
-          <p style={styles.small}>Auto-detected as {detectTimeOfDay()}, but you can override it.</p>
+          <p style={styles.small}>
+            Auto-detected as {detectTimeOfDay()}, but you can override it.
+          </p>
           <div style={styles.timeGrid}>
             {times.map((t) => (
-              <button key={t} onClick={() => setTime(t)} style={time === t ? styles.selectedButton : styles.button}>{t}</button>
+              <button
+                key={t}
+                onClick={() => changeTime(t)}
+                style={time === t ? styles.selectedButton : styles.button}
+              >
+                {t}
+              </button>
             ))}
           </div>
         </div>
 
-        <button style={styles.bigButton} onClick={generateQuest}>Begin Quest</button>
+        <p style={styles.small}>
+          {availableQuests.length} quest option(s) available for this combo.
+        </p>
+
+        <button style={styles.bigButton} onClick={generateQuest}>
+          Begin Quest
+        </button>
 
         {currentQuest && (
           <div style={styles.questCard}>
-            <p style={styles.difficulty}>{currentQuest.mode} • {currentQuest.setting} • {currentQuest.time}</p>
+            <p style={styles.difficulty}>
+              {currentQuest.mode} • {currentQuest.setting} • {currentQuest.time}
+            </p>
             <p style={styles.difficulty}>{currentQuest.xp} XP</p>
             <h2>{currentQuest.title}</h2>
             <p>{currentQuest.task}</p>
@@ -244,8 +289,12 @@ export default function App() {
             <p style={styles.smallDark}>Title unlock: complete this quest 3 times.</p>
 
             <div style={styles.actionRow}>
-              <button style={styles.completeButton} onClick={completeQuest}>Complete Quest</button>
-              <button style={styles.shareButton} onClick={shareQuest}>Text Quest</button>
+              <button style={styles.completeButton} onClick={completeQuest}>
+                Complete Quest
+              </button>
+              <button style={styles.shareButton} onClick={shareQuest}>
+                Text Quest
+              </button>
             </div>
           </div>
         )}
@@ -258,7 +307,11 @@ export default function App() {
             <p style={styles.small}>No titles yet. The possums remain unimpressed.</p>
           ) : (
             <div style={styles.titleList}>
-              {titles.map((t) => <span key={t} style={styles.titleBadge}>{t}</span>)}
+              {titles.map((t) => (
+                <span key={t} style={styles.titleBadge}>
+                  {t}
+                </span>
+              ))}
             </div>
           )}
         </div>
@@ -268,29 +321,131 @@ export default function App() {
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  page: { minHeight: "100vh", background: "linear-gradient(180deg, #132a13, #31572c)", color: "#fff", fontFamily: "Arial, sans-serif", padding: "24px" },
+  page: {
+    minHeight: "100vh",
+    background: "linear-gradient(180deg, #132a13, #31572c)",
+    color: "#fff",
+    fontFamily: "Arial, sans-serif",
+    padding: "24px",
+  },
   app: { maxWidth: "650px", margin: "0 auto" },
-  logo: { textAlign: "center", fontSize: "48px", letterSpacing: "6px", marginBottom: "8px" },
-  subtitle: { textAlign: "center", color: "#d9ed92", marginBottom: "24px" },
-  profile: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
-  progressOuter: { height: "12px", background: "rgba(255,255,255,0.2)", borderRadius: "999px", overflow: "hidden" },
+  logo: {
+    textAlign: "center",
+    fontSize: "48px",
+    letterSpacing: "6px",
+    marginBottom: "8px",
+  },
+  subtitle: {
+    textAlign: "center",
+    color: "#d9ed92",
+    marginBottom: "24px",
+  },
+  profile: {
+    background: "rgba(255,255,255,0.1)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "18px",
+    padding: "18px",
+    marginBottom: "20px",
+  },
+  progressOuter: {
+    height: "12px",
+    background: "rgba(255,255,255,0.2)",
+    borderRadius: "999px",
+    overflow: "hidden",
+  },
   progressInner: { height: "100%", background: "#f9c74f" },
   small: { color: "#d8f3dc", fontSize: "14px" },
   smallDark: { color: "#31572c", fontSize: "14px" },
   section: { marginBottom: "18px" },
-  buttonGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" },
-  timeGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" },
-  button: { padding: "14px", borderRadius: "12px", border: "none", background: "#90a955", color: "#132a13", fontWeight: "bold", cursor: "pointer" },
-  selectedButton: { padding: "14px", borderRadius: "12px", border: "2px solid #f9c74f", background: "#f9c74f", color: "#132a13", fontWeight: "bold", cursor: "pointer" },
-  bigButton: { width: "100%", padding: "18px", borderRadius: "16px", border: "none", background: "#f9844a", color: "#fff", fontSize: "20px", fontWeight: "bold", cursor: "pointer", marginBottom: "20px" },
-  questCard: { background: "#fff", color: "#132a13", borderRadius: "20px", padding: "22px", marginBottom: "18px" },
+  buttonGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: "10px",
+  },
+  timeGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: "10px",
+  },
+  button: {
+    padding: "14px",
+    borderRadius: "12px",
+    border: "none",
+    background: "#90a955",
+    color: "#132a13",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  selectedButton: {
+    padding: "14px",
+    borderRadius: "12px",
+    border: "2px solid #f9c74f",
+    background: "#f9c74f",
+    color: "#132a13",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  bigButton: {
+    width: "100%",
+    padding: "18px",
+    borderRadius: "16px",
+    border: "none",
+    background: "#f9844a",
+    color: "#fff",
+    fontSize: "20px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    marginBottom: "20px",
+  },
+  questCard: {
+    background: "#fff",
+    color: "#132a13",
+    borderRadius: "20px",
+    padding: "22px",
+    marginBottom: "18px",
+  },
   difficulty: { color: "#bc6c25", fontWeight: "bold" },
   flavor: { fontStyle: "italic", color: "#31572c" },
   actionRow: { display: "flex", gap: "10px", marginTop: "18px" },
-  completeButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#31572c", color: "#fff", fontWeight: "bold", cursor: "pointer" },
-  shareButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#577590", color: "#fff", fontWeight: "bold", cursor: "pointer" },
-  message: { background: "#f9c74f", color: "#132a13", padding: "14px", borderRadius: "12px", fontWeight: "bold", marginBottom: "18px" },
-  titles: { background: "rgba(255,255,255,0.1)", borderRadius: "18px", padding: "18px" },
+  completeButton: {
+    flex: 1,
+    padding: "14px",
+    borderRadius: "12px",
+    border: "none",
+    background: "#31572c",
+    color: "#fff",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  shareButton: {
+    flex: 1,
+    padding: "14px",
+    borderRadius: "12px",
+    border: "none",
+    background: "#577590",
+    color: "#fff",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  message: {
+    background: "#f9c74f",
+    color: "#132a13",
+    padding: "14px",
+    borderRadius: "12px",
+    fontWeight: "bold",
+    marginBottom: "18px",
+  },
+  titles: {
+    background: "rgba(255,255,255,0.1)",
+    borderRadius: "18px",
+    padding: "18px",
+  },
   titleList: { display: "flex", flexWrap: "wrap", gap: "10px" },
-  titleBadge: { background: "#f9c74f", color: "#132a13", padding: "8px 12px", borderRadius: "999px", fontWeight: "bold" },
+  titleBadge: {
+    background: "#f9c74f",
+    color: "#132a13",
+    padding: "8px 12px",
+    borderRadius: "999px",
+    fontWeight: "bold",
+  },
 };
