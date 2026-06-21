@@ -22,7 +22,6 @@ const times: TimeOfDay[] = ["Morning", "Afternoon", "Evening", "Night", "Anytime
 
 function detectTimeOfDay(): TimeOfDay {
   const hour = new Date().getHours();
-
   if (hour >= 5 && hour < 12) return "Morning";
   if (hour >= 12 && hour < 17) return "Afternoon";
   if (hour >= 17 && hour < 21) return "Evening";
@@ -31,26 +30,59 @@ function detectTimeOfDay(): TimeOfDay {
 
 const quests: Quest[] = [
   {
+    title: "Book Hunter",
+    mode: "Solo",
+    setting: "Indoor",
+    time: "Anytime",
+    difficulty: "Easy",
+    xp: 10,
+    task: "Read 10 pages of a book, comic, article, or anything that makes your brain less feral.",
+    flavor: "Congratulations. You have touched paper and survived.",
+    unlockTitle: "Book Hunter",
+  },
+  {
+    title: "Kitchen Alchemist",
+    mode: "Solo",
+    setting: "Indoor",
+    time: "Anytime",
+    difficulty: "Easy",
+    xp: 10,
+    task: "Make a snack using only ingredients you already have.",
+    flavor: "The pantry has chosen you. Do not disappoint it.",
+    unlockTitle: "Kitchen Alchemist",
+  },
+  {
+    title: "Drawer Archaeologist",
+    mode: "Solo",
+    setting: "Indoor",
+    time: "Anytime",
+    difficulty: "Medium",
+    xp: 25,
+    task: "Clean one junk drawer or random messy spot.",
+    flavor: "You may discover batteries, receipts, or evidence of a forgotten civilization.",
+    unlockTitle: "Drawer Archaeologist",
+  },
+  {
+    title: "Couch Philosopher",
+    mode: "Solo",
+    setting: "Indoor",
+    time: "Night",
+    difficulty: "Medium",
+    xp: 25,
+    task: "Write down 5 things you want to do before you die.",
+    flavor: "Deep thoughts count, even if you're wearing gym shorts.",
+    unlockTitle: "Couch Philosopher",
+  },
+  {
     title: "Morning Scout",
     mode: "Solo",
     setting: "Outdoor",
     time: "Morning",
     difficulty: "Easy",
-    xp: 25,
+    xp: 10,
     task: "Take a 20-minute walk before the day fully gets its claws into you.",
     flavor: "Your ancestors crossed rivers before breakfast. You can handle a sidewalk.",
     unlockTitle: "Morning Scout",
-  },
-  {
-    title: "Coffee Recon",
-    mode: "Solo",
-    setting: "City",
-    time: "Morning",
-    difficulty: "Easy",
-    xp: 25,
-    task: "Try a coffee shop or gas station coffee you’ve never had before.",
-    flavor: "Every hero needs a questionable potion.",
-    unlockTitle: "Coffee Wanderer",
   },
   {
     title: "Trail Scout",
@@ -58,21 +90,10 @@ const quests: Quest[] = [
     setting: "Outdoor",
     time: "Afternoon",
     difficulty: "Medium",
-    xp: 50,
+    xp: 25,
     task: "Walk one mile and take a picture of the weirdest thing you find.",
     flavor: "If you find Bigfoot, document him responsibly.",
     unlockTitle: "Trail Scout",
-  },
-  {
-    title: "The Ancient Tree Hunt",
-    mode: "Solo",
-    setting: "Country",
-    time: "Afternoon",
-    difficulty: "Medium",
-    xp: 50,
-    task: "Find the oldest-looking tree nearby and take a picture of it.",
-    flavor: "Ask it for wisdom. Trees are terrible at texting back.",
-    unlockTitle: "Tree Whisperer",
   },
   {
     title: "Gas Station Philosopher",
@@ -80,7 +101,7 @@ const quests: Quest[] = [
     setting: "City",
     time: "Evening",
     difficulty: "Medium",
-    xp: 50,
+    xp: 25,
     task: "Go to a gas station and find the strangest snack available.",
     flavor: "Civilization peaked somewhere between beef jerky and blue soda.",
     unlockTitle: "Gas Station Philosopher",
@@ -91,7 +112,7 @@ const quests: Quest[] = [
     setting: "Country",
     time: "Night",
     difficulty: "Easy",
-    xp: 25,
+    xp: 10,
     task: "Sit outside for 15 minutes and listen for wildlife, wind, or suspicious raccoon activity.",
     flavor: "Do not negotiate with raccoons. They have lawyers.",
     unlockTitle: "Possum Diplomat",
@@ -102,7 +123,7 @@ const quests: Quest[] = [
     setting: "Indoor",
     time: "Anytime",
     difficulty: "Easy",
-    xp: 25,
+    xp: 10,
     task: "Build a blanket fort and name the kingdom.",
     flavor: "Castles are expensive. Couch cushions are not.",
     unlockTitle: "Fort Commander",
@@ -113,21 +134,10 @@ const quests: Quest[] = [
     setting: "Indoor",
     time: "Morning",
     difficulty: "Easy",
-    xp: 25,
+    xp: 10,
     task: "Everyone helps make breakfast or pick the official breakfast champion.",
     flavor: "The syrup shall decide the fate of the realm.",
     unlockTitle: "Breakfast Baron",
-  },
-  {
-    title: "Creek Explorer",
-    mode: "Family",
-    setting: "Country",
-    time: "Afternoon",
-    difficulty: "Hard",
-    xp: 100,
-    task: "Find water, rocks, bugs, or animal tracks. Report your findings.",
-    flavor: "Congratulations, you are now a low-budget nature documentary.",
-    unlockTitle: "Creek Scout",
   },
   {
     title: "Living Room Olympics",
@@ -135,10 +145,21 @@ const quests: Quest[] = [
     setting: "Indoor",
     time: "Evening",
     difficulty: "Easy",
-    xp: 25,
+    xp: 10,
     task: "Create three ridiculous indoor games and crown a champion.",
     flavor: "History remembers the brave. And whoever wins sock basketball.",
     unlockTitle: "Living Room Champion",
+  },
+  {
+    title: "Creek Explorer",
+    mode: "Family",
+    setting: "Country",
+    time: "Afternoon",
+    difficulty: "Hard",
+    xp: 50,
+    task: "Find water, rocks, bugs, or animal tracks. Report your findings.",
+    flavor: "Congratulations, you are now a low-budget nature documentary.",
+    unlockTitle: "Creek Scout",
   },
   {
     title: "Snack Tribunal",
@@ -146,7 +167,7 @@ const quests: Quest[] = [
     setting: "Indoor",
     time: "Anytime",
     difficulty: "Easy",
-    xp: 25,
+    xp: 10,
     task: "Everyone brings one snack. Vote on the champion.",
     flavor: "Democracy works best when chips are involved.",
     unlockTitle: "Snack Judge",
@@ -157,7 +178,7 @@ const quests: Quest[] = [
     setting: "City",
     time: "Afternoon",
     difficulty: "Medium",
-    xp: 50,
+    xp: 25,
     task: "Find the weirdest item in a thrift store under $10.",
     flavor: "Some artifacts belong in museums. Others belong in your group chat.",
     unlockTitle: "Relic Hunter",
@@ -168,7 +189,7 @@ const quests: Quest[] = [
     setting: "City",
     time: "Night",
     difficulty: "Medium",
-    xp: 50,
+    xp: 25,
     task: "Grab cheap food, sit somewhere safe, and each person predicts where they’ll be in 5 years.",
     flavor: "Bad tacos. Big dreams. Ancient tradition.",
     unlockTitle: "Parking Lot Prophet",
@@ -179,10 +200,21 @@ const quests: Quest[] = [
     setting: "Outdoor",
     time: "Afternoon",
     difficulty: "Medium",
-    xp: 50,
+    xp: 25,
     task: "Go outside and make up a competition using whatever you have nearby.",
     flavor: "The Olympics started somewhere. Probably with worse equipment.",
     unlockTitle: "Backyard Gladiator",
+  },
+  {
+    title: "Breakfast Date",
+    mode: "Date",
+    setting: "City",
+    time: "Morning",
+    difficulty: "Easy",
+    xp: 10,
+    task: "Go get breakfast somewhere neither of you has tried.",
+    flavor: "Love is patient. Love is kind. Love also requires hash browns.",
+    unlockTitle: "Breakfast Romantic",
   },
   {
     title: "Sunset Pact",
@@ -190,7 +222,7 @@ const quests: Quest[] = [
     setting: "Outdoor",
     time: "Evening",
     difficulty: "Medium",
-    xp: 50,
+    xp: 25,
     task: "Find a sunset spot and bring one drink each.",
     flavor: "Romance is just good lighting with snacks.",
     unlockTitle: "Sunset Seeker",
@@ -201,21 +233,10 @@ const quests: Quest[] = [
     setting: "Country",
     time: "Evening",
     difficulty: "Medium",
-    xp: 50,
+    xp: 25,
     task: "Drive a road neither of you has taken before.",
     flavor: "Getting mildly lost builds character. Bring gas.",
     unlockTitle: "Backroad Romantic",
-  },
-  {
-    title: "Breakfast Date",
-    mode: "Date",
-    setting: "City",
-    time: "Morning",
-    difficulty: "Easy",
-    xp: 25,
-    task: "Go get breakfast somewhere neither of you has tried.",
-    flavor: "Love is patient. Love is kind. Love also requires hash browns.",
-    unlockTitle: "Breakfast Romantic",
   },
   {
     title: "Couch Quest",
@@ -223,7 +244,7 @@ const quests: Quest[] = [
     setting: "Indoor",
     time: "Night",
     difficulty: "Easy",
-    xp: 25,
+    xp: 10,
     task: "Pick a movie neither of you has seen and make one ridiculous prediction before it starts.",
     flavor: "If the movie is bad, congratulations. You found comedy.",
     unlockTitle: "Couch Adventurer",
@@ -231,18 +252,18 @@ const quests: Quest[] = [
 ];
 
 function getRank(xp: number) {
-  if (xp >= 1000) return "Ranger";
-  if (xp >= 500) return "Explorer";
-  if (xp >= 250) return "Trailblazer";
-  if (xp >= 100) return "Pathfinder";
+  if (xp >= 3000) return "Ranger";
+  if (xp >= 1500) return "Explorer";
+  if (xp >= 750) return "Trailblazer";
+  if (xp >= 250) return "Pathfinder";
   return "Wanderer";
 }
 
 function nextRankXp(xp: number) {
-  if (xp < 100) return 100;
   if (xp < 250) return 250;
-  if (xp < 500) return 500;
-  if (xp < 1000) return 1000;
+  if (xp < 750) return 750;
+  if (xp < 1500) return 1500;
+  if (xp < 3000) return 3000;
   return xp;
 }
 
@@ -269,8 +290,13 @@ export default function App() {
   }, [mode, setting, time]);
 
   function generateQuest() {
-    const pool = availableQuests.length > 0 ? availableQuests : quests;
-    const randomQuest = pool[Math.floor(Math.random() * pool.length)];
+    if (availableQuests.length === 0) {
+      setCurrentQuest(null);
+      setMessage("No quests found for this combo yet. Try another setting or time.");
+      return;
+    }
+
+    const randomQuest = availableQuests[Math.floor(Math.random() * availableQuests.length)];
     setCurrentQuest(randomQuest);
     setMessage("");
   }
@@ -308,11 +334,9 @@ export default function App() {
         <div style={styles.profile}>
           <h2>{rank}</h2>
           <p>{xp} XP</p>
-
           <div style={styles.progressOuter}>
             <div style={{ ...styles.progressInner, width: `${progress}%` }} />
           </div>
-
           <p style={styles.small}>Next rank at {nextXp} XP</p>
         </div>
 
@@ -320,11 +344,7 @@ export default function App() {
           <h3>Who’s playing?</h3>
           <div style={styles.buttonGrid}>
             {modes.map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                style={mode === m ? styles.selectedButton : styles.button}
-              >
+              <button key={m} onClick={() => setMode(m)} style={mode === m ? styles.selectedButton : styles.button}>
                 {m}
               </button>
             ))}
@@ -335,11 +355,7 @@ export default function App() {
           <h3>Where?</h3>
           <div style={styles.buttonGrid}>
             {settings.map((s) => (
-              <button
-                key={s}
-                onClick={() => setSetting(s)}
-                style={setting === s ? styles.selectedButton : styles.button}
-              >
+              <button key={s} onClick={() => setSetting(s)} style={setting === s ? styles.selectedButton : styles.button}>
                 {s}
               </button>
             ))}
@@ -351,11 +367,7 @@ export default function App() {
           <p style={styles.small}>Auto-detected as {detectTimeOfDay()}, but you can override it.</p>
           <div style={styles.timeGrid}>
             {times.map((t) => (
-              <button
-                key={t}
-                onClick={() => setTime(t)}
-                style={time === t ? styles.selectedButton : styles.button}
-              >
+              <button key={t} onClick={() => setTime(t)} style={time === t ? styles.selectedButton : styles.button}>
                 {t}
               </button>
             ))}
@@ -369,7 +381,10 @@ export default function App() {
         {currentQuest && (
           <div style={styles.questCard}>
             <p style={styles.difficulty}>
-              {currentQuest.difficulty} • {currentQuest.xp} XP • {currentQuest.time}
+              {currentQuest.mode} • {currentQuest.setting} • {currentQuest.time}
+            </p>
+            <p style={styles.difficulty}>
+              {currentQuest.difficulty} • {currentQuest.xp} XP
             </p>
 
             <h2>{currentQuest.title}</h2>
@@ -391,7 +406,6 @@ export default function App() {
 
         <div style={styles.titles}>
           <h3>Your Titles</h3>
-
           {titles.length === 0 ? (
             <p style={styles.small}>No titles yet. The possums remain unimpressed.</p>
           ) : (
