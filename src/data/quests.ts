@@ -260,4 +260,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Trail Detective",
     },
   ],
+"Solo-Outdoor-Evening": [
+    {
+      title: "Sunset Witness",
+      xp: 15,
+      task: "Watch the sunset without looking at your phone.",
+      flavor: "Nature paid for the premium graphics package.",
+      unlockTitle: "Sunset Witness",
+    },
+    {
+      title: "Golden Hour Hunter",
+      xp: 15,
+      task: "Take one photo during golden hour.",
+      flavor: "Everything looks expensive during golden hour.",
+      unlockTitle: "Golden Hunter",
+    },
+    {
+      title: "Park Philosopher",
+      xp: 15,
+      task: "Sit outside and think about one future goal for 10 minutes.",
+      flavor: "Character development is underway.",
+      unlockTitle: "Park Philosopher",
+    },
+    {
+      title: "Evening Explorer",
+      xp: 15,
+      task: "Walk until you discover one thing you've never noticed before.",
+      flavor: "The map expands.",
+      unlockTitle: "Evening Explorer",
+    },
+    {
+      title: "Dusk Listener",
+      xp: 10,
+      task: "Spend 5 minutes listening to the sounds around you.",
+      flavor: "Free surround sound. No subscription required.",
+      unlockTitle: "Dusk Listener",
+    },
+  ],
   };
