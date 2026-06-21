@@ -186,4 +186,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Clutter Duelist",
     },
   ],
+"Solo-Outdoor-Morning": [
+    {
+      title: "Morning Scout",
+      xp: 10,
+      task: "Take a 20-minute walk before the day gets loud.",
+      flavor: "Your ancestors crossed rivers before breakfast.",
+      unlockTitle: "Morning Scout",
+    },
+    {
+      title: "Bird Counter",
+      xp: 10,
+      task: "Count 5 birds before returning home.",
+      flavor: "The Bird Census appreciates your service.",
+      unlockTitle: "Bird Counter",
+    },
+    {
+      title: "First Light Walker",
+      xp: 10,
+      task: "Walk for 15 minutes before checking social media.",
+      flavor: "The world existed before notifications.",
+      unlockTitle: "First Light Walker",
+    },
+    {
+      title: "Morning Photographer",
+      xp: 15,
+      task: "Take a photo of something beautiful before 9 AM.",
+      flavor: "Proof that mornings occasionally have value.",
+      unlockTitle: "Morning Photographer",
+    },
+    {
+      title: "Fresh Air Goblin",
+      xp: 10,
+      task: "Spend 10 minutes outside doing absolutely nothing productive.",
+      flavor: "Sometimes existing counts.",
+      unlockTitle: "Fresh Air Goblin",
+    },
+  ],
 };
