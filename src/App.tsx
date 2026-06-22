@@ -497,6 +497,11 @@ const styles: Record<string, React.CSSProperties> = {
   achievementUnlocked: { background: "#f9c74f", color: "#132a13", padding: "12px", borderRadius: "12px" },
   achievementLocked: { background: "rgba(255,255,255,0.08)", color: "#d8f3dc", padding: "12px", borderRadius: "12px" },
   achievementText: { margin: "6px 0 0 0", color: "#132a13", fontSize: "14px" },
+  achievementSummary: {
+  cursor: "pointer",
+  fontWeight: "bold",
+  fontSize: "18px",
+},
   lockedText: { margin: "6px 0 0 0", color: "#d8f3dc", fontSize: "14px" },
   progressOuter: { height: "12px", background: "rgba(255,255,255,0.2)", borderRadius: "999px", overflow: "hidden" },
   progressInner: { height: "100%", background: "#f9c74f" },
