@@ -218,6 +218,10 @@ export default function App() {
     setCurrentQuest(randomQuest);
     setLastQuestTitle(randomQuest.title);
     setMessage("");
+
+    setTimeout(() => {
+      document.getElementById("quest-card")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
   }
 
   function completeQuest() {
@@ -317,16 +321,23 @@ export default function App() {
 
       <main style={styles.shell}>
         <section style={styles.rankCard}>
-          <div style={styles.rankBadge}>⛰️</div>
-          <div style={styles.rankInfo}>
-            <p style={styles.rankLabel}>CURRENT RANK</p>
-            <h2 style={styles.rankName}>{rank}</h2>
-            <p style={styles.archetypeText}>{archetype}</p>
+          <div style={styles.rankTop}>
+            <div style={styles.rankBadge}>⛰️</div>
+
+            <div style={styles.rankInfo}>
+              <p style={styles.rankLabel}>CURRENT RANK</p>
+              <h2 style={styles.rankName}>{rank}</h2>
+              <p style={styles.archetypeText}>{archetype}</p>
+            </div>
+          </div>
+
+          <div>
             <div style={styles.progressOuter}>
               <div style={{ ...styles.progressInner, width: `${progress}%` }} />
             </div>
             <p style={styles.xpText}>{xp.toLocaleString()} / {nextXp.toLocaleString()} XP</p>
           </div>
+
           <div style={styles.statStack}>
             <span>🔥 {streakData.currentStreak} day streak</span>
             <span>🏆 {unlockedAchievements.length}/{achievements.length} achievements</span>
@@ -341,14 +352,7 @@ export default function App() {
             <p style={styles.selectorLabel}>WHO?</p>
             <div style={styles.pillGrid}>
               {modes.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => {
-                    setMode(item);
-                    clearQuest();
-                  }}
-                  style={mode === item ? styles.activePill : styles.pill}
-                >
+                <button key={item} onClick={() => { setMode(item); clearQuest(); }} style={mode === item ? styles.activePill : styles.pill}>
                   {item}
                 </button>
               ))}
@@ -357,14 +361,7 @@ export default function App() {
             <p style={styles.selectorLabel}>WHERE?</p>
             <div style={styles.pillGrid}>
               {settings.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => {
-                    setSetting(item);
-                    clearQuest();
-                  }}
-                  style={setting === item ? styles.activePill : styles.pill}
-                >
+                <button key={item} onClick={() => { setSetting(item); clearQuest(); }} style={setting === item ? styles.activePill : styles.pill}>
                   {item}
                 </button>
               ))}
@@ -373,14 +370,7 @@ export default function App() {
             <p style={styles.selectorLabel}>WHEN?</p>
             <div style={styles.pillGrid}>
               {times.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => {
-                    setTime(item);
-                    clearQuest();
-                  }}
-                  style={time === item ? styles.activePill : styles.pill}
-                >
+                <button key={item} onClick={() => { setTime(item); clearQuest(); }} style={time === item ? styles.activePill : styles.pill}>
                   {item}
                 </button>
               ))}
@@ -393,7 +383,7 @@ export default function App() {
             </button>
           </div>
 
-          <div style={styles.questPanel}>
+          <div id="quest-card" style={styles.questPanel}>
             {!currentQuest ? (
               <div style={styles.emptyQuest}>
                 <div style={styles.emptyIcon}>🧭</div>
@@ -442,10 +432,7 @@ export default function App() {
             <summary style={styles.dropdownSummary}>🎖 Achievements: {unlockedAchievements.length} / {achievements.length}</summary>
             <div style={styles.badgeGrid}>
               {achievements.map((achievement) => (
-                <div
-                  key={achievement.name}
-                  style={achievement.unlocked ? styles.achievementBadge : styles.lockedBadge}
-                >
+                <div key={achievement.name} style={achievement.unlocked ? styles.achievementBadge : styles.lockedBadge}>
                   <div style={styles.badgeIcon}>{achievement.unlocked ? "🏆" : "🔒"}</div>
                   <strong>{achievement.name}</strong>
                   <p style={styles.badgeText}>{achievement.description}</p>
@@ -504,7 +491,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
   },
   hero: {
-    minHeight: "320px",
+    minHeight: "260px",
     background: `
       linear-gradient(to bottom, rgba(19,41,31,.2), rgba(19,41,31,.85)),
       radial-gradient(circle at 72% 18%, rgba(255,219,139,.75), transparent 10%),
@@ -523,48 +510,54 @@ const styles: Record<string, React.CSSProperties> = {
     color: "#f3d999",
     letterSpacing: "3px",
     fontWeight: 900,
-    fontSize: "13px",
+    fontSize: "12px",
   },
   logo: {
-    fontSize: "76px",
-    letterSpacing: "10px",
+    fontSize: "clamp(44px, 10vw, 76px)",
+    letterSpacing: "8px",
     color: "#fff8e9",
     margin: "6px 0",
     fontWeight: 900,
   },
   subtitle: {
     color: "#fff8e9",
-    fontSize: "22px",
+    fontSize: "clamp(16px, 4vw, 22px)",
     fontWeight: 700,
     margin: 0,
   },
   shell: {
     maxWidth: "1180px",
-    margin: "-72px auto 0",
-    padding: "0 18px 40px",
+    margin: "-56px auto 0",
+    padding: "0 14px 40px",
   },
   rankCard: {
     background: `linear-gradient(135deg, ${deepGreen}, ${forest})`,
     color: cream,
     borderRadius: "24px",
-    padding: "24px",
-    display: "grid",
-    gridTemplateColumns: "100px 1fr auto",
-    gap: "20px",
-    alignItems: "center",
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "14px",
     boxShadow: "0 18px 45px rgba(0,0,0,.25)",
     border: `1px solid ${gold}`,
     marginBottom: "24px",
   },
+  rankTop: {
+    display: "flex",
+    alignItems: "center",
+    gap: "14px",
+    minWidth: 0,
+  },
   rankBadge: {
-    width: "92px",
-    height: "92px",
+    width: "76px",
+    height: "76px",
     borderRadius: "50%",
     display: "grid",
     placeItems: "center",
-    fontSize: "42px",
+    fontSize: "34px",
     background: "linear-gradient(135deg,#efe4c8,#8fa078)",
-    border: `5px solid ${gold}`,
+    border: `4px solid ${gold}`,
+    flexShrink: 0,
   },
   rankInfo: {
     minWidth: 0,
@@ -572,18 +565,21 @@ const styles: Record<string, React.CSSProperties> = {
   rankLabel: {
     color: gold,
     fontWeight: 900,
-    fontSize: "12px",
+    fontSize: "11px",
     letterSpacing: "2px",
     margin: 0,
   },
   rankName: {
     margin: "4px 0",
-    fontSize: "38px",
+    fontSize: "clamp(28px, 8vw, 38px)",
+    lineHeight: 1,
+    overflowWrap: "break-word",
   },
   archetypeText: {
-    margin: "0 0 12px",
+    margin: "0",
     color: "#f5dfab",
     fontWeight: 700,
+    overflowWrap: "break-word",
   },
   progressOuter: {
     height: "12px",
@@ -603,14 +599,16 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "14px",
   },
   statStack: {
-    display: "grid",
+    display: "flex",
+    flexWrap: "wrap",
     gap: "8px",
     fontWeight: 800,
     color: "#fff8e9",
+    fontSize: "13px",
   },
   questGrid: {
     display: "grid",
-    gridTemplateColumns: "360px 1fr",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
     gap: "24px",
     marginBottom: "24px",
   },
@@ -633,7 +631,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   pillGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(2,1fr)",
+    gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))",
     gap: "8px",
     marginBottom: "14px",
   },
@@ -677,18 +675,17 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: "22px",
     padding: "22px",
     boxShadow: "0 10px 26px rgba(0,0,0,.08)",
-    minHeight: "420px",
+    minHeight: "320px",
   },
   emptyQuest: {
-    height: "100%",
-    minHeight: "360px",
+    minHeight: "280px",
     display: "grid",
     placeItems: "center",
     textAlign: "center",
     color: olive,
   },
   emptyIcon: {
-    fontSize: "70px",
+    fontSize: "64px",
   },
   questCard: {
     background: `
@@ -697,8 +694,8 @@ const styles: Record<string, React.CSSProperties> = {
     `,
     color: "#fff",
     borderRadius: "22px",
-    padding: "28px",
-    minHeight: "360px",
+    padding: "22px",
+    minHeight: "320px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -714,14 +711,14 @@ const styles: Record<string, React.CSSProperties> = {
     letterSpacing: "1px",
   },
   questTitle: {
-    fontSize: "42px",
-    margin: "24px 0 12px",
+    fontSize: "clamp(30px, 8vw, 42px)",
+    margin: "20px 0 12px",
     lineHeight: 1,
+    overflowWrap: "break-word",
   },
   questTask: {
-    fontSize: "20px",
+    fontSize: "clamp(17px, 4vw, 20px)",
     lineHeight: 1.45,
-    maxWidth: "760px",
   },
   flavor: {
     color: "#f3d999",
@@ -735,15 +732,17 @@ const styles: Record<string, React.CSSProperties> = {
   },
   questFooter: {
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-between",
     gap: "14px",
     alignItems: "center",
     borderTop: "1px solid rgba(255,255,255,.18)",
     paddingTop: "18px",
-    fontSize: "24px",
+    fontSize: "22px",
   },
   actionRow: {
     display: "flex",
+    flexWrap: "wrap",
     gap: "10px",
   },
   completeButton: {
@@ -774,7 +773,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   featureGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(2,1fr)",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
     gap: "18px",
   },
   dropdownCard: {
@@ -793,7 +792,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   badgeGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(2,1fr)",
+    gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
     gap: "12px",
     marginTop: "14px",
   },
