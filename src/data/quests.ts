@@ -371,4 +371,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Nature Collector",
     },
   ],
-  };
+  "Solo-City-Morning": [
+    {
+      title: "Coffee Recon",
+      xp: 10,
+      task: "Try coffee from somewhere you normally ignore.",
+      flavor: "Every hero needs a questionable potion.",
+      unlockTitle: "Coffee Wanderer",
+    },
+    {
+      title: "Breakfast Scout",
+      xp: 10,
+      task: "Find a breakfast item under $10 from somewhere nearby.",
+      flavor: "A mission powered by tacos, biscuits, or mystery pastries.",
+      unlockTitle: "Breakfast Scout",
+    },
+    {
+      title: "Morning Sidewalk Survey",
+      xp: 10,
+      task: "Walk one city block and notice three things you usually miss.",
+      flavor: "Urban exploration, but with responsible footwear.",
+      unlockTitle: "Sidewalk Surveyor",
+    },
+    {
+      title: "Storefront Oracle",
+      xp: 15,
+      task: "Find the most interesting storefront, sign, or window display.",
+      flavor: "The city speaks mostly through weird signs.",
+      unlockTitle: "Storefront Oracle",
+    },
+    {
+      title: "Errand Adventurer",
+      xp: 10,
+      task: "Turn a normal morning errand into a quest by taking a different route.",
+      flavor: "The grocery store is a dungeon if your imagination is committed enough.",
+      unlockTitle: "Errand Adventurer",
+    },
+  ],
+    };
