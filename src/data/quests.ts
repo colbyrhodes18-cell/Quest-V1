@@ -519,4 +519,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "City Listener",
     },
   ],
-   };
+   "Solo-City-Anytime": [
+    {
+      title: "Sidewalk Scout",
+      xp: 10,
+      task: "Walk a sidewalk, street, or shopping area you've never explored.",
+      flavor: "Adventure occasionally comes with parking.",
+      unlockTitle: "Sidewalk Scout",
+    },
+    {
+      title: "Historical Hunter",
+      xp: 15,
+      task: "Find a historical marker, statue, or memorial and learn one fact about it.",
+      flavor: "Knowledge has been added to the archives.",
+      unlockTitle: "Historical Hunter",
+    },
+    {
+      title: "Local Cartographer",
+      xp: 15,
+      task: "Find a road you've never driven down and see where it leads.",
+      flavor: "Maps were made by people who got curious.",
+      unlockTitle: "Local Cartographer",
+    },
+    {
+      title: "Mailbox Judge",
+      xp: 10,
+      task: "Find the most interesting mailbox you can and score it out of 10.",
+      flavor: "Architectural criticism has expanded.",
+      unlockTitle: "Mailbox Judge",
+    },
+    {
+      title: "Public Explorer",
+      xp: 15,
+      task: "Visit a public place you've never entered before.",
+      flavor: "The city contains more rooms than you think.",
+      unlockTitle: "Public Explorer",
+    },
+  ],
+};
