@@ -447,50 +447,263 @@ export default function App() {
 }
 
 const cardBase: React.CSSProperties = {
-  background: "rgba(255,255,255,0.1)",
-  border: "1px solid rgba(255,255,255,0.2)",
-  borderRadius: "18px",
+  background: "#f7f2e8",
+  border: "2px solid #d6c7a7",
+  borderRadius: "20px",
   padding: "18px",
   marginBottom: "18px",
+  boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
 };
 
 const styles: Record<string, React.CSSProperties> = {
-  page: { minHeight: "100vh", background: "linear-gradient(180deg, #132a13, #31572c)", color: "#fff", fontFamily: "Arial, sans-serif", padding: "24px" },
-  app: { maxWidth: "650px", margin: "0 auto" },
-  logo: { textAlign: "center", fontSize: "48px", letterSpacing: "6px", marginBottom: "8px" },
-  subtitle: { textAlign: "center", color: "#d9ed92", marginBottom: "24px" },
-  profile: cardBase,
+  page: {
+    minHeight: "100vh",
+    background:
+      "linear-gradient(180deg,#1b4332 0%,#2d6a4f 35%,#dad7cd 100%)",
+    color: "#1b4332",
+    fontFamily: "system-ui, sans-serif",
+    padding: "24px",
+  },
+
+  app: {
+    maxWidth: "700px",
+    margin: "0 auto",
+  },
+
+  logo: {
+    textAlign: "center",
+    fontSize: "56px",
+    letterSpacing: "8px",
+    color: "#fefae0",
+    marginBottom: "6px",
+    textShadow: "2px 2px 10px rgba(0,0,0,.3)",
+  },
+
+  subtitle: {
+    textAlign: "center",
+    color: "#dad7cd",
+    marginBottom: "24px",
+    fontWeight: 500,
+  },
+
+  profile: {
+    ...cardBase,
+    background: "#fefae0",
+  },
+
   profileCard: cardBase,
+
   statsCard: cardBase,
+
   historyCard: cardBase,
+
   achievementCard: cardBase,
+
   titles: cardBase,
-  dropdownSummary: { cursor: "pointer", fontWeight: "bold", fontSize: "18px" },
-  achievementList: { display: "grid", gap: "10px", marginTop: "14px" },
-  achievementUnlocked: { background: "#f9c74f", color: "#132a13", padding: "12px", borderRadius: "12px" },
-  achievementLocked: { background: "rgba(255,255,255,0.08)", color: "#d8f3dc", padding: "12px", borderRadius: "12px" },
-  achievementText: { margin: "6px 0 0 0", color: "#132a13", fontSize: "14px" },
-  lockedText: { margin: "6px 0 0 0", color: "#d8f3dc", fontSize: "14px" },
-  historyList: { display: "grid", gap: "10px", marginTop: "14px" },
-  historyItem: { background: "rgba(255,255,255,0.08)", padding: "12px", borderRadius: "12px" },
-  progressOuter: { height: "12px", background: "rgba(255,255,255,0.2)", borderRadius: "999px", overflow: "hidden" },
-  progressInner: { height: "100%", background: "#f9c74f" },
-  small: { color: "#d8f3dc", fontSize: "14px" },
-  smallDark: { color: "#31572c", fontSize: "14px" },
-  section: { marginBottom: "18px" },
-  buttonGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" },
-  timeGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" },
-  button: { padding: "14px", borderRadius: "12px", border: "none", background: "#90a955", color: "#132a13", fontWeight: "bold", cursor: "pointer" },
-  selectedButton: { padding: "14px", borderRadius: "12px", border: "2px solid #f9c74f", background: "#f9c74f", color: "#132a13", fontWeight: "bold", cursor: "pointer" },
-  bigButton: { width: "100%", padding: "18px", borderRadius: "16px", border: "none", background: "#f9844a", color: "#fff", fontSize: "20px", fontWeight: "bold", cursor: "pointer", marginBottom: "20px" },
-  questCard: { background: "#fff", color: "#132a13", borderRadius: "20px", padding: "22px", marginBottom: "18px" },
-  difficulty: { color: "#bc6c25", fontWeight: "bold" },
-  flavor: { fontStyle: "italic", color: "#31572c" },
-  actionRow: { display: "flex", gap: "10px", marginTop: "18px" },
-  completeButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#31572c", color: "#fff", fontWeight: "bold", cursor: "pointer" },
-  shareButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#577590", color: "#fff", fontWeight: "bold", cursor: "pointer" },
-  message: { background: "#f9c74f", color: "#132a13", padding: "14px", borderRadius: "12px", fontWeight: "bold", marginBottom: "18px" },
-  titleList: { display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "14px" },
-  titleBadge: { background: "#f9c74f", color: "#132a13", padding: "8px 12px", borderRadius: "999px", fontWeight: "bold" },
-  resetButton: { width: "100%", padding: "12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent", color: "#d8f3dc", fontWeight: "bold", cursor: "pointer" },
+
+  dropdownSummary: {
+    cursor: "pointer",
+    fontWeight: 700,
+    fontSize: "18px",
+    color: "#1b4332",
+  },
+
+  progressOuter: {
+    height: "14px",
+    background: "#ccd5ae",
+    borderRadius: "999px",
+    overflow: "hidden",
+  },
+
+  progressInner: {
+    height: "100%",
+    background: "#dda15e",
+    borderRadius: "999px",
+  },
+
+  section: {
+    ...cardBase,
+  },
+
+  buttonGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2,1fr)",
+    gap: "10px",
+  },
+
+  timeGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2,1fr)",
+    gap: "10px",
+  },
+
+  button: {
+    padding: "14px",
+    borderRadius: "14px",
+    border: "2px solid #588157",
+    background: "#a3b18a",
+    color: "#1b4332",
+    fontWeight: 700,
+    cursor: "pointer",
+  },
+
+  selectedButton: {
+    padding: "14px",
+    borderRadius: "14px",
+    border: "2px solid #bc6c25",
+    background: "#dda15e",
+    color: "#fff",
+    fontWeight: 700,
+    cursor: "pointer",
+  },
+
+  bigButton: {
+    width: "100%",
+    padding: "18px",
+    borderRadius: "18px",
+    border: "none",
+    background: "#2d6a4f",
+    color: "#fff",
+    fontSize: "20px",
+    fontWeight: 700,
+    cursor: "pointer",
+    marginBottom: "20px",
+    boxShadow: "0 6px 16px rgba(0,0,0,.2)",
+  },
+
+  questCard: {
+    background: "#fefae0",
+    color: "#1b4332",
+    borderRadius: "22px",
+    padding: "24px",
+    marginBottom: "18px",
+    border: "2px solid #d6c7a7",
+    boxShadow: "0 8px 20px rgba(0,0,0,.1)",
+  },
+
+  difficulty: {
+    color: "#bc6c25",
+    fontWeight: 700,
+  },
+
+  flavor: {
+    fontStyle: "italic",
+    color: "#588157",
+  },
+
+  actionRow: {
+    display: "flex",
+    gap: "10px",
+    marginTop: "18px",
+  },
+
+  completeButton: {
+    flex: 1,
+    padding: "14px",
+    borderRadius: "12px",
+    border: "none",
+    background: "#2d6a4f",
+    color: "#fff",
+    fontWeight: 700,
+    cursor: "pointer",
+  },
+
+  shareButton: {
+    flex: 1,
+    padding: "14px",
+    borderRadius: "12px",
+    border: "none",
+    background: "#588157",
+    color: "#fff",
+    fontWeight: 700,
+    cursor: "pointer",
+  },
+
+  message: {
+    background: "#dda15e",
+    color: "#fff",
+    padding: "14px",
+    borderRadius: "12px",
+    fontWeight: 700,
+    marginBottom: "18px",
+  },
+
+  achievementList: {
+    display: "grid",
+    gap: "10px",
+    marginTop: "14px",
+  },
+
+  achievementUnlocked: {
+    background: "#fefae0",
+    border: "2px solid #dda15e",
+    padding: "12px",
+    borderRadius: "12px",
+  },
+
+  achievementLocked: {
+    background: "#e9edc9",
+    padding: "12px",
+    borderRadius: "12px",
+    opacity: 0.7,
+  },
+
+  achievementText: {
+    marginTop: "6px",
+    fontSize: "14px",
+  },
+
+  lockedText: {
+    marginTop: "6px",
+    fontSize: "14px",
+  },
+
+  historyList: {
+    display: "grid",
+    gap: "10px",
+    marginTop: "14px",
+  },
+
+  historyItem: {
+    background: "#fefae0",
+    border: "1px solid #d6c7a7",
+    padding: "12px",
+    borderRadius: "12px",
+  },
+
+  titleList: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
+    marginTop: "14px",
+  },
+
+  titleBadge: {
+    background: "#dda15e",
+    color: "#fff",
+    padding: "8px 12px",
+    borderRadius: "999px",
+    fontWeight: 700,
+  },
+
+  small: {
+    color: "#588157",
+    fontSize: "14px",
+  },
+
+  smallDark: {
+    color: "#588157",
+    fontSize: "14px",
+  },
+
+  resetButton: {
+    width: "100%",
+    padding: "14px",
+    borderRadius: "12px",
+    border: "2px solid #bc6c25",
+    background: "#fefae0",
+    color: "#bc6c25",
+    fontWeight: 700,
+    cursor: "pointer",
+  },
 };
