@@ -94,13 +94,7 @@ function getArchetype(setting: string, time: string) {
 function getQuestPool(mode: Mode, setting: Setting, time: TimeOfDay): Quest[] {
   const key = `${mode}-${setting}-${time}`;
   const templates = questLibrary[key] || [];
-
-  return templates.map((quest) => ({
-    ...quest,
-    mode,
-    setting,
-    time,
-  }));
+  return templates.map((quest) => ({ ...quest, mode, setting, time }));
 }
 
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -136,7 +130,7 @@ function getAchievements(
 
 export default function App() {
   const [mode, setMode] = useState<Mode>("Solo");
-  const [setting, setSetting] = useState<Setting>("Indoor");
+  const [setting, setSetting] = useState<Setting>("Outdoor");
   const [time, setTime] = useState<TimeOfDay>(detectTimeOfDay());
   const [currentQuest, setCurrentQuest] = useState<Quest | null>(null);
   const [lastQuestTitle, setLastQuestTitle] = useState("");
@@ -306,408 +300,703 @@ export default function App() {
     setMessage("Progress reset.");
   }
 
+  function clearQuest() {
+    setCurrentQuest(null);
+    setMessage("");
+  }
+
   return (
-   <div style={styles.hero}>
-  <div style={styles.heroOverlay}>
-    <h1 style={styles.logo}>QUEST</h1>
-    <p style={styles.subtitle}>
-      Adventure is closer than you think.
-    </p>
-  </div>
-</div>
-
-        <div style={styles.profile}>
-          <h2>{rank}</h2>
-          <p>{xp} XP</p>
-          <div style={styles.progressOuter}>
-            <div style={{ ...styles.progressInner, width: `${progress}%` }} />
+    <div style={styles.page}>
+      <div style={styles.phoneFrame}>
+        <div style={styles.hero}>
+          <div style={styles.topIcons}>
+            <span style={styles.iconButton}>☰</span>
+            <span style={styles.iconButton}>🔔</span>
           </div>
-          <p style={styles.small}>Next rank at {nextXp} XP</p>
-          <p style={styles.small}>🔥 Streak: {streakData.currentStreak} day(s)</p>
+
+          <div style={styles.logoMark}>⛰</div>
+          <h1 style={styles.logo}>QUEST</h1>
+          <p style={styles.subtitle}>ADVENTURE. TOGETHER.</p>
+
+          <div style={styles.rankCard}>
+            <div style={styles.rankBadge}>⛰️</div>
+            <div style={styles.rankInfo}>
+              <p style={styles.rankLabel}>RANK</p>
+              <h2 style={styles.rankName}>{rank}</h2>
+              <div style={styles.levelRow}>
+                <span>LEVEL {Math.max(1, Math.floor(xp / 100) + 1)}</span>
+                <div style={styles.progressOuter}>
+                  <div style={{ ...styles.progressInner, width: `${progress}%` }} />
+                </div>
+              </div>
+              <p style={styles.xpText}>{xp.toLocaleString()} / {nextXp.toLocaleString()} XP</p>
+            </div>
+            <div style={styles.rankArrow}>›</div>
+          </div>
         </div>
 
-        <div style={styles.section}>
-          <h3>Who’s playing?</h3>
-          <div style={styles.buttonGrid}>
+        <div style={styles.content}>
+          <div style={styles.modeTabs}>
             {modes.map((item) => (
-              <button key={item} onClick={() => { setMode(item); setCurrentQuest(null); setMessage(""); }} style={mode === item ? styles.selectedButton : styles.button}>{item}</button>
+              <button
+                key={item}
+                onClick={() => {
+                  setMode(item);
+                  clearQuest();
+                }}
+                style={mode === item ? styles.activeTab : styles.tab}
+              >
+                {item}
+              </button>
             ))}
           </div>
-        </div>
 
-        <div style={styles.section}>
-          <h3>Where?</h3>
-          <div style={styles.buttonGrid}>
-            {settings.map((item) => (
-              <button key={item} onClick={() => { setSetting(item); setCurrentQuest(null); setMessage(""); }} style={setting === item ? styles.selectedButton : styles.button}>{item}</button>
-            ))}
-          </div>
-        </div>
-
-        <div style={styles.section}>
-          <h3>When?</h3>
-          <p style={styles.small}>Auto-detected as {detectTimeOfDay()}, but you can override it.</p>
-          <div style={styles.timeGrid}>
-            {times.map((item) => (
-              <button key={item} onClick={() => { setTime(item); setCurrentQuest(null); setMessage(""); }} style={time === item ? styles.selectedButton : styles.button}>{item}</button>
-            ))}
-          </div>
-        </div>
-
-        <p style={styles.small}>{availableQuests.length} quest option(s) available for this combo.</p>
-
-        <button style={styles.bigButton} onClick={generateQuest}>Begin Quest</button>
-
-        {currentQuest && (
-          <div style={styles.questCard}>
-            <p style={styles.difficulty}>{currentQuest.mode} • {currentQuest.setting} • {currentQuest.time}</p>
-            <p style={styles.difficulty}>{currentQuest.xp} XP</p>
-            <h2>{currentQuest.title}</h2>
-            <p>{currentQuest.task}</p>
-            <p style={styles.flavor}>“{currentQuest.flavor}”</p>
-            <p style={styles.smallDark}>Title unlock: complete this quest 3 times.</p>
-
-            <div style={styles.actionRow}>
-              <button style={styles.completeButton} onClick={completeQuest}>Complete Quest</button>
-              <button style={styles.shareButton} onClick={shareQuest}>Text Quest</button>
+          <section style={styles.panel}>
+            <div style={styles.sectionHeader}>
+              <h3 style={styles.sectionTitle}>⚙ TODAY’S QUEST</h3>
+              <span style={styles.viewAll}>View All</span>
             </div>
-          </div>
-        )}
 
-        {message && <div style={styles.message}>{message}</div>}
+            <div style={styles.selectorBlock}>
+              <p style={styles.selectorLabel}>WHERE?</p>
+              <div style={styles.pillGrid}>
+                {settings.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => {
+                      setSetting(item);
+                      clearQuest();
+                    }}
+                    style={setting === item ? styles.activePill : styles.pill}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
 
-        <details style={styles.profileCard}>
-          <summary style={styles.dropdownSummary}>Adventurer Profile</summary>
-          <h2>{archetype}</h2>
-          <p>Rank: {rank}</p>
-          <p>XP: {xp}</p>
-          <p>Quests completed: {completionStats.totalCompleted}</p>
-          <p>Titles unlocked: {titles.length}</p>
-          <p>Achievements: {unlockedAchievements.length} / {achievements.length}</p>
-          <p>Favorite mode: {favoriteMode}</p>
-          <p>Favorite setting: {favoriteSetting}</p>
-          <p>Favorite time: {favoriteTime}</p>
-          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
-          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
-        </details>
-
-        <details style={styles.statsCard}>
-          <summary style={styles.dropdownSummary}>Adventure Stats</summary>
-          <p>Total quests completed: {completionStats.totalCompleted}</p>
-          <p>Total XP earned: {xp}</p>
-          <p>Titles unlocked: {titles.length}</p>
-          <p>Achievements unlocked: {unlockedAchievements.length} / {achievements.length}</p>
-          <p>Favorite mode: {favoriteMode}</p>
-          <p>Favorite setting: {favoriteSetting}</p>
-          <p>Favorite time: {favoriteTime}</p>
-          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
-          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
-        </details>
-
-        <details style={styles.titles}>
-          <summary style={styles.dropdownSummary}>Titles ({titles.length})</summary>
-          {titles.length === 0 ? (
-            <p style={styles.small}>No titles yet. The possums remain unimpressed.</p>
-          ) : (
-            <div style={styles.titleList}>
-              {titles.map((title) => <span key={title} style={styles.titleBadge}>{title}</span>)}
+              <p style={styles.selectorLabel}>WHEN?</p>
+              <div style={styles.pillGrid}>
+                {times.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => {
+                      setTime(item);
+                      clearQuest();
+                    }}
+                    style={time === item ? styles.activePill : styles.pill}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
             </div>
-          )}
-        </details>
 
-        <details style={styles.historyCard}>
-          <summary style={styles.dropdownSummary}>Recent Quest History ({questHistory.length})</summary>
-          {questHistory.length === 0 ? (
-            <p style={styles.small}>No completed quests yet.</p>
-          ) : (
-            <div style={styles.historyList}>
-              {questHistory.map((item, index) => (
-                <div key={`${item.title}-${index}`} style={styles.historyItem}>
-                  <strong>✓ {item.title}</strong>
-                  <p style={styles.small}>{item.mode} • {item.setting} • {item.time} • +{item.xp} XP</p>
-                  <p style={styles.small}>{item.completedAt}</p>
+            <p style={styles.availableText}>{availableQuests.length} quest option(s) available</p>
+
+            {!currentQuest ? (
+              <button style={styles.beginButton} onClick={generateQuest}>
+                BEGIN QUEST
+              </button>
+            ) : (
+              <div style={styles.questCard}>
+                <div style={styles.questImage}>
+                  <div style={styles.questImageOverlay}>
+                    <span style={styles.questTag}>{currentQuest.setting} • {currentQuest.time}</span>
+                    <h2 style={styles.questTitle}>{currentQuest.title}</h2>
+                    <p style={styles.questTask}>{currentQuest.task}</p>
+                    <div style={styles.questFooter}>
+                      <strong>⛰ {currentQuest.xp} XP</strong>
+                      <button style={styles.startQuestButton} onClick={completeQuest}>COMPLETE</button>
+                    </div>
+                  </div>
+                </div>
+
+                <p style={styles.flavor}>“{currentQuest.flavor}”</p>
+                <p style={styles.unlockText}>Title unlock: complete this quest 3 times.</p>
+
+                <button style={styles.textButton} onClick={shareQuest}>Text Quest</button>
+              </div>
+            )}
+
+            {message && <div style={styles.message}>{message}</div>}
+          </section>
+
+          <section style={styles.featureCard}>
+            <div style={styles.smallBadge}>WEEKLY CHALLENGE</div>
+            <h3 style={styles.featureTitle}>Adventure Awaits</h3>
+            <p style={styles.featureText}>Complete 5 quests this week.</p>
+            <div style={styles.weeklyRow}>
+              <div style={styles.miniProgress}>
+                <div
+                  style={{
+                    ...styles.miniProgressInner,
+                    width: `${Math.min((completionStats.totalCompleted % 5) * 20, 100)}%`,
+                  }}
+                />
+              </div>
+              <span>{completionStats.totalCompleted % 5} / 5</span>
+            </div>
+          </section>
+
+          <details style={styles.dropdownCard}>
+            <summary style={styles.dropdownSummary}>👤 Adventurer Profile</summary>
+            <h2 style={styles.archetype}>{archetype}</h2>
+            <p>Rank: {rank}</p>
+            <p>XP: {xp}</p>
+            <p>Quests completed: {completionStats.totalCompleted}</p>
+            <p>Titles unlocked: {titles.length}</p>
+            <p>Achievements: {unlockedAchievements.length} / {achievements.length}</p>
+            <p>Favorite mode: {favoriteMode}</p>
+            <p>Favorite setting: {favoriteSetting}</p>
+            <p>Favorite time: {favoriteTime}</p>
+            <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
+            <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
+          </details>
+
+          <details style={styles.dropdownCard}>
+            <summary style={styles.dropdownSummary}>🎖 Achievements: {unlockedAchievements.length} / {achievements.length}</summary>
+            <div style={styles.badgeGrid}>
+              {achievements.map((achievement) => (
+                <div
+                  key={achievement.name}
+                  style={achievement.unlocked ? styles.achievementBadge : styles.lockedBadge}
+                >
+                  <div style={styles.badgeIcon}>{achievement.unlocked ? "🏆" : "🔒"}</div>
+                  <strong>{achievement.name}</strong>
+                  <p style={styles.badgeText}>{achievement.description}</p>
                 </div>
               ))}
             </div>
-          )}
-        </details>
+          </details>
 
-        <details style={styles.achievementCard}>
-          <summary style={styles.dropdownSummary}>Achievements: {unlockedAchievements.length} / {achievements.length} unlocked</summary>
-          <div style={styles.achievementList}>
-            {achievements.map((achievement) => (
-              <div key={achievement.name} style={achievement.unlocked ? styles.achievementUnlocked : styles.achievementLocked}>
-                <strong>{achievement.unlocked ? "🏆" : "🔒"} {achievement.name}</strong>
-                <p style={achievement.unlocked ? styles.achievementText : styles.lockedText}>{achievement.description}</p>
+          <details style={styles.dropdownCard}>
+            <summary style={styles.dropdownSummary}>👑 Titles ({titles.length})</summary>
+            {titles.length === 0 ? (
+              <p style={styles.muted}>No titles yet. The possums remain unimpressed.</p>
+            ) : (
+              <div style={styles.titleList}>
+                {titles.map((title) => <span key={title} style={styles.titleBadge}>{title}</span>)}
               </div>
-            ))}
-          </div>
-        </details>
+            )}
+          </details>
 
-        <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
+          <details style={styles.dropdownCard}>
+            <summary style={styles.dropdownSummary}>📖 Recent Quest History ({questHistory.length})</summary>
+            {questHistory.length === 0 ? (
+              <p style={styles.muted}>No completed quests yet.</p>
+            ) : (
+              <div style={styles.historyList}>
+                {questHistory.map((item, index) => (
+                  <div key={`${item.title}-${index}`} style={styles.historyItem}>
+                    <strong>✓ {item.title}</strong>
+                    <p style={styles.muted}>{item.mode} • {item.setting} • {item.time} • +{item.xp} XP</p>
+                    <p style={styles.muted}>{item.completedAt}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </details>
+
+          <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
+        </div>
+
+        <nav style={styles.bottomNav}>
+          <div style={styles.navItemActive}>⌂<span>HOME</span></div>
+          <div style={styles.navItem}>⌖<span>QUESTS</span></div>
+          <div style={styles.navItem}>▤<span>JOURNAL</span></div>
+          <div style={styles.navItem}>♙<span>PROFILE</span></div>
+        </nav>
       </div>
     </div>
   );
 }
 
-const cardBase: React.CSSProperties = {
-  background: "#f7f2e8",
-  border: "2px solid #d6c7a7",
-  borderRadius: "20px",
-  padding: "18px",
-  marginBottom: "18px",
-  boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
-};
+const cream = "#f5ecd9";
+const deepGreen = "#13291f";
+const forest = "#244532";
+const olive = "#566b3d";
+const gold = "#d9a441";
+const ink = "#16231b";
 
 const styles: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",
-    background:
-      "linear-gradient(180deg,#1b4332 0%,#2d6a4f 35%,#dad7cd 100%)",
-    color: "#1b4332",
-    fontFamily: "system-ui, sans-serif",
-    padding: "24px",
+    background: "#080b08",
+    color: ink,
+    fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    display: "flex",
+    justifyContent: "center",
+    padding: "16px",
   },
-
-  app: {
-    maxWidth: "700px",
-    margin: "0 auto",
+  phoneFrame: {
+    width: "100%",
+    maxWidth: "480px",
+    minHeight: "100vh",
+    background: cream,
+    borderRadius: "28px",
+    overflow: "hidden",
+    position: "relative",
+    boxShadow: "0 20px 60px rgba(0,0,0,.45)",
+    paddingBottom: "84px",
   },
-
+  hero: {
+    minHeight: "390px",
+    position: "relative",
+    padding: "22px",
+    background: `
+      linear-gradient(to bottom, rgba(245,236,217,.2), rgba(245,236,217,.92) 76%),
+      radial-gradient(circle at 70% 20%, rgba(255,222,157,.65), transparent 18%),
+      linear-gradient(135deg, #e9dcc3 0%, #d8d4c1 45%, #33483a 46%, #152b22 100%)
+    `,
+  },
+  topIcons: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    color: deepGreen,
+    fontSize: "26px",
+    marginBottom: "12px",
+  },
+  iconButton: {
+    width: "38px",
+    height: "38px",
+    display: "grid",
+    placeItems: "center",
+  },
+  logoMark: {
+    textAlign: "center",
+    color: deepGreen,
+    fontSize: "34px",
+    marginTop: "8px",
+  },
   logo: {
     textAlign: "center",
-    fontSize: "56px",
-    letterSpacing: "8px",
-    color: "#fefae0",
-    marginBottom: "6px",
-    textShadow: "2px 2px 10px rgba(0,0,0,.3)",
+    fontSize: "58px",
+    letterSpacing: "9px",
+    margin: "0",
+    color: deepGreen,
+    fontWeight: 900,
+    lineHeight: 1,
   },
-
   subtitle: {
     textAlign: "center",
-    color: "#dad7cd",
-    marginBottom: "24px",
-    fontWeight: 500,
+    color: deepGreen,
+    fontWeight: 800,
+    fontSize: "13px",
+    letterSpacing: "3px",
+    marginTop: "10px",
   },
-
-  profile: {
-    ...cardBase,
-    background: "#fefae0",
+  rankCard: {
+    position: "absolute",
+    left: "20px",
+    right: "20px",
+    bottom: "-42px",
+    background: `linear-gradient(135deg, ${deepGreen}, ${forest})`,
+    color: cream,
+    borderRadius: "20px",
+    padding: "18px",
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+    border: "1px solid rgba(217,164,65,.55)",
+    boxShadow: "0 14px 30px rgba(0,0,0,.28)",
   },
-
-  profileCard: cardBase,
-
-  statsCard: cardBase,
-
-  historyCard: cardBase,
-
-  achievementCard: cardBase,
-
-  titles: cardBase,
-
-  dropdownSummary: {
-    cursor: "pointer",
-    fontWeight: 700,
-    fontSize: "18px",
-    color: "#1b4332",
+  rankBadge: {
+    width: "88px",
+    height: "88px",
+    borderRadius: "50%",
+    display: "grid",
+    placeItems: "center",
+    fontSize: "42px",
+    background: "linear-gradient(135deg,#efe4c8,#8fa078)",
+    border: `5px solid ${gold}`,
+    flexShrink: 0,
   },
-
+  rankInfo: {
+    flex: 1,
+  },
+  rankLabel: {
+    color: gold,
+    fontWeight: 800,
+    fontSize: "12px",
+    letterSpacing: "2px",
+    margin: 0,
+  },
+  rankName: {
+    margin: "3px 0 8px",
+    fontSize: "30px",
+    lineHeight: 1,
+  },
+  levelRow: {
+    display: "grid",
+    gridTemplateColumns: "70px 1fr",
+    alignItems: "center",
+    gap: "10px",
+    fontWeight: 800,
+    fontSize: "12px",
+  },
   progressOuter: {
-    height: "14px",
-    background: "#ccd5ae",
+    height: "10px",
+    background: "rgba(255,255,255,.18)",
     borderRadius: "999px",
     overflow: "hidden",
   },
-
   progressInner: {
     height: "100%",
-    background: "#dda15e",
+    background: gold,
     borderRadius: "999px",
   },
-
-  section: {
-    ...cardBase,
+  xpText: {
+    textAlign: "right",
+    margin: "6px 0 0",
+    color: "#f6e2ae",
+    fontWeight: 700,
+    fontSize: "13px",
   },
-
-  buttonGrid: {
+  rankArrow: {
+    fontSize: "36px",
+    color: gold,
+  },
+  content: {
+    padding: "66px 20px 20px",
+  },
+  modeTabs: {
     display: "grid",
-    gridTemplateColumns: "repeat(2,1fr)",
+    gridTemplateColumns: "repeat(4,1fr)",
     gap: "10px",
-  },
-
-  timeGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2,1fr)",
-    gap: "10px",
-  },
-
-  button: {
-    padding: "14px",
-    borderRadius: "14px",
-    border: "2px solid #588157",
-    background: "#a3b18a",
-    color: "#1b4332",
-    fontWeight: 700,
-    cursor: "pointer",
-  },
-
-  selectedButton: {
-    padding: "14px",
-    borderRadius: "14px",
-    border: "2px solid #bc6c25",
-    background: "#dda15e",
-    color: "#fff",
-    fontWeight: 700,
-    cursor: "pointer",
-  },
-
-  bigButton: {
-    width: "100%",
-    padding: "18px",
-    borderRadius: "18px",
-    border: "none",
-    background: "#2d6a4f",
-    color: "#fff",
-    fontSize: "20px",
-    fontWeight: 700,
-    cursor: "pointer",
-    marginBottom: "20px",
-    boxShadow: "0 6px 16px rgba(0,0,0,.2)",
-  },
-
-  questCard: {
-    background: "#fefae0",
-    color: "#1b4332",
-    borderRadius: "22px",
-    padding: "24px",
-    marginBottom: "18px",
-    border: "2px solid #d6c7a7",
-    boxShadow: "0 8px 20px rgba(0,0,0,.1)",
-  },
-
-  difficulty: {
-    color: "#bc6c25",
-    fontWeight: 700,
-  },
-
-  flavor: {
-    fontStyle: "italic",
-    color: "#588157",
-  },
-
-  actionRow: {
-    display: "flex",
-    gap: "10px",
-    marginTop: "18px",
-  },
-
-  completeButton: {
-    flex: 1,
-    padding: "14px",
-    borderRadius: "12px",
-    border: "none",
-    background: "#2d6a4f",
-    color: "#fff",
-    fontWeight: 700,
-    cursor: "pointer",
-  },
-
-  shareButton: {
-    flex: 1,
-    padding: "14px",
-    borderRadius: "12px",
-    border: "none",
-    background: "#588157",
-    color: "#fff",
-    fontWeight: 700,
-    cursor: "pointer",
-  },
-
-  message: {
-    background: "#dda15e",
-    color: "#fff",
-    padding: "14px",
-    borderRadius: "12px",
-    fontWeight: 700,
     marginBottom: "18px",
   },
-
-  achievementList: {
-    display: "grid",
-    gap: "10px",
-    marginTop: "14px",
-  },
-
-  achievementUnlocked: {
-    background: "#fefae0",
-    border: "2px solid #dda15e",
-    padding: "12px",
-    borderRadius: "12px",
-  },
-
-  achievementLocked: {
-    background: "#e9edc9",
-    padding: "12px",
-    borderRadius: "12px",
-    opacity: 0.7,
-  },
-
-  achievementText: {
-    marginTop: "6px",
-    fontSize: "14px",
-  },
-
-  lockedText: {
-    marginTop: "6px",
-    fontSize: "14px",
-  },
-
-  historyList: {
-    display: "grid",
-    gap: "10px",
-    marginTop: "14px",
-  },
-
-  historyItem: {
-    background: "#fefae0",
+  tab: {
     border: "1px solid #d6c7a7",
-    padding: "12px",
-    borderRadius: "12px",
+    background: "#fbf4e6",
+    color: ink,
+    borderRadius: "10px",
+    padding: "12px 6px",
+    fontWeight: 800,
+    cursor: "pointer",
   },
-
+  activeTab: {
+    border: "1px solid #3f5f37",
+    background: olive,
+    color: "#fff",
+    borderRadius: "10px",
+    padding: "12px 6px",
+    fontWeight: 800,
+    cursor: "pointer",
+  },
+  panel: {
+    background: "#fff8e9",
+    borderRadius: "20px",
+    padding: "18px",
+    boxShadow: "0 10px 25px rgba(0,0,0,.08)",
+    marginBottom: "18px",
+  },
+  sectionHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "14px",
+  },
+  sectionTitle: {
+    margin: 0,
+    fontSize: "18px",
+    fontWeight: 900,
+  },
+  viewAll: {
+    fontSize: "14px",
+  },
+  selectorBlock: {
+    marginBottom: "12px",
+  },
+  selectorLabel: {
+    fontSize: "12px",
+    fontWeight: 900,
+    color: olive,
+    letterSpacing: "2px",
+    marginBottom: "8px",
+  },
+  pillGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2,1fr)",
+    gap: "8px",
+    marginBottom: "12px",
+  },
+  pill: {
+    padding: "10px",
+    borderRadius: "999px",
+    border: "1px solid #d6c7a7",
+    background: "#fbf4e6",
+    fontWeight: 800,
+    cursor: "pointer",
+  },
+  activePill: {
+    padding: "10px",
+    borderRadius: "999px",
+    border: "1px solid #263d2b",
+    background: "#263d2b",
+    color: "#fff",
+    fontWeight: 800,
+    cursor: "pointer",
+  },
+  availableText: {
+    color: olive,
+    fontSize: "13px",
+    fontWeight: 700,
+  },
+  beginButton: {
+    width: "100%",
+    border: "none",
+    borderRadius: "16px",
+    padding: "18px",
+    background: `linear-gradient(135deg, ${olive}, ${deepGreen})`,
+    color: "#fff",
+    fontWeight: 900,
+    fontSize: "17px",
+    letterSpacing: "1px",
+    cursor: "pointer",
+    boxShadow: "0 8px 18px rgba(0,0,0,.2)",
+  },
+  questCard: {
+    marginTop: "14px",
+  },
+  questImage: {
+    minHeight: "250px",
+    borderRadius: "18px",
+    overflow: "hidden",
+    background: `
+      linear-gradient(to bottom, rgba(0,0,0,.1), rgba(0,0,0,.75)),
+      linear-gradient(135deg,#536b4c 0%, #13291f 55%, #0c1510 100%)
+    `,
+    color: "#fff",
+    position: "relative",
+    boxShadow: "0 10px 24px rgba(0,0,0,.18)",
+  },
+  questImageOverlay: {
+    position: "absolute",
+    inset: 0,
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  questTag: {
+    alignSelf: "flex-start",
+    background: "#496331",
+    color: "#f7e9bf",
+    padding: "7px 10px",
+    borderRadius: "8px",
+    fontSize: "12px",
+    fontWeight: 900,
+    letterSpacing: "1px",
+  },
+  questTitle: {
+    fontSize: "30px",
+    margin: "20px 0 8px",
+    lineHeight: 1,
+  },
+  questTask: {
+    fontSize: "17px",
+    lineHeight: 1.35,
+    maxWidth: "90%",
+  },
+  questFooter: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderTop: "1px solid rgba(255,255,255,.18)",
+    paddingTop: "14px",
+    fontSize: "22px",
+  },
+  startQuestButton: {
+    border: "1px solid rgba(255,255,255,.35)",
+    background: "#6d7f38",
+    color: "#fff",
+    borderRadius: "10px",
+    padding: "12px 18px",
+    fontWeight: 900,
+    cursor: "pointer",
+  },
+  flavor: {
+    color: olive,
+    fontStyle: "italic",
+    marginTop: "14px",
+    lineHeight: 1.4,
+  },
+  unlockText: {
+    color: "#6d5c3d",
+    fontSize: "13px",
+    fontWeight: 700,
+  },
+  textButton: {
+    width: "100%",
+    background: "#e6d7bb",
+    color: ink,
+    border: "1px solid #cdbb95",
+    borderRadius: "12px",
+    padding: "12px",
+    fontWeight: 900,
+    cursor: "pointer",
+  },
+  message: {
+    marginTop: "12px",
+    background: "#f0d28a",
+    color: ink,
+    padding: "13px",
+    borderRadius: "12px",
+    fontWeight: 800,
+  },
+  featureCard: {
+    background: "#fff8e9",
+    borderRadius: "18px",
+    padding: "18px",
+    marginBottom: "18px",
+    boxShadow: "0 8px 20px rgba(0,0,0,.08)",
+  },
+  smallBadge: {
+    color: olive,
+    fontSize: "12px",
+    fontWeight: 900,
+    letterSpacing: "2px",
+  },
+  featureTitle: {
+    margin: "8px 0 4px",
+    fontSize: "22px",
+  },
+  featureText: {
+    margin: 0,
+    color: "#5e604e",
+  },
+  weeklyRow: {
+    display: "grid",
+    gridTemplateColumns: "1fr 42px",
+    gap: "10px",
+    alignItems: "center",
+    marginTop: "12px",
+    fontWeight: 800,
+  },
+  miniProgress: {
+    height: "8px",
+    background: "#d8ceb7",
+    borderRadius: "999px",
+    overflow: "hidden",
+  },
+  miniProgressInner: {
+    height: "100%",
+    background: olive,
+  },
+  dropdownCard: {
+    background: "#fff8e9",
+    borderRadius: "18px",
+    padding: "16px",
+    marginBottom: "14px",
+    boxShadow: "0 8px 18px rgba(0,0,0,.07)",
+  },
+  dropdownSummary: {
+    cursor: "pointer",
+    fontWeight: 900,
+    fontSize: "16px",
+  },
+  archetype: {
+    color: deepGreen,
+  },
+  badgeGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2,1fr)",
+    gap: "12px",
+    marginTop: "14px",
+  },
+  achievementBadge: {
+    background: "#f0d28a",
+    border: `2px solid ${gold}`,
+    borderRadius: "16px",
+    padding: "12px",
+    textAlign: "center",
+  },
+  lockedBadge: {
+    background: "#e7ddc8",
+    border: "2px solid #d6c7a7",
+    borderRadius: "16px",
+    padding: "12px",
+    textAlign: "center",
+    opacity: 0.75,
+  },
+  badgeIcon: {
+    fontSize: "30px",
+    marginBottom: "6px",
+  },
+  badgeText: {
+    fontSize: "12px",
+    color: "#554936",
+  },
   titleList: {
     display: "flex",
     flexWrap: "wrap",
     gap: "10px",
     marginTop: "14px",
   },
-
   titleBadge: {
-    background: "#dda15e",
-    color: "#fff",
+    background: deepGreen,
+    color: cream,
     padding: "8px 12px",
     borderRadius: "999px",
-    fontWeight: 700,
+    fontWeight: 800,
   },
-
-  small: {
-    color: "#588157",
+  muted: {
+    color: "#6d6a58",
     fontSize: "14px",
   },
-
-  smallDark: {
-    color: "#588157",
-    fontSize: "14px",
+  historyList: {
+    display: "grid",
+    gap: "10px",
+    marginTop: "14px",
   },
-
+  historyItem: {
+    background: "#f5ecd9",
+    border: "1px solid #d6c7a7",
+    padding: "12px",
+    borderRadius: "12px",
+  },
   resetButton: {
     width: "100%",
-    padding: "14px",
+    background: "transparent",
+    border: "1px solid #b67435",
+    color: "#9b4f1e",
     borderRadius: "12px",
-    border: "2px solid #bc6c25",
-    background: "#fefae0",
-    color: "#bc6c25",
-    fontWeight: 700,
+    padding: "12px",
+    fontWeight: 900,
     cursor: "pointer",
+    marginBottom: "20px",
+  },
+  bottomNav: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "74px",
+    background: deepGreen,
+    color: "#fff",
+    display: "grid",
+    gridTemplateColumns: "repeat(4,1fr)",
+    borderTopLeftRadius: "18px",
+    borderTopRightRadius: "18px",
+    boxShadow: "0 -8px 20px rgba(0,0,0,.2)",
+  },
+  navItem: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "4px",
+    fontSize: "22px",
+    color: "#f6ead2",
+  },
+  navItemActive: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "4px",
+    fontSize: "22px",
+    color: gold,
   },
 };
