@@ -445,4 +445,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "People Watcher",
     },
   ],
+"Solo-City-Evening": [
+    {
+      title: "Gas Station Philosopher",
+      xp: 20,
+      task: "Visit a gas station and buy the strangest snack or drink available.",
+      flavor: "Civilization peaked somewhere between beef jerky and blue soda.",
+      unlockTitle: "Gas Station Philosopher",
+    },
+    {
+      title: "Sunset Streetwalker",
+      xp: 15,
+      task: "Walk three city blocks during sunset and find the best view.",
+      flavor: "The city wears different clothes at dusk.",
+      unlockTitle: "Sunset Streetwalker",
+    },
+    {
+      title: "Window Shopper Supreme",
+      xp: 15,
+      task: "Browse three stores without buying anything.",
+      flavor: "You are a tourist in your own city.",
+      unlockTitle: "Window Shopper Supreme",
+    },
+    {
+      title: "Hidden Gem Hunter",
+      xp: 20,
+      task: "Find one place you've never noticed before and save it for later.",
+      flavor: "Every city has secrets.",
+      unlockTitle: "Hidden Gem Hunter",
+    },
+    {
+      title: "Street Food Adventurer",
+      xp: 20,
+      task: "Try a food item you've never eaten before.",
+      flavor: "Culinary courage is still courage.",
+      unlockTitle: "Street Food Adventurer",
+    },
+  ],
   };
