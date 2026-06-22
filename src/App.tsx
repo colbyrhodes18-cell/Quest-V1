@@ -78,6 +78,19 @@ function getFavorite(record: Record<string, number>) {
   return entries.sort((a, b) => b[1] - a[1])[0][0];
 }
 
+function getArchetype(setting: string, time: string) {
+  if (setting === "Country" && time === "Night") return "🌙 Night Ranger";
+  if (setting === "Country") return "🌲 Wandering Naturalist";
+  if (setting === "City" && time === "Night") return "🌃 Neon Nomad";
+  if (setting === "City") return "🏙️ Urban Pathfinder";
+  if (setting === "Outdoor" && time === "Morning") return "☀️ Dawn Trailwalker";
+  if (setting === "Outdoor" && time === "Night") return "✨ Star Walker";
+  if (setting === "Outdoor") return "🥾 Trail Seeker";
+  if (setting === "Indoor" && time === "Night") return "🛋️ Couch Philosopher";
+  if (setting === "Indoor") return "🏠 Hearth Keeper";
+  return "🧭 Unwritten Wanderer";
+}
+
 function getQuestPool(mode: Mode, setting: Setting, time: TimeOfDay): Quest[] {
   const key = `${mode}-${setting}-${time}`;
   const templates = questLibrary[key] || [];
@@ -166,6 +179,11 @@ export default function App() {
   const progress = nextXp === xp ? 100 : Math.min((xp / nextXp) * 100, 100);
   const achievements = getAchievements(completionStats, streakData, titles);
   const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked);
+
+  const favoriteMode = getFavorite(completionStats.byMode);
+  const favoriteSetting = getFavorite(completionStats.bySetting);
+  const favoriteTime = getFavorite(completionStats.byTime);
+  const archetype = getArchetype(favoriteSetting, favoriteTime);
 
   const availableQuests = useMemo(() => getQuestPool(mode, setting, time), [mode, setting, time]);
 
@@ -266,9 +284,7 @@ export default function App() {
     setTitles(newTitles);
     setQuestHistory(newHistory);
 
-    setMessage(
-      `+${currentQuest.xp} XP earned. 🔥 Streak: ${updatedStreak.currentStreak} day(s).${titleMessage}${achievementMessage}`
-    );
+    setMessage(`+${currentQuest.xp} XP earned. 🔥 Streak: ${updatedStreak.currentStreak} day(s).${titleMessage}${achievementMessage}`);
   }
 
   function shareQuest() {
@@ -291,24 +307,6 @@ export default function App() {
     setMessage("Progress reset.");
   }
 
-  function changeMode(newMode: Mode) {
-    setMode(newMode);
-    setCurrentQuest(null);
-    setMessage("");
-  }
-
-  function changeSetting(newSetting: Setting) {
-    setSetting(newSetting);
-    setCurrentQuest(null);
-    setMessage("");
-  }
-
-  function changeTime(newTime: TimeOfDay) {
-    setTime(newTime);
-    setCurrentQuest(null);
-    setMessage("");
-  }
-
   return (
     <div style={styles.page}>
       <div style={styles.app}>
@@ -324,14 +322,30 @@ export default function App() {
           <p style={styles.small}>Next rank at {nextXp} XP</p>
         </div>
 
+        <details style={styles.profileCard}>
+          <summary style={styles.dropdownSummary}>Adventurer Profile</summary>
+          <h2>{archetype}</h2>
+          <p>Rank: {rank}</p>
+          <p>XP: {xp}</p>
+          <p>Quests completed: {completionStats.totalCompleted}</p>
+          <p>Titles unlocked: {titles.length}</p>
+          <p>Achievements: {unlockedAchievements.length} / {achievements.length}</p>
+          <p>Favorite mode: {favoriteMode}</p>
+          <p>Favorite setting: {favoriteSetting}</p>
+          <p>Favorite time: {favoriteTime}</p>
+          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
+          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
+        </details>
+
         <div style={styles.statsCard}>
           <h3>Adventure Stats</h3>
           <p>Total quests completed: {completionStats.totalCompleted}</p>
           <p>Total XP earned: {xp}</p>
           <p>Titles unlocked: {titles.length}</p>
           <p>Achievements unlocked: {unlockedAchievements.length} / {achievements.length}</p>
-          <p>Favorite mode: {getFavorite(completionStats.byMode)}</p>
-          <p>Favorite setting: {getFavorite(completionStats.bySetting)}</p>
+          <p>Favorite mode: {favoriteMode}</p>
+          <p>Favorite setting: {favoriteSetting}</p>
+          <p>Favorite time: {favoriteTime}</p>
           <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
           <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
         </div>
@@ -340,9 +354,7 @@ export default function App() {
           <h3>Who’s playing?</h3>
           <div style={styles.buttonGrid}>
             {modes.map((item) => (
-              <button key={item} onClick={() => changeMode(item)} style={mode === item ? styles.selectedButton : styles.button}>
-                {item}
-              </button>
+              <button key={item} onClick={() => { setMode(item); setCurrentQuest(null); setMessage(""); }} style={mode === item ? styles.selectedButton : styles.button}>{item}</button>
             ))}
           </div>
         </div>
@@ -351,9 +363,7 @@ export default function App() {
           <h3>Where?</h3>
           <div style={styles.buttonGrid}>
             {settings.map((item) => (
-              <button key={item} onClick={() => changeSetting(item)} style={setting === item ? styles.selectedButton : styles.button}>
-                {item}
-              </button>
+              <button key={item} onClick={() => { setSetting(item); setCurrentQuest(null); setMessage(""); }} style={setting === item ? styles.selectedButton : styles.button}>{item}</button>
             ))}
           </div>
         </div>
@@ -363,9 +373,7 @@ export default function App() {
           <p style={styles.small}>Auto-detected as {detectTimeOfDay()}, but you can override it.</p>
           <div style={styles.timeGrid}>
             {times.map((item) => (
-              <button key={item} onClick={() => changeTime(item)} style={time === item ? styles.selectedButton : styles.button}>
-                {item}
-              </button>
+              <button key={item} onClick={() => { setTime(item); setCurrentQuest(null); setMessage(""); }} style={time === item ? styles.selectedButton : styles.button}>{item}</button>
             ))}
           </div>
         </div>
@@ -398,18 +406,13 @@ export default function App() {
             <p style={styles.small}>No titles yet. The possums remain unimpressed.</p>
           ) : (
             <div style={styles.titleList}>
-              {titles.map((title) => (
-                <span key={title} style={styles.titleBadge}>{title}</span>
-              ))}
+              {titles.map((title) => <span key={title} style={styles.titleBadge}>{title}</span>)}
             </div>
           )}
         </div>
 
         <details style={styles.historyCard}>
-          <summary style={styles.dropdownSummary}>
-            Recent Quest History ({questHistory.length})
-          </summary>
-
+          <summary style={styles.dropdownSummary}>Recent Quest History ({questHistory.length})</summary>
           {questHistory.length === 0 ? (
             <p style={styles.small}>No completed quests yet.</p>
           ) : (
@@ -417,9 +420,7 @@ export default function App() {
               {questHistory.map((item, index) => (
                 <div key={`${item.title}-${index}`} style={styles.historyItem}>
                   <strong>✓ {item.title}</strong>
-                  <p style={styles.small}>
-                    {item.mode} • {item.setting} • {item.time} • +{item.xp} XP
-                  </p>
+                  <p style={styles.small}>{item.mode} • {item.setting} • {item.time} • +{item.xp} XP</p>
                   <p style={styles.small}>{item.completedAt}</p>
                 </div>
               ))}
@@ -428,20 +429,12 @@ export default function App() {
         </details>
 
         <details style={styles.achievementCard}>
-          <summary style={styles.dropdownSummary}>
-            Achievements: {unlockedAchievements.length} / {achievements.length} unlocked
-          </summary>
-
+          <summary style={styles.dropdownSummary}>Achievements: {unlockedAchievements.length} / {achievements.length} unlocked</summary>
           <div style={styles.achievementList}>
             {achievements.map((achievement) => (
-              <div
-                key={achievement.name}
-                style={achievement.unlocked ? styles.achievementUnlocked : styles.achievementLocked}
-              >
+              <div key={achievement.name} style={achievement.unlocked ? styles.achievementUnlocked : styles.achievementLocked}>
                 <strong>{achievement.unlocked ? "🏆" : "🔒"} {achievement.name}</strong>
-                <p style={achievement.unlocked ? styles.achievementText : styles.lockedText}>
-                  {achievement.description}
-                </p>
+                <p style={achievement.unlocked ? styles.achievementText : styles.lockedText}>{achievement.description}</p>
               </div>
             ))}
           </div>
@@ -459,6 +452,7 @@ const styles: Record<string, React.CSSProperties> = {
   logo: { textAlign: "center", fontSize: "48px", letterSpacing: "6px", marginBottom: "8px" },
   subtitle: { textAlign: "center", color: "#d9ed92", marginBottom: "24px" },
   profile: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
+  profileCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
   statsCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
   historyCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "18px" },
   achievementCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
