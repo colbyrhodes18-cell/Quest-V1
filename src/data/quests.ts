@@ -482,4 +482,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Street Food Adventurer",
     },
   ],
-  };
+ "Solo-City-Night": [
+    {
+      title: "Neon Pilgrim",
+      xp: 20,
+      task: "Visit a well-lit place you've never been to at night.",
+      flavor: "Batman had a budget. You have curiosity.",
+      unlockTitle: "Neon Pilgrim",
+    },
+    {
+      title: "Night Market Scout",
+      xp: 20,
+      task: "Find a business that's still open and step inside, even if only for a minute.",
+      flavor: "The city never fully sleeps.",
+      unlockTitle: "Night Market Scout",
+    },
+    {
+      title: "Streetlight Wanderer",
+      xp: 15,
+      task: "Take a safe 15-minute walk after dark and notice five things that look different at night.",
+      flavor: "The familiar becomes strange.",
+      unlockTitle: "Streetlight Wanderer",
+    },
+    {
+      title: "Midnight Photographer",
+      xp: 20,
+      task: "Take your best photo of the city after sunset.",
+      flavor: "Every city has a nighttime face.",
+      unlockTitle: "Midnight Photographer",
+    },
+    {
+      title: "City Listener",
+      xp: 10,
+      task: "Sit somewhere safe for 10 minutes and listen to the city without looking at your phone.",
+      flavor: "The city tells stories if you shut up long enough.",
+      unlockTitle: "City Listener",
+    },
+  ],
+   };
