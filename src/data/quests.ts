@@ -2635,7 +2635,197 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Side Quest Hero",
     },
   ],
+"Date-City-Morning": [
+    {
+      title: "Coffee Shop Pilgrimage",
+      xp: 15,
+      task: "Visit a coffee shop neither of you usually go to.",
+      flavor: "Love brewed fresh daily.",
+      unlockTitle: "Coffee Pilgrim",
+    },
+    {
+      title: "Bakery Treasure Hunt",
+      xp: 15,
+      task: "Choose a pastry for each other.",
+      flavor: "Trust is measured in frosting.",
+      unlockTitle: "Bakery Explorer",
+    },
+    {
+      title: "Morning Market Stroll",
+      xp: 20,
+      task: "Visit a market, farmers market, or local shop together.",
+      flavor: "The loot table is local.",
+      unlockTitle: "Market Wanderer",
+    },
+    {
+      title: "City Bench Breakfast",
+      xp: 15,
+      task: "Enjoy breakfast somewhere outdoors in town.",
+      flavor: "Luxury requires surprisingly little.",
+      unlockTitle: "Breakfast Wanderer",
+    },
+    {
+      title: "Window Shopping Warmup",
+      xp: 10,
+      task: "Pick one thing you'd buy if money didn't matter.",
+      flavor: "Financial responsibility remains undefeated.",
+      unlockTitle: "Window Dreamer",
+    },
+  ],
+
+  "Date-City-Afternoon": [
+    {
+      title: "Bookstore Date",
+      xp: 20,
+      task: "Pick out a book you think the other person would enjoy.",
+      flavor: "Judge them respectfully.",
+      unlockTitle: "Literary Matchmaker",
+    },
+    {
+      title: "Local Legend Hunt",
+      xp: 20,
+      task: "Visit a local place everyone knows about but rarely visits.",
+      flavor: "Urban legends require witnesses.",
+      unlockTitle: "Legend Seeker",
+    },
+    {
+      title: "Dessert Draft",
+      xp: 15,
+      task: "Each person chooses a dessert and rates the other's pick.",
+      flavor: "Sugar-based diplomacy.",
+      unlockTitle: "Dessert Critic",
+    },
+    {
+      title: "Art Explorer",
+      xp: 20,
+      task: "Find a mural, sculpture, or public artwork and invent its meaning.",
+      flavor: "Wrong answers encouraged.",
+      unlockTitle: "Art Interpreter",
+    },
+    {
+      title: "Tourist Mode",
+      xp: 20,
+      task: "Spend 20 minutes pretending you've never been to your city.",
+      flavor: "Immersion achieved.",
+      unlockTitle: "Urban Tourist",
+    },
+  ],
+
+  "Date-City-Evening": [
+    {
+      title: "Golden Hour Downtown",
+      xp: 20,
+      task: "Take a photo together during golden hour.",
+      flavor: "Nature handled the lighting.",
+      unlockTitle: "Golden Hour Couple",
+    },
+    {
+      title: "Restaurant Roulette",
+      xp: 25,
+      task: "Try a restaurant neither of you has visited.",
+      flavor: "Greatness hides behind unfamiliar menus.",
+      unlockTitle: "Food Adventurer",
+    },
+    {
+      title: "City Lights Walk",
+      xp: 20,
+      task: "Walk through a lively part of town together.",
+      flavor: "The city dressed up for the occasion.",
+      unlockTitle: "City Wanderer",
+    },
+    {
+      title: "Dream Home Draft",
+      xp: 15,
+      task: "Pick your favorite house, apartment, or building you pass.",
+      flavor: "Reality may object.",
+      unlockTitle: "Dream Architect",
+    },
+    {
+      title: "Shared Bucket List",
+      xp: 20,
+      task: "Come up with five things you want to do together someday.",
+      flavor: "Future content unlocked.",
+      unlockTitle: "Future Builder",
+    },
+  ],
+
+  "Date-City-Night": [
+    {
+      title: "Neon Quest",
+      xp: 20,
+      task: "Find the coolest neon sign or lit-up building.",
+      flavor: "The city becomes a different character at night.",
+      unlockTitle: "Neon Wanderer",
+    },
+    {
+      title: "Late Night Dessert Run",
+      xp: 20,
+      task: "Get dessert after dark.",
+      flavor: "A timeless strategy.",
+      unlockTitle: "Night Sweetheart",
+    },
+    {
+      title: "Moonlit Downtown",
+      xp: 20,
+      task: "Walk somewhere safe after dark and talk.",
+      flavor: "Night removes distractions.",
+      unlockTitle: "Moonlit Companion",
+    },
+    {
+      title: "Parking Garage View",
+      xp: 20,
+      task: "Find a high viewpoint and admire the city.",
+      flavor: "The skyline showed up.",
+      unlockTitle: "Skyline Watcher",
+    },
+    {
+      title: "Midnight Menu Debate",
+      xp: 15,
+      task: "Find a menu and debate the most chaotic order possible.",
+      flavor: "Mozzarella sticks remain undefeated.",
+      unlockTitle: "Menu Judge",
+    },
+  ],
+
+  "Date-City-Anytime": [
+    {
+      title: "Photo Booth Challenge",
+      xp: 15,
+      task: "Take three goofy photos together.",
+      flavor: "Evidence has been created.",
+      unlockTitle: "Memory Maker",
+    },
+    {
+      title: "Three Stop Adventure",
+      xp: 20,
+      task: "Visit three places in town during one outing.",
+      flavor: "Efficiency meets romance.",
+      unlockTitle: "Urban Explorer",
+    },
+    {
+      title: "Local Business Hero",
+      xp: 20,
+      task: "Support a local business you've never visited.",
+      flavor: "Main Street appreciates your contribution.",
+      unlockTitle: "Community Romantic",
+    },
+    {
+      title: "Mystery Destination",
+      xp: 20,
+      task: "One person chooses the destination and the other cannot ask questions.",
+      flavor: "Trust the process.",
+      unlockTitle: "Mystery Traveler",
+    },
+    {
+      title: "Favorite Place Exchange",
+      xp: 15,
+      task: "Each show the other one favorite spot in town.",
+      flavor: "Personal lore unlocked.",
+      unlockTitle: "Place Keeper",
+    },
+  ],
 };
+
 
 
 
