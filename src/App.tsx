@@ -6,6 +6,12 @@ const modes: Mode[] = ["Solo", "Friends", "Family", "Date"];
 const settings: Setting[] = ["Indoor", "Outdoor", "City", "Country"];
 const times: TimeOfDay[] = ["Morning", "Afternoon", "Evening", "Night", "Anytime"];
 
+type CompletionStats = {
+  totalCompleted: number;
+  byMode: Record<string, number>;
+  bySetting: Record<string, number>;
+};
+
 function detectTimeOfDay(): TimeOfDay {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 12) return "Morning";
@@ -32,6 +38,13 @@ function nextRankXp(xp: number) {
   if (xp < 5000) return 5000;
   if (xp < 10000) return 10000;
   return xp;
+}
+
+function getFavorite(record: Record<string, number>) {
+  const entries = Object.entries(record);
+  if (entries.length === 0) return "None yet";
+
+  return entries.sort((a, b) => b[1] - a[1])[0][0];
 }
 
 function getQuestPool(mode: Mode, setting: Setting, time: TimeOfDay): Quest[] {
@@ -69,6 +82,13 @@ export default function App() {
   const [completedCounts, setCompletedCounts] = useState<Record<string, number>>(() =>
     loadFromStorage<Record<string, number>>("quest-completed-counts", {})
   );
+  const [completionStats, setCompletionStats] = useState<CompletionStats>(() =>
+    loadFromStorage<CompletionStats>("quest-completion-stats", {
+      totalCompleted: 0,
+      byMode: {},
+      bySetting: {},
+    })
+  );
 
   const [message, setMessage] = useState("");
 
@@ -83,6 +103,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("quest-completed-counts", JSON.stringify(completedCounts));
   }, [completedCounts]);
+
+  useEffect(() => {
+    localStorage.setItem("quest-completion-stats", JSON.stringify(completionStats));
+  }, [completionStats]);
 
   const rank = getRank(xp);
   const nextXp = nextRankXp(xp);
@@ -117,13 +141,28 @@ export default function App() {
     if (!currentQuest) return;
 
     const newXp = xp + currentQuest.xp;
+
     const newCounts = {
       ...completedCounts,
       [currentQuest.title]: (completedCounts[currentQuest.title] || 0) + 1,
     };
 
+    const newStats: CompletionStats = {
+      totalCompleted: completionStats.totalCompleted + 1,
+      byMode: {
+        ...completionStats.byMode,
+        [currentQuest.mode]: (completionStats.byMode[currentQuest.mode] || 0) + 1,
+      },
+      bySetting: {
+        ...completionStats.bySetting,
+        [currentQuest.setting]:
+          (completionStats.bySetting[currentQuest.setting] || 0) + 1,
+      },
+    };
+
     setXp(newXp);
     setCompletedCounts(newCounts);
+    setCompletionStats(newStats);
 
     const count = newCounts[currentQuest.title];
 
@@ -154,6 +193,11 @@ export default function App() {
     setXp(0);
     setTitles([]);
     setCompletedCounts({});
+    setCompletionStats({
+      totalCompleted: 0,
+      byMode: {},
+      bySetting: {},
+    });
     setCurrentQuest(null);
     setMessage("Progress reset.");
   }
@@ -193,6 +237,15 @@ export default function App() {
           </div>
 
           <p style={styles.small}>Next rank at {nextXp} XP</p>
+        </div>
+
+        <div style={styles.statsCard}>
+          <h3>Adventure Stats</h3>
+          <p>Total quests completed: {completionStats.totalCompleted}</p>
+          <p>Total XP earned: {xp}</p>
+          <p>Titles unlocked: {titles.length}</p>
+          <p>Favorite mode: {getFavorite(completionStats.byMode)}</p>
+          <p>Favorite setting: {getFavorite(completionStats.bySetting)}</p>
         </div>
 
         <div style={styles.section}>
@@ -327,6 +380,13 @@ const styles: Record<string, React.CSSProperties> = {
     marginBottom: "24px",
   },
   profile: {
+    background: "rgba(255,255,255,0.1)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "18px",
+    padding: "18px",
+    marginBottom: "20px",
+  },
+  statsCard: {
     background: "rgba(255,255,255,0.1)",
     border: "1px solid rgba(255,255,255,0.2)",
     borderRadius: "18px",
