@@ -378,22 +378,37 @@ export default function App() {
           <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
         </div>
 
-        <div style={styles.achievementCard}>
-          <h3>Achievements</h3>
-          <div style={styles.achievementList}>
-            {achievements.map((achievement) => (
-              <div
-                key={achievement.name}
-                style={achievement.unlocked ? styles.achievementUnlocked : styles.achievementLocked}
-              >
-                <strong>{achievement.unlocked ? "🏆" : "🔒"} {achievement.name}</strong>
-                <p style={achievement.unlocked ? styles.achievementText : styles.lockedText}>
-                  {achievement.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+       <details style={styles.achievementCard}>
+  <summary style={styles.achievementSummary}>
+    Achievements: {unlockedAchievements.length} / {achievements.length} unlocked
+  </summary>
+
+  <div style={styles.achievementList}>
+    {achievements.map((achievement) => (
+      <div
+        key={achievement.name}
+        style={
+          achievement.unlocked
+            ? styles.achievementUnlocked
+            : styles.achievementLocked
+        }
+      >
+        <strong>
+          {achievement.unlocked ? "🏆" : "🔒"} {achievement.name}
+        </strong>
+        <p
+          style={
+            achievement.unlocked
+              ? styles.achievementText
+              : styles.lockedText
+          }
+        >
+          {achievement.description}
+        </p>
+      </div>
+    ))}
+  </div>
+</details>
 
         <div style={styles.section}>
           <h3>Who’s playing?</h3>
