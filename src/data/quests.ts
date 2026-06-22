@@ -2446,6 +2446,196 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Future Keeper",
     },
   ],
+"Date-Outdoor-Morning": [
+    {
+      title: "Sunrise Pact",
+      xp: 20,
+      task: "Watch the sunrise together from anywhere outdoors.",
+      flavor: "The world started without asking permission.",
+      unlockTitle: "Sunrise Romantic",
+    },
+    {
+      title: "Coffee Walk",
+      xp: 15,
+      task: "Grab coffee and take a 15-minute walk together.",
+      flavor: "Caffeine-powered courtship.",
+      unlockTitle: "Coffee Wanderer",
+    },
+    {
+      title: "Park Bench Date",
+      xp: 15,
+      task: "Sit on a bench and talk about future adventures.",
+      flavor: "The planning committee is in session.",
+      unlockTitle: "Bench Dreamer",
+    },
+    {
+      title: "Cloud Watchers",
+      xp: 10,
+      task: "Spend five minutes identifying shapes in the clouds.",
+      flavor: "The sky is an unreliable artist.",
+      unlockTitle: "Cloud Watcher",
+    },
+    {
+      title: "Morning Mile",
+      xp: 20,
+      task: "Walk one mile together before lunch.",
+      flavor: "Progress is attractive.",
+      unlockTitle: "Morning Pathfinder",
+    },
+  ],
+
+  "Date-Outdoor-Afternoon": [
+    {
+      title: "Ice Cream Quest",
+      xp: 15,
+      task: "Get ice cream, frozen yogurt, or another treat together.",
+      flavor: "Science confirms this improves morale.",
+      unlockTitle: "Ice Cream Adventurer",
+    },
+    {
+      title: "Nature Trail Date",
+      xp: 20,
+      task: "Explore a trail, park, or outdoor area you've never visited.",
+      flavor: "Maps fear you.",
+      unlockTitle: "Trail Companion",
+    },
+    {
+      title: "Photo Safari",
+      xp: 20,
+      task: "Take five photos of things that remind you of each other.",
+      flavor: "Evidence for future nostalgia.",
+      unlockTitle: "Photo Romantic",
+    },
+    {
+      title: "Picnic Lite",
+      xp: 20,
+      task: "Share a snack outdoors somewhere peaceful.",
+      flavor: "Luxury requires very little.",
+      unlockTitle: "Picnic Partner",
+    },
+    {
+      title: "Random Direction",
+      xp: 15,
+      task: "Pick a direction and walk for 15 minutes.",
+      flavor: "Adventure hates overplanning.",
+      unlockTitle: "Direction Gambler",
+    },
+  ],
+
+  "Date-Outdoor-Evening": [
+    {
+      title: "Golden Hour Photo",
+      xp: 20,
+      task: "Take a photo together during golden hour.",
+      flavor: "Nature handled the filters.",
+      unlockTitle: "Golden Hour Couple",
+    },
+    {
+      title: "Sunset Witnesses",
+      xp: 20,
+      task: "Watch the sunset together.",
+      flavor: "The sky insists on being dramatic.",
+      unlockTitle: "Sunset Witness",
+    },
+    {
+      title: "Walk And Dream",
+      xp: 15,
+      task: "Discuss three places you'd love to visit together.",
+      flavor: "Passport not required.",
+      unlockTitle: "Dream Walker",
+    },
+    {
+      title: "Riverbank Meeting",
+      xp: 20,
+      task: "Spend ten minutes near water if possible.",
+      flavor: "The river approves this decision.",
+      unlockTitle: "River Romantic",
+    },
+    {
+      title: "Evening Exploration",
+      xp: 15,
+      task: "Visit a place nearby you've always meant to check out.",
+      flavor: "Curiosity earns XP.",
+      unlockTitle: "Evening Explorer",
+    },
+  ],
+
+  "Date-Outdoor-Night": [
+    {
+      title: "Star Patrol",
+      xp: 25,
+      task: "Find three stars or a constellation together.",
+      flavor: "Space remains undefeated.",
+      unlockTitle: "Star Companion",
+    },
+    {
+      title: "Moon Watch",
+      xp: 15,
+      task: "Spend five minutes observing the moon.",
+      flavor: "The original nightlight.",
+      unlockTitle: "Moon Watcher",
+    },
+    {
+      title: "Night Walk",
+      xp: 20,
+      task: "Take a safe walk after dark.",
+      flavor: "Every shadow has potential lore.",
+      unlockTitle: "Night Wanderer",
+    },
+    {
+      title: "Meteor Hunt",
+      xp: 25,
+      task: "Watch the sky for 10 minutes and look for meteors.",
+      flavor: "The universe occasionally performs tricks.",
+      unlockTitle: "Meteor Hunter",
+    },
+    {
+      title: "Parking Lot Philosophy",
+      xp: 15,
+      task: "Discuss life's biggest question under the stars.",
+      flavor: "Civilization peaks in random parking lots.",
+      unlockTitle: "Night Philosopher",
+    },
+  ],
+
+  "Date-Outdoor-Anytime": [
+    {
+      title: "Adventure Roulette",
+      xp: 20,
+      task: "Let one person choose the destination without explanation.",
+      flavor: "Trust falls, but geographically.",
+      unlockTitle: "Adventure Gambler",
+    },
+    {
+      title: "Treasure Hunt",
+      xp: 20,
+      task: "Find something worth photographing.",
+      flavor: "Treasure is subjective.",
+      unlockTitle: "Treasure Seeker",
+    },
+    {
+      title: "Bridge Visit",
+      xp: 15,
+      task: "Visit a bridge you've never stopped at before.",
+      flavor: "Crossing unlocked.",
+      unlockTitle: "Bridge Wanderer",
+    },
+    {
+      title: "Bench Of Destiny",
+      xp: 15,
+      task: "Sit on a random bench and stay for 10 minutes.",
+      flavor: "The quest marker has appeared.",
+      unlockTitle: "Bench Keeper",
+    },
+    {
+      title: "Side Quest Sprint",
+      xp: 20,
+      task: "Complete a spontaneous challenge suggested by your partner.",
+      flavor: "Improvisation is romance.",
+      unlockTitle: "Side Quest Hero",
+    },
+  ],
 };
+
 
 
