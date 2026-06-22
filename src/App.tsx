@@ -307,137 +307,122 @@ export default function App() {
 
   return (
     <div style={styles.page}>
-      <div style={styles.phoneFrame}>
-        <div style={styles.hero}>
-          <div style={styles.topIcons}>
-            <span style={styles.iconButton}>☰</span>
-            <span style={styles.iconButton}>🔔</span>
-          </div>
-
-          <div style={styles.logoMark}>⛰</div>
+      <header style={styles.hero}>
+        <div style={styles.heroContent}>
+          <p style={styles.kicker}>REAL LIFE ADVENTURE GENERATOR</p>
           <h1 style={styles.logo}>QUEST</h1>
-          <p style={styles.subtitle}>ADVENTURE. TOGETHER.</p>
-
-          <div style={styles.rankCard}>
-            <div style={styles.rankBadge}>⛰️</div>
-            <div style={styles.rankInfo}>
-              <p style={styles.rankLabel}>RANK</p>
-              <h2 style={styles.rankName}>{rank}</h2>
-              <div style={styles.levelRow}>
-                <span>LEVEL {Math.max(1, Math.floor(xp / 100) + 1)}</span>
-                <div style={styles.progressOuter}>
-                  <div style={{ ...styles.progressInner, width: `${progress}%` }} />
-                </div>
-              </div>
-              <p style={styles.xpText}>{xp.toLocaleString()} / {nextXp.toLocaleString()} XP</p>
-            </div>
-            <div style={styles.rankArrow}>›</div>
-          </div>
+          <p style={styles.subtitle}>Adventure is closer than you think.</p>
         </div>
+      </header>
 
-        <div style={styles.content}>
-          <div style={styles.modeTabs}>
-            {modes.map((item) => (
-              <button
-                key={item}
-                onClick={() => {
-                  setMode(item);
-                  clearQuest();
-                }}
-                style={mode === item ? styles.activeTab : styles.tab}
-              >
-                {item}
-              </button>
-            ))}
+      <main style={styles.shell}>
+        <section style={styles.rankCard}>
+          <div style={styles.rankBadge}>⛰️</div>
+          <div style={styles.rankInfo}>
+            <p style={styles.rankLabel}>CURRENT RANK</p>
+            <h2 style={styles.rankName}>{rank}</h2>
+            <p style={styles.archetypeText}>{archetype}</p>
+            <div style={styles.progressOuter}>
+              <div style={{ ...styles.progressInner, width: `${progress}%` }} />
+            </div>
+            <p style={styles.xpText}>{xp.toLocaleString()} / {nextXp.toLocaleString()} XP</p>
           </div>
+          <div style={styles.statStack}>
+            <span>🔥 {streakData.currentStreak} day streak</span>
+            <span>🏆 {unlockedAchievements.length}/{achievements.length} achievements</span>
+            <span>📜 {completionStats.totalCompleted} quests</span>
+          </div>
+        </section>
 
-          <section style={styles.panel}>
-            <div style={styles.sectionHeader}>
-              <h3 style={styles.sectionTitle}>⚙ TODAY’S QUEST</h3>
-              <span style={styles.viewAll}>View All</span>
+        <section style={styles.questGrid}>
+          <div style={styles.controlPanel}>
+            <h2 style={styles.panelTitle}>Build Your Quest</h2>
+
+            <p style={styles.selectorLabel}>WHO?</p>
+            <div style={styles.pillGrid}>
+              {modes.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => {
+                    setMode(item);
+                    clearQuest();
+                  }}
+                  style={mode === item ? styles.activePill : styles.pill}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
 
-            <div style={styles.selectorBlock}>
-              <p style={styles.selectorLabel}>WHERE?</p>
-              <div style={styles.pillGrid}>
-                {settings.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => {
-                      setSetting(item);
-                      clearQuest();
-                    }}
-                    style={setting === item ? styles.activePill : styles.pill}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+            <p style={styles.selectorLabel}>WHERE?</p>
+            <div style={styles.pillGrid}>
+              {settings.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => {
+                    setSetting(item);
+                    clearQuest();
+                  }}
+                  style={setting === item ? styles.activePill : styles.pill}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
 
-              <p style={styles.selectorLabel}>WHEN?</p>
-              <div style={styles.pillGrid}>
-                {times.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => {
-                      setTime(item);
-                      clearQuest();
-                    }}
-                    style={time === item ? styles.activePill : styles.pill}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+            <p style={styles.selectorLabel}>WHEN?</p>
+            <div style={styles.pillGrid}>
+              {times.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => {
+                    setTime(item);
+                    clearQuest();
+                  }}
+                  style={time === item ? styles.activePill : styles.pill}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
 
             <p style={styles.availableText}>{availableQuests.length} quest option(s) available</p>
 
+            <button style={styles.beginButton} onClick={generateQuest}>
+              BEGIN QUEST
+            </button>
+          </div>
+
+          <div style={styles.questPanel}>
             {!currentQuest ? (
-              <button style={styles.beginButton} onClick={generateQuest}>
-                BEGIN QUEST
-              </button>
+              <div style={styles.emptyQuest}>
+                <div style={styles.emptyIcon}>🧭</div>
+                <h2>Ready for an adventure?</h2>
+                <p>Choose who, where, and when — then begin your quest.</p>
+              </div>
             ) : (
               <div style={styles.questCard}>
-                <div style={styles.questImage}>
-                  <div style={styles.questImageOverlay}>
-                    <span style={styles.questTag}>{currentQuest.setting} • {currentQuest.time}</span>
-                    <h2 style={styles.questTitle}>{currentQuest.title}</h2>
-                    <p style={styles.questTask}>{currentQuest.task}</p>
-                    <div style={styles.questFooter}>
-                      <strong>⛰ {currentQuest.xp} XP</strong>
-                      <button style={styles.startQuestButton} onClick={completeQuest}>COMPLETE</button>
-                    </div>
-                  </div>
-                </div>
-
+                <span style={styles.questTag}>{currentQuest.mode} • {currentQuest.setting} • {currentQuest.time}</span>
+                <h2 style={styles.questTitle}>{currentQuest.title}</h2>
+                <p style={styles.questTask}>{currentQuest.task}</p>
                 <p style={styles.flavor}>“{currentQuest.flavor}”</p>
                 <p style={styles.unlockText}>Title unlock: complete this quest 3 times.</p>
 
-                <button style={styles.textButton} onClick={shareQuest}>Text Quest</button>
+                <div style={styles.questFooter}>
+                  <strong>⛰ {currentQuest.xp} XP</strong>
+                  <div style={styles.actionRow}>
+                    <button style={styles.completeButton} onClick={completeQuest}>Complete</button>
+                    <button style={styles.shareButton} onClick={shareQuest}>Text</button>
+                  </div>
+                </div>
               </div>
             )}
 
             {message && <div style={styles.message}>{message}</div>}
-          </section>
+          </div>
+        </section>
 
-          <section style={styles.featureCard}>
-            <div style={styles.smallBadge}>WEEKLY CHALLENGE</div>
-            <h3 style={styles.featureTitle}>Adventure Awaits</h3>
-            <p style={styles.featureText}>Complete 5 quests this week.</p>
-            <div style={styles.weeklyRow}>
-              <div style={styles.miniProgress}>
-                <div
-                  style={{
-                    ...styles.miniProgressInner,
-                    width: `${Math.min((completionStats.totalCompleted % 5) * 20, 100)}%`,
-                  }}
-                />
-              </div>
-              <span>{completionStats.totalCompleted % 5} / 5</span>
-            </div>
-          </section>
-
+        <section style={styles.featureGrid}>
           <details style={styles.dropdownCard}>
             <summary style={styles.dropdownSummary}>👤 Adventurer Profile</summary>
             <h2 style={styles.archetype}>{archetype}</h2>
@@ -496,17 +481,10 @@ export default function App() {
               </div>
             )}
           </details>
+        </section>
 
-          <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
-        </div>
-
-        <nav style={styles.bottomNav}>
-          <div style={styles.navItemActive}>⌂<span>HOME</span></div>
-          <div style={styles.navItem}>⌖<span>QUESTS</span></div>
-          <div style={styles.navItem}>▤<span>JOURNAL</span></div>
-          <div style={styles.navItem}>♙<span>PROFILE</span></div>
-        </nav>
-      </div>
+        <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
+      </main>
     </div>
   );
 }
@@ -521,122 +499,94 @@ const ink = "#16231b";
 const styles: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",
-    background: "#080b08",
+    background: cream,
     color: ink,
     fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-    display: "flex",
-    justifyContent: "center",
-    padding: "16px",
-  },
-  phoneFrame: {
-    width: "100%",
-    maxWidth: "480px",
-    minHeight: "100vh",
-    background: cream,
-    borderRadius: "28px",
-    overflow: "hidden",
-    position: "relative",
-    boxShadow: "0 20px 60px rgba(0,0,0,.45)",
-    paddingBottom: "84px",
   },
   hero: {
-    minHeight: "390px",
-    position: "relative",
-    padding: "22px",
+    minHeight: "320px",
     background: `
-      linear-gradient(to bottom, rgba(245,236,217,.2), rgba(245,236,217,.92) 76%),
-      radial-gradient(circle at 70% 20%, rgba(255,222,157,.65), transparent 18%),
-      linear-gradient(135deg, #e9dcc3 0%, #d8d4c1 45%, #33483a 46%, #152b22 100%)
+      linear-gradient(to bottom, rgba(19,41,31,.2), rgba(19,41,31,.85)),
+      radial-gradient(circle at 72% 18%, rgba(255,219,139,.75), transparent 10%),
+      linear-gradient(135deg, #efe4c8 0%, #d9d5bd 45%, #45604a 46%, #13291f 100%)
     `,
-  },
-  topIcons: {
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
-    color: deepGreen,
-    fontSize: "26px",
-    marginBottom: "12px",
-  },
-  iconButton: {
-    width: "38px",
-    height: "38px",
-    display: "grid",
-    placeItems: "center",
-  },
-  logoMark: {
+    justifyContent: "center",
     textAlign: "center",
-    color: deepGreen,
-    fontSize: "34px",
-    marginTop: "8px",
+    padding: "32px 18px",
+  },
+  heroContent: {
+    maxWidth: "900px",
+  },
+  kicker: {
+    color: "#f3d999",
+    letterSpacing: "3px",
+    fontWeight: 900,
+    fontSize: "13px",
   },
   logo: {
-    textAlign: "center",
-    fontSize: "58px",
-    letterSpacing: "9px",
-    margin: "0",
-    color: deepGreen,
+    fontSize: "76px",
+    letterSpacing: "10px",
+    color: "#fff8e9",
+    margin: "6px 0",
     fontWeight: 900,
-    lineHeight: 1,
   },
   subtitle: {
-    textAlign: "center",
-    color: deepGreen,
-    fontWeight: 800,
-    fontSize: "13px",
-    letterSpacing: "3px",
-    marginTop: "10px",
+    color: "#fff8e9",
+    fontSize: "22px",
+    fontWeight: 700,
+    margin: 0,
+  },
+  shell: {
+    maxWidth: "1180px",
+    margin: "-72px auto 0",
+    padding: "0 18px 40px",
   },
   rankCard: {
-    position: "absolute",
-    left: "20px",
-    right: "20px",
-    bottom: "-42px",
     background: `linear-gradient(135deg, ${deepGreen}, ${forest})`,
     color: cream,
-    borderRadius: "20px",
-    padding: "18px",
-    display: "flex",
+    borderRadius: "24px",
+    padding: "24px",
+    display: "grid",
+    gridTemplateColumns: "100px 1fr auto",
+    gap: "20px",
     alignItems: "center",
-    gap: "16px",
-    border: "1px solid rgba(217,164,65,.55)",
-    boxShadow: "0 14px 30px rgba(0,0,0,.28)",
+    boxShadow: "0 18px 45px rgba(0,0,0,.25)",
+    border: `1px solid ${gold}`,
+    marginBottom: "24px",
   },
   rankBadge: {
-    width: "88px",
-    height: "88px",
+    width: "92px",
+    height: "92px",
     borderRadius: "50%",
     display: "grid",
     placeItems: "center",
     fontSize: "42px",
     background: "linear-gradient(135deg,#efe4c8,#8fa078)",
     border: `5px solid ${gold}`,
-    flexShrink: 0,
   },
   rankInfo: {
-    flex: 1,
+    minWidth: 0,
   },
   rankLabel: {
     color: gold,
-    fontWeight: 800,
+    fontWeight: 900,
     fontSize: "12px",
     letterSpacing: "2px",
     margin: 0,
   },
   rankName: {
-    margin: "3px 0 8px",
-    fontSize: "30px",
-    lineHeight: 1,
+    margin: "4px 0",
+    fontSize: "38px",
   },
-  levelRow: {
-    display: "grid",
-    gridTemplateColumns: "70px 1fr",
-    alignItems: "center",
-    gap: "10px",
-    fontWeight: 800,
-    fontSize: "12px",
+  archetypeText: {
+    margin: "0 0 12px",
+    color: "#f5dfab",
+    fontWeight: 700,
   },
   progressOuter: {
-    height: "10px",
+    height: "12px",
     background: "rgba(255,255,255,.18)",
     borderRadius: "999px",
     overflow: "hidden",
@@ -647,66 +597,32 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: "999px",
   },
   xpText: {
-    textAlign: "right",
-    margin: "6px 0 0",
+    margin: "8px 0 0",
     color: "#f6e2ae",
     fontWeight: 700,
-    fontSize: "13px",
-  },
-  rankArrow: {
-    fontSize: "36px",
-    color: gold,
-  },
-  content: {
-    padding: "66px 20px 20px",
-  },
-  modeTabs: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4,1fr)",
-    gap: "10px",
-    marginBottom: "18px",
-  },
-  tab: {
-    border: "1px solid #d6c7a7",
-    background: "#fbf4e6",
-    color: ink,
-    borderRadius: "10px",
-    padding: "12px 6px",
-    fontWeight: 800,
-    cursor: "pointer",
-  },
-  activeTab: {
-    border: "1px solid #3f5f37",
-    background: olive,
-    color: "#fff",
-    borderRadius: "10px",
-    padding: "12px 6px",
-    fontWeight: 800,
-    cursor: "pointer",
-  },
-  panel: {
-    background: "#fff8e9",
-    borderRadius: "20px",
-    padding: "18px",
-    boxShadow: "0 10px 25px rgba(0,0,0,.08)",
-    marginBottom: "18px",
-  },
-  sectionHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "14px",
-  },
-  sectionTitle: {
-    margin: 0,
-    fontSize: "18px",
-    fontWeight: 900,
-  },
-  viewAll: {
     fontSize: "14px",
   },
-  selectorBlock: {
-    marginBottom: "12px",
+  statStack: {
+    display: "grid",
+    gap: "8px",
+    fontWeight: 800,
+    color: "#fff8e9",
+  },
+  questGrid: {
+    display: "grid",
+    gridTemplateColumns: "360px 1fr",
+    gap: "24px",
+    marginBottom: "24px",
+  },
+  controlPanel: {
+    background: "#fff8e9",
+    borderRadius: "22px",
+    padding: "22px",
+    boxShadow: "0 10px 26px rgba(0,0,0,.08)",
+  },
+  panelTitle: {
+    margin: "0 0 18px",
+    fontSize: "26px",
   },
   selectorLabel: {
     fontSize: "12px",
@@ -719,10 +635,10 @@ const styles: Record<string, React.CSSProperties> = {
     display: "grid",
     gridTemplateColumns: "repeat(2,1fr)",
     gap: "8px",
-    marginBottom: "12px",
+    marginBottom: "14px",
   },
   pill: {
-    padding: "10px",
+    padding: "11px",
     borderRadius: "999px",
     border: "1px solid #d6c7a7",
     background: "#fbf4e6",
@@ -730,7 +646,7 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: "pointer",
   },
   activePill: {
-    padding: "10px",
+    padding: "11px",
     borderRadius: "999px",
     border: "1px solid #263d2b",
     background: "#263d2b",
@@ -740,7 +656,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   availableText: {
     color: olive,
-    fontSize: "13px",
+    fontSize: "14px",
     fontWeight: 700,
   },
   beginButton: {
@@ -756,25 +672,33 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: "pointer",
     boxShadow: "0 8px 18px rgba(0,0,0,.2)",
   },
-  questCard: {
-    marginTop: "14px",
+  questPanel: {
+    background: "#fff8e9",
+    borderRadius: "22px",
+    padding: "22px",
+    boxShadow: "0 10px 26px rgba(0,0,0,.08)",
+    minHeight: "420px",
   },
-  questImage: {
-    minHeight: "250px",
-    borderRadius: "18px",
-    overflow: "hidden",
+  emptyQuest: {
+    height: "100%",
+    minHeight: "360px",
+    display: "grid",
+    placeItems: "center",
+    textAlign: "center",
+    color: olive,
+  },
+  emptyIcon: {
+    fontSize: "70px",
+  },
+  questCard: {
     background: `
-      linear-gradient(to bottom, rgba(0,0,0,.1), rgba(0,0,0,.75)),
+      linear-gradient(to bottom, rgba(0,0,0,.1), rgba(0,0,0,.78)),
       linear-gradient(135deg,#536b4c 0%, #13291f 55%, #0c1510 100%)
     `,
     color: "#fff",
-    position: "relative",
-    boxShadow: "0 10px 24px rgba(0,0,0,.18)",
-  },
-  questImageOverlay: {
-    position: "absolute",
-    inset: 0,
-    padding: "20px",
+    borderRadius: "22px",
+    padding: "28px",
+    minHeight: "360px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -783,112 +707,80 @@ const styles: Record<string, React.CSSProperties> = {
     alignSelf: "flex-start",
     background: "#496331",
     color: "#f7e9bf",
-    padding: "7px 10px",
+    padding: "8px 12px",
     borderRadius: "8px",
     fontSize: "12px",
     fontWeight: 900,
     letterSpacing: "1px",
   },
   questTitle: {
-    fontSize: "30px",
-    margin: "20px 0 8px",
+    fontSize: "42px",
+    margin: "24px 0 12px",
     lineHeight: 1,
   },
   questTask: {
-    fontSize: "17px",
-    lineHeight: 1.35,
-    maxWidth: "90%",
+    fontSize: "20px",
+    lineHeight: 1.45,
+    maxWidth: "760px",
+  },
+  flavor: {
+    color: "#f3d999",
+    fontStyle: "italic",
+    lineHeight: 1.4,
+  },
+  unlockText: {
+    color: "#ead6aa",
+    fontSize: "14px",
+    fontWeight: 700,
   },
   questFooter: {
     display: "flex",
     justifyContent: "space-between",
+    gap: "14px",
     alignItems: "center",
     borderTop: "1px solid rgba(255,255,255,.18)",
-    paddingTop: "14px",
-    fontSize: "22px",
+    paddingTop: "18px",
+    fontSize: "24px",
   },
-  startQuestButton: {
-    border: "1px solid rgba(255,255,255,.35)",
-    background: "#6d7f38",
-    color: "#fff",
-    borderRadius: "10px",
-    padding: "12px 18px",
+  actionRow: {
+    display: "flex",
+    gap: "10px",
+  },
+  completeButton: {
+    border: "none",
+    background: gold,
+    color: deepGreen,
+    borderRadius: "12px",
+    padding: "13px 18px",
     fontWeight: 900,
     cursor: "pointer",
   },
-  flavor: {
-    color: olive,
-    fontStyle: "italic",
-    marginTop: "14px",
-    lineHeight: 1.4,
-  },
-  unlockText: {
-    color: "#6d5c3d",
-    fontSize: "13px",
-    fontWeight: 700,
-  },
-  textButton: {
-    width: "100%",
-    background: "#e6d7bb",
-    color: ink,
-    border: "1px solid #cdbb95",
+  shareButton: {
+    border: "1px solid rgba(255,255,255,.35)",
+    background: "rgba(255,255,255,.08)",
+    color: "#fff",
     borderRadius: "12px",
-    padding: "12px",
+    padding: "13px 18px",
     fontWeight: 900,
     cursor: "pointer",
   },
   message: {
-    marginTop: "12px",
+    marginTop: "14px",
     background: "#f0d28a",
     color: ink,
     padding: "13px",
     borderRadius: "12px",
     fontWeight: 800,
   },
-  featureCard: {
-    background: "#fff8e9",
-    borderRadius: "18px",
-    padding: "18px",
-    marginBottom: "18px",
-    boxShadow: "0 8px 20px rgba(0,0,0,.08)",
-  },
-  smallBadge: {
-    color: olive,
-    fontSize: "12px",
-    fontWeight: 900,
-    letterSpacing: "2px",
-  },
-  featureTitle: {
-    margin: "8px 0 4px",
-    fontSize: "22px",
-  },
-  featureText: {
-    margin: 0,
-    color: "#5e604e",
-  },
-  weeklyRow: {
+  featureGrid: {
     display: "grid",
-    gridTemplateColumns: "1fr 42px",
-    gap: "10px",
-    alignItems: "center",
-    marginTop: "12px",
-    fontWeight: 800,
-  },
-  miniProgress: {
-    height: "8px",
-    background: "#d8ceb7",
-    borderRadius: "999px",
-    overflow: "hidden",
-  },
-  miniProgressInner: {
-    height: "100%",
-    background: olive,
+    gridTemplateColumns: "repeat(2,1fr)",
+    gap: "18px",
   },
   dropdownCard: {
     background: "#fff8e9",
     borderRadius: "18px",
-    padding: "16px",
-    marginBottom: "14px",
+    padding: "18px",
     boxShadow: "0 8px 18px rgba(0,0,0,.07)",
   },
   dropdownSummary: {
@@ -965,38 +857,6 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "12px",
     fontWeight: 900,
     cursor: "pointer",
-    marginBottom: "20px",
-  },
-  bottomNav: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: "74px",
-    background: deepGreen,
-    color: "#fff",
-    display: "grid",
-    gridTemplateColumns: "repeat(4,1fr)",
-    borderTopLeftRadius: "18px",
-    borderTopRightRadius: "18px",
-    boxShadow: "0 -8px 20px rgba(0,0,0,.2)",
-  },
-  navItem: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "4px",
-    fontSize: "22px",
-    color: "#f6ead2",
-  },
-  navItemActive: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "4px",
-    fontSize: "22px",
-    color: gold,
+    marginTop: "20px",
   },
 };
