@@ -12,6 +12,22 @@ type CompletionStats = {
   bySetting: Record<string, number>;
 };
 
+type StreakData = {
+  currentStreak: number;
+  bestStreak: number;
+  lastCompletedDate: string;
+};
+
+function getTodayString() {
+  return new Date().toISOString().split("T")[0];
+}
+
+function getYesterdayString() {
+  const date = new Date();
+  date.setDate(date.getDate() - 1);
+  return date.toISOString().split("T")[0];
+}
+
 function detectTimeOfDay(): TimeOfDay {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 12) return "Morning";
@@ -43,7 +59,6 @@ function nextRankXp(xp: number) {
 function getFavorite(record: Record<string, number>) {
   const entries = Object.entries(record);
   if (entries.length === 0) return "None yet";
-
   return entries.sort((a, b) => b[1] - a[1])[0][0];
 }
 
@@ -89,24 +104,21 @@ export default function App() {
       bySetting: {},
     })
   );
+  const [streakData, setStreakData] = useState<StreakData>(() =>
+    loadFromStorage<StreakData>("quest-streak-data", {
+      currentStreak: 0,
+      bestStreak: 0,
+      lastCompletedDate: "",
+    })
+  );
 
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    localStorage.setItem("quest-xp", JSON.stringify(xp));
-  }, [xp]);
-
-  useEffect(() => {
-    localStorage.setItem("quest-titles", JSON.stringify(titles));
-  }, [titles]);
-
-  useEffect(() => {
-    localStorage.setItem("quest-completed-counts", JSON.stringify(completedCounts));
-  }, [completedCounts]);
-
-  useEffect(() => {
-    localStorage.setItem("quest-completion-stats", JSON.stringify(completionStats));
-  }, [completionStats]);
+  useEffect(() => localStorage.setItem("quest-xp", JSON.stringify(xp)), [xp]);
+  useEffect(() => localStorage.setItem("quest-titles", JSON.stringify(titles)), [titles]);
+  useEffect(() => localStorage.setItem("quest-completed-counts", JSON.stringify(completedCounts)), [completedCounts]);
+  useEffect(() => localStorage.setItem("quest-completion-stats", JSON.stringify(completionStats)), [completionStats]);
+  useEffect(() => localStorage.setItem("quest-streak-data", JSON.stringify(streakData)), [streakData]);
 
   const rank = getRank(xp);
   const nextXp = nextRankXp(xp);
@@ -116,6 +128,32 @@ export default function App() {
     () => getQuestPool(mode, setting, time),
     [mode, setting, time]
   );
+
+  function updateStreak() {
+    const today = getTodayString();
+    const yesterday = getYesterdayString();
+
+    if (streakData.lastCompletedDate === today) {
+      return streakData;
+    }
+
+    let newCurrentStreak = 1;
+
+    if (streakData.lastCompletedDate === yesterday) {
+      newCurrentStreak = streakData.currentStreak + 1;
+    }
+
+    const newBestStreak = Math.max(streakData.bestStreak, newCurrentStreak);
+
+    const updatedStreak = {
+      currentStreak: newCurrentStreak,
+      bestStreak: newBestStreak,
+      lastCompletedDate: today,
+    };
+
+    setStreakData(updatedStreak);
+    return updatedStreak;
+  }
 
   function generateQuest() {
     if (availableQuests.length === 0) {
@@ -131,7 +169,6 @@ export default function App() {
     }
 
     const randomQuest = pool[Math.floor(Math.random() * pool.length)];
-
     setCurrentQuest(randomQuest);
     setLastQuestTitle(randomQuest.title);
     setMessage("");
@@ -141,6 +178,7 @@ export default function App() {
     if (!currentQuest) return;
 
     const newXp = xp + currentQuest.xp;
+    const updatedStreak = updateStreak();
 
     const newCounts = {
       ...completedCounts,
@@ -155,8 +193,7 @@ export default function App() {
       },
       bySetting: {
         ...completionStats.bySetting,
-        [currentQuest.setting]:
-          (completionStats.bySetting[currentQuest.setting] || 0) + 1,
+        [currentQuest.setting]: (completionStats.bySetting[currentQuest.setting] || 0) + 1,
       },
     };
 
@@ -168,36 +205,27 @@ export default function App() {
 
     if (count >= 3 && !titles.includes(currentQuest.unlockTitle)) {
       setTitles([...titles, currentQuest.unlockTitle]);
-      setMessage(`🏆 New Title Unlocked: ${currentQuest.unlockTitle}`);
+      setMessage(`🏆 New Title Unlocked: ${currentQuest.unlockTitle} | 🔥 Streak: ${updatedStreak.currentStreak} day(s)`);
     } else {
-      setMessage(
-        `+${currentQuest.xp} XP earned. Complete this quest ${Math.max(
-          0,
-          3 - count
-        )} more time(s) to unlock the title.`
-      );
+      setMessage(`+${currentQuest.xp} XP earned. 🔥 Streak: ${updatedStreak.currentStreak} day(s). Complete this quest ${Math.max(0, 3 - count)} more time(s) to unlock the title.`);
     }
   }
 
   function shareQuest() {
     if (!currentQuest) return;
-
     const text = `I got a quest: "${currentQuest.title}" — ${currentQuest.task} Reward: ${currentQuest.xp} XP.`;
     window.location.href = `sms:?&body=${encodeURIComponent(text)}`;
   }
 
   function resetProgress() {
-    const confirmed = window.confirm("Reset XP, titles, and completed quest progress?");
+    const confirmed = window.confirm("Reset XP, titles, streaks, and completed quest progress?");
     if (!confirmed) return;
 
     setXp(0);
     setTitles([]);
     setCompletedCounts({});
-    setCompletionStats({
-      totalCompleted: 0,
-      byMode: {},
-      bySetting: {},
-    });
+    setCompletionStats({ totalCompleted: 0, byMode: {}, bySetting: {} });
+    setStreakData({ currentStreak: 0, bestStreak: 0, lastCompletedDate: "" });
     setCurrentQuest(null);
     setMessage("Progress reset.");
   }
@@ -224,18 +252,14 @@ export default function App() {
     <div style={styles.page}>
       <div style={styles.app}>
         <h1 style={styles.logo}>QUEST</h1>
-        <p style={styles.subtitle}>
-          Real-life adventures. Weird titles. Mildly questionable motivation.
-        </p>
+        <p style={styles.subtitle}>Real-life adventures. Weird titles. Mildly questionable motivation.</p>
 
         <div style={styles.profile}>
           <h2>{rank}</h2>
           <p>{xp} XP</p>
-
           <div style={styles.progressOuter}>
             <div style={{ ...styles.progressInner, width: `${progress}%` }} />
           </div>
-
           <p style={styles.small}>Next rank at {nextXp} XP</p>
         </div>
 
@@ -246,17 +270,15 @@ export default function App() {
           <p>Titles unlocked: {titles.length}</p>
           <p>Favorite mode: {getFavorite(completionStats.byMode)}</p>
           <p>Favorite setting: {getFavorite(completionStats.bySetting)}</p>
+          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
+          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
         </div>
 
         <div style={styles.section}>
           <h3>Who’s playing?</h3>
           <div style={styles.buttonGrid}>
             {modes.map((item) => (
-              <button
-                key={item}
-                onClick={() => changeMode(item)}
-                style={mode === item ? styles.selectedButton : styles.button}
-              >
+              <button key={item} onClick={() => changeMode(item)} style={mode === item ? styles.selectedButton : styles.button}>
                 {item}
               </button>
             ))}
@@ -267,11 +289,7 @@ export default function App() {
           <h3>Where?</h3>
           <div style={styles.buttonGrid}>
             {settings.map((item) => (
-              <button
-                key={item}
-                onClick={() => changeSetting(item)}
-                style={setting === item ? styles.selectedButton : styles.button}
-              >
+              <button key={item} onClick={() => changeSetting(item)} style={setting === item ? styles.selectedButton : styles.button}>
                 {item}
               </button>
             ))}
@@ -280,52 +298,32 @@ export default function App() {
 
         <div style={styles.section}>
           <h3>When?</h3>
-          <p style={styles.small}>
-            Auto-detected as {detectTimeOfDay()}, but you can override it.
-          </p>
-
+          <p style={styles.small}>Auto-detected as {detectTimeOfDay()}, but you can override it.</p>
           <div style={styles.timeGrid}>
             {times.map((item) => (
-              <button
-                key={item}
-                onClick={() => changeTime(item)}
-                style={time === item ? styles.selectedButton : styles.button}
-              >
+              <button key={item} onClick={() => changeTime(item)} style={time === item ? styles.selectedButton : styles.button}>
                 {item}
               </button>
             ))}
           </div>
         </div>
 
-        <p style={styles.small}>
-          {availableQuests.length} quest option(s) available for this combo.
-        </p>
+        <p style={styles.small}>{availableQuests.length} quest option(s) available for this combo.</p>
 
-        <button style={styles.bigButton} onClick={generateQuest}>
-          Begin Quest
-        </button>
+        <button style={styles.bigButton} onClick={generateQuest}>Begin Quest</button>
 
         {currentQuest && (
           <div style={styles.questCard}>
-            <p style={styles.difficulty}>
-              {currentQuest.mode} • {currentQuest.setting} • {currentQuest.time}
-            </p>
-
+            <p style={styles.difficulty}>{currentQuest.mode} • {currentQuest.setting} • {currentQuest.time}</p>
             <p style={styles.difficulty}>{currentQuest.xp} XP</p>
-
             <h2>{currentQuest.title}</h2>
             <p>{currentQuest.task}</p>
             <p style={styles.flavor}>“{currentQuest.flavor}”</p>
             <p style={styles.smallDark}>Title unlock: complete this quest 3 times.</p>
 
             <div style={styles.actionRow}>
-              <button style={styles.completeButton} onClick={completeQuest}>
-                Complete Quest
-              </button>
-
-              <button style={styles.shareButton} onClick={shareQuest}>
-                Text Quest
-              </button>
+              <button style={styles.completeButton} onClick={completeQuest}>Complete Quest</button>
+              <button style={styles.shareButton} onClick={shareQuest}>Text Quest</button>
             </div>
           </div>
         )}
@@ -334,200 +332,49 @@ export default function App() {
 
         <div style={styles.titles}>
           <h3>Your Titles</h3>
-
           {titles.length === 0 ? (
             <p style={styles.small}>No titles yet. The possums remain unimpressed.</p>
           ) : (
             <div style={styles.titleList}>
               {titles.map((title) => (
-                <span key={title} style={styles.titleBadge}>
-                  {title}
-                </span>
+                <span key={title} style={styles.titleBadge}>{title}</span>
               ))}
             </div>
           )}
         </div>
 
-        <button style={styles.resetButton} onClick={resetProgress}>
-          Reset Progress
-        </button>
+        <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
       </div>
     </div>
   );
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    background: "linear-gradient(180deg, #132a13, #31572c)",
-    color: "#fff",
-    fontFamily: "Arial, sans-serif",
-    padding: "24px",
-  },
-  app: {
-    maxWidth: "650px",
-    margin: "0 auto",
-  },
-  logo: {
-    textAlign: "center",
-    fontSize: "48px",
-    letterSpacing: "6px",
-    marginBottom: "8px",
-  },
-  subtitle: {
-    textAlign: "center",
-    color: "#d9ed92",
-    marginBottom: "24px",
-  },
-  profile: {
-    background: "rgba(255,255,255,0.1)",
-    border: "1px solid rgba(255,255,255,0.2)",
-    borderRadius: "18px",
-    padding: "18px",
-    marginBottom: "20px",
-  },
-  statsCard: {
-    background: "rgba(255,255,255,0.1)",
-    border: "1px solid rgba(255,255,255,0.2)",
-    borderRadius: "18px",
-    padding: "18px",
-    marginBottom: "20px",
-  },
-  progressOuter: {
-    height: "12px",
-    background: "rgba(255,255,255,0.2)",
-    borderRadius: "999px",
-    overflow: "hidden",
-  },
-  progressInner: {
-    height: "100%",
-    background: "#f9c74f",
-  },
-  small: {
-    color: "#d8f3dc",
-    fontSize: "14px",
-  },
-  smallDark: {
-    color: "#31572c",
-    fontSize: "14px",
-  },
-  section: {
-    marginBottom: "18px",
-  },
-  buttonGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "10px",
-  },
-  timeGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "10px",
-  },
-  button: {
-    padding: "14px",
-    borderRadius: "12px",
-    border: "none",
-    background: "#90a955",
-    color: "#132a13",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-  selectedButton: {
-    padding: "14px",
-    borderRadius: "12px",
-    border: "2px solid #f9c74f",
-    background: "#f9c74f",
-    color: "#132a13",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-  bigButton: {
-    width: "100%",
-    padding: "18px",
-    borderRadius: "16px",
-    border: "none",
-    background: "#f9844a",
-    color: "#fff",
-    fontSize: "20px",
-    fontWeight: "bold",
-    cursor: "pointer",
-    marginBottom: "20px",
-  },
-  questCard: {
-    background: "#fff",
-    color: "#132a13",
-    borderRadius: "20px",
-    padding: "22px",
-    marginBottom: "18px",
-  },
-  difficulty: {
-    color: "#bc6c25",
-    fontWeight: "bold",
-  },
-  flavor: {
-    fontStyle: "italic",
-    color: "#31572c",
-  },
-  actionRow: {
-    display: "flex",
-    gap: "10px",
-    marginTop: "18px",
-  },
-  completeButton: {
-    flex: 1,
-    padding: "14px",
-    borderRadius: "12px",
-    border: "none",
-    background: "#31572c",
-    color: "#fff",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-  shareButton: {
-    flex: 1,
-    padding: "14px",
-    borderRadius: "12px",
-    border: "none",
-    background: "#577590",
-    color: "#fff",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-  message: {
-    background: "#f9c74f",
-    color: "#132a13",
-    padding: "14px",
-    borderRadius: "12px",
-    fontWeight: "bold",
-    marginBottom: "18px",
-  },
-  titles: {
-    background: "rgba(255,255,255,0.1)",
-    borderRadius: "18px",
-    padding: "18px",
-    marginBottom: "18px",
-  },
-  titleList: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "10px",
-  },
-  titleBadge: {
-    background: "#f9c74f",
-    color: "#132a13",
-    padding: "8px 12px",
-    borderRadius: "999px",
-    fontWeight: "bold",
-  },
-  resetButton: {
-    width: "100%",
-    padding: "12px",
-    borderRadius: "12px",
-    border: "1px solid rgba(255,255,255,0.3)",
-    background: "transparent",
-    color: "#d8f3dc",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
+  page: { minHeight: "100vh", background: "linear-gradient(180deg, #132a13, #31572c)", color: "#fff", fontFamily: "Arial, sans-serif", padding: "24px" },
+  app: { maxWidth: "650px", margin: "0 auto" },
+  logo: { textAlign: "center", fontSize: "48px", letterSpacing: "6px", marginBottom: "8px" },
+  subtitle: { textAlign: "center", color: "#d9ed92", marginBottom: "24px" },
+  profile: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
+  statsCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
+  progressOuter: { height: "12px", background: "rgba(255,255,255,0.2)", borderRadius: "999px", overflow: "hidden" },
+  progressInner: { height: "100%", background: "#f9c74f" },
+  small: { color: "#d8f3dc", fontSize: "14px" },
+  smallDark: { color: "#31572c", fontSize: "14px" },
+  section: { marginBottom: "18px" },
+  buttonGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" },
+  timeGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px" },
+  button: { padding: "14px", borderRadius: "12px", border: "none", background: "#90a955", color: "#132a13", fontWeight: "bold", cursor: "pointer" },
+  selectedButton: { padding: "14px", borderRadius: "12px", border: "2px solid #f9c74f", background: "#f9c74f", color: "#132a13", fontWeight: "bold", cursor: "pointer" },
+  bigButton: { width: "100%", padding: "18px", borderRadius: "16px", border: "none", background: "#f9844a", color: "#fff", fontSize: "20px", fontWeight: "bold", cursor: "pointer", marginBottom: "20px" },
+  questCard: { background: "#fff", color: "#132a13", borderRadius: "20px", padding: "22px", marginBottom: "18px" },
+  difficulty: { color: "#bc6c25", fontWeight: "bold" },
+  flavor: { fontStyle: "italic", color: "#31572c" },
+  actionRow: { display: "flex", gap: "10px", marginTop: "18px" },
+  completeButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#31572c", color: "#fff", fontWeight: "bold", cursor: "pointer" },
+  shareButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#577590", color: "#fff", fontWeight: "bold", cursor: "pointer" },
+  message: { background: "#f9c74f", color: "#132a13", padding: "14px", borderRadius: "12px", fontWeight: "bold", marginBottom: "18px" },
+  titles: { background: "rgba(255,255,255,0.1)", borderRadius: "18px", padding: "18px", marginBottom: "18px" },
+  titleList: { display: "flex", flexWrap: "wrap", gap: "10px" },
+  titleBadge: { background: "#f9c74f", color: "#132a13", padding: "8px 12px", borderRadius: "999px", fontWeight: "bold" },
+  resetButton: { width: "100%", padding: "12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent", color: "#d8f3dc", fontWeight: "bold", cursor: "pointer" },
 };
