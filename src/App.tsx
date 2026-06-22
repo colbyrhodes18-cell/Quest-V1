@@ -307,10 +307,14 @@ export default function App() {
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.app}>
-        <h1 style={styles.logo}>QUEST</h1>
-        <p style={styles.subtitle}>Real-life adventures. Weird titles. Mildly questionable motivation.</p>
+   <div style={styles.hero}>
+  <div style={styles.heroOverlay}>
+    <h1 style={styles.logo}>QUEST</h1>
+    <p style={styles.subtitle}>
+      Adventure is closer than you think.
+    </p>
+  </div>
+</div>
 
         <div style={styles.profile}>
           <h2>{rank}</h2>
