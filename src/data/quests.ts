@@ -408,4 +408,41 @@ export const questLibrary: Record<string, QuestTemplate[]> = {
       unlockTitle: "Errand Adventurer",
     },
   ],
-    };
+"Solo-City-Afternoon": [
+    {
+      title: "Urban Wanderer",
+      xp: 20,
+      task: "Walk around a part of town you usually drive through.",
+      flavor: "Every city hides side quests.",
+      unlockTitle: "Urban Wanderer",
+    },
+    {
+      title: "Local Legend",
+      xp: 15,
+      task: "Find a local business you've never entered and step inside.",
+      flavor: "Heroes discover places. Tourists follow maps.",
+      unlockTitle: "Local Legend",
+    },
+    {
+      title: "Alley Cartographer",
+      xp: 15,
+      task: "Find a back street, alley, or shortcut you've never explored.",
+      flavor: "The main roads don't tell the whole story.",
+      unlockTitle: "Alley Cartographer",
+    },
+    {
+      title: "Dollar Quest",
+      xp: 15,
+      task: "Spend less than $5 on something you've never tried before.",
+      flavor: "Adventure has a budget.",
+      unlockTitle: "Dollar Adventurer",
+    },
+    {
+      title: "People Watcher",
+      xp: 10,
+      task: "Sit somewhere public for 10 minutes and invent harmless backstories for strangers.",
+      flavor: "The city is full of NPCs and protagonists.",
+      unlockTitle: "People Watcher",
+    },
+  ],
+  };
