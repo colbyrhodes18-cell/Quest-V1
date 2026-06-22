@@ -230,7 +230,6 @@ export default function App() {
     if (!currentQuest) return;
 
     const oldAchievements = getAchievements(completionStats, streakData, titles).filter((a) => a.unlocked).length;
-
     const newXp = xp + currentQuest.xp;
     const updatedStreak = updateStreak();
 
@@ -265,8 +264,8 @@ export default function App() {
     };
 
     const newHistory = [historyItem, ...questHistory].slice(0, 10);
-
     const count = newCounts[currentQuest.title];
+
     let newTitles = titles;
     let titleMessage = "";
 
@@ -320,34 +319,7 @@ export default function App() {
             <div style={{ ...styles.progressInner, width: `${progress}%` }} />
           </div>
           <p style={styles.small}>Next rank at {nextXp} XP</p>
-        </div>
-
-        <details style={styles.profileCard}>
-          <summary style={styles.dropdownSummary}>Adventurer Profile</summary>
-          <h2>{archetype}</h2>
-          <p>Rank: {rank}</p>
-          <p>XP: {xp}</p>
-          <p>Quests completed: {completionStats.totalCompleted}</p>
-          <p>Titles unlocked: {titles.length}</p>
-          <p>Achievements: {unlockedAchievements.length} / {achievements.length}</p>
-          <p>Favorite mode: {favoriteMode}</p>
-          <p>Favorite setting: {favoriteSetting}</p>
-          <p>Favorite time: {favoriteTime}</p>
-          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
-          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
-        </details>
-
-        <div style={styles.statsCard}>
-          <h3>Adventure Stats</h3>
-          <p>Total quests completed: {completionStats.totalCompleted}</p>
-          <p>Total XP earned: {xp}</p>
-          <p>Titles unlocked: {titles.length}</p>
-          <p>Achievements unlocked: {unlockedAchievements.length} / {achievements.length}</p>
-          <p>Favorite mode: {favoriteMode}</p>
-          <p>Favorite setting: {favoriteSetting}</p>
-          <p>Favorite time: {favoriteTime}</p>
-          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
-          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
+          <p style={styles.small}>🔥 Streak: {streakData.currentStreak} day(s)</p>
         </div>
 
         <div style={styles.section}>
@@ -400,8 +372,36 @@ export default function App() {
 
         {message && <div style={styles.message}>{message}</div>}
 
-        <div style={styles.titles}>
-          <h3>Your Titles</h3>
+        <details style={styles.profileCard}>
+          <summary style={styles.dropdownSummary}>Adventurer Profile</summary>
+          <h2>{archetype}</h2>
+          <p>Rank: {rank}</p>
+          <p>XP: {xp}</p>
+          <p>Quests completed: {completionStats.totalCompleted}</p>
+          <p>Titles unlocked: {titles.length}</p>
+          <p>Achievements: {unlockedAchievements.length} / {achievements.length}</p>
+          <p>Favorite mode: {favoriteMode}</p>
+          <p>Favorite setting: {favoriteSetting}</p>
+          <p>Favorite time: {favoriteTime}</p>
+          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
+          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
+        </details>
+
+        <details style={styles.statsCard}>
+          <summary style={styles.dropdownSummary}>Adventure Stats</summary>
+          <p>Total quests completed: {completionStats.totalCompleted}</p>
+          <p>Total XP earned: {xp}</p>
+          <p>Titles unlocked: {titles.length}</p>
+          <p>Achievements unlocked: {unlockedAchievements.length} / {achievements.length}</p>
+          <p>Favorite mode: {favoriteMode}</p>
+          <p>Favorite setting: {favoriteSetting}</p>
+          <p>Favorite time: {favoriteTime}</p>
+          <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
+          <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
+        </details>
+
+        <details style={styles.titles}>
+          <summary style={styles.dropdownSummary}>Titles ({titles.length})</summary>
           {titles.length === 0 ? (
             <p style={styles.small}>No titles yet. The possums remain unimpressed.</p>
           ) : (
@@ -409,7 +409,7 @@ export default function App() {
               {titles.map((title) => <span key={title} style={styles.titleBadge}>{title}</span>)}
             </div>
           )}
-        </div>
+        </details>
 
         <details style={styles.historyCard}>
           <summary style={styles.dropdownSummary}>Recent Quest History ({questHistory.length})</summary>
@@ -446,16 +446,25 @@ export default function App() {
   );
 }
 
+const cardBase: React.CSSProperties = {
+  background: "rgba(255,255,255,0.1)",
+  border: "1px solid rgba(255,255,255,0.2)",
+  borderRadius: "18px",
+  padding: "18px",
+  marginBottom: "18px",
+};
+
 const styles: Record<string, React.CSSProperties> = {
   page: { minHeight: "100vh", background: "linear-gradient(180deg, #132a13, #31572c)", color: "#fff", fontFamily: "Arial, sans-serif", padding: "24px" },
   app: { maxWidth: "650px", margin: "0 auto" },
   logo: { textAlign: "center", fontSize: "48px", letterSpacing: "6px", marginBottom: "8px" },
   subtitle: { textAlign: "center", color: "#d9ed92", marginBottom: "24px" },
-  profile: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
-  profileCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
-  statsCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
-  historyCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "18px" },
-  achievementCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
+  profile: cardBase,
+  profileCard: cardBase,
+  statsCard: cardBase,
+  historyCard: cardBase,
+  achievementCard: cardBase,
+  titles: cardBase,
   dropdownSummary: { cursor: "pointer", fontWeight: "bold", fontSize: "18px" },
   achievementList: { display: "grid", gap: "10px", marginTop: "14px" },
   achievementUnlocked: { background: "#f9c74f", color: "#132a13", padding: "12px", borderRadius: "12px" },
@@ -481,8 +490,7 @@ const styles: Record<string, React.CSSProperties> = {
   completeButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#31572c", color: "#fff", fontWeight: "bold", cursor: "pointer" },
   shareButton: { flex: 1, padding: "14px", borderRadius: "12px", border: "none", background: "#577590", color: "#fff", fontWeight: "bold", cursor: "pointer" },
   message: { background: "#f9c74f", color: "#132a13", padding: "14px", borderRadius: "12px", fontWeight: "bold", marginBottom: "18px" },
-  titles: { background: "rgba(255,255,255,0.1)", borderRadius: "18px", padding: "18px", marginBottom: "18px" },
-  titleList: { display: "flex", flexWrap: "wrap", gap: "10px" },
+  titleList: { display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "14px" },
   titleBadge: { background: "#f9c74f", color: "#132a13", padding: "8px 12px", borderRadius: "999px", fontWeight: "bold" },
   resetButton: { width: "100%", padding: "12px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.3)", background: "transparent", color: "#d8f3dc", fontWeight: "bold", cursor: "pointer" },
 };
