@@ -25,6 +25,15 @@ type Achievement = {
   unlocked: boolean;
 };
 
+type QuestHistoryItem = {
+  title: string;
+  xp: number;
+  mode: Mode;
+  setting: Setting;
+  time: TimeOfDay;
+  completedAt: string;
+};
+
 function getTodayString() {
   return new Date().toISOString().split("T")[0];
 }
@@ -96,71 +105,19 @@ function getAchievements(
   titles: string[]
 ): Achievement[] {
   return [
-    {
-      name: "First Steps",
-      description: "Complete 1 quest.",
-      unlocked: completionStats.totalCompleted >= 1,
-    },
-    {
-      name: "Wanderer",
-      description: "Complete 10 quests.",
-      unlocked: completionStats.totalCompleted >= 10,
-    },
-    {
-      name: "Pathfinder",
-      description: "Complete 25 quests.",
-      unlocked: completionStats.totalCompleted >= 25,
-    },
-    {
-      name: "Explorer",
-      description: "Complete 50 quests.",
-      unlocked: completionStats.totalCompleted >= 50,
-    },
-    {
-      name: "Adventurer",
-      description: "Complete 100 quests.",
-      unlocked: completionStats.totalCompleted >= 100,
-    },
-    {
-      name: "Homebody",
-      description: "Complete 10 Indoor quests.",
-      unlocked: (completionStats.bySetting["Indoor"] || 0) >= 10,
-    },
-    {
-      name: "Trail Walker",
-      description: "Complete 10 Outdoor quests.",
-      unlocked: (completionStats.bySetting["Outdoor"] || 0) >= 10,
-    },
-    {
-      name: "City Roamer",
-      description: "Complete 10 City quests.",
-      unlocked: (completionStats.bySetting["City"] || 0) >= 10,
-    },
-    {
-      name: "Country Soul",
-      description: "Complete 10 Country quests.",
-      unlocked: (completionStats.bySetting["Country"] || 0) >= 10,
-    },
-    {
-      name: "Night Owl",
-      description: "Complete 10 Night quests.",
-      unlocked: (completionStats.byTime["Night"] || 0) >= 10,
-    },
-    {
-      name: "Streak Starter",
-      description: "Reach a 3-day streak.",
-      unlocked: streakData.bestStreak >= 3,
-    },
-    {
-      name: "Dedicated",
-      description: "Reach a 7-day streak.",
-      unlocked: streakData.bestStreak >= 7,
-    },
-    {
-      name: "Title Collector",
-      description: "Unlock 5 titles.",
-      unlocked: titles.length >= 5,
-    },
+    { name: "First Steps", description: "Complete 1 quest.", unlocked: completionStats.totalCompleted >= 1 },
+    { name: "Wanderer", description: "Complete 10 quests.", unlocked: completionStats.totalCompleted >= 10 },
+    { name: "Pathfinder", description: "Complete 25 quests.", unlocked: completionStats.totalCompleted >= 25 },
+    { name: "Explorer", description: "Complete 50 quests.", unlocked: completionStats.totalCompleted >= 50 },
+    { name: "Adventurer", description: "Complete 100 quests.", unlocked: completionStats.totalCompleted >= 100 },
+    { name: "Homebody", description: "Complete 10 Indoor quests.", unlocked: (completionStats.bySetting["Indoor"] || 0) >= 10 },
+    { name: "Trail Walker", description: "Complete 10 Outdoor quests.", unlocked: (completionStats.bySetting["Outdoor"] || 0) >= 10 },
+    { name: "City Roamer", description: "Complete 10 City quests.", unlocked: (completionStats.bySetting["City"] || 0) >= 10 },
+    { name: "Country Soul", description: "Complete 10 Country quests.", unlocked: (completionStats.bySetting["Country"] || 0) >= 10 },
+    { name: "Night Owl", description: "Complete 10 Night quests.", unlocked: (completionStats.byTime["Night"] || 0) >= 10 },
+    { name: "Streak Starter", description: "Reach a 3-day streak.", unlocked: streakData.bestStreak >= 3 },
+    { name: "Dedicated", description: "Reach a 7-day streak.", unlocked: streakData.bestStreak >= 7 },
+    { name: "Title Collector", description: "Unlock 5 titles.", unlocked: titles.length >= 5 },
   ];
 }
 
@@ -172,9 +129,7 @@ export default function App() {
   const [lastQuestTitle, setLastQuestTitle] = useState("");
 
   const [xp, setXp] = useState(() => loadFromStorage<number>("quest-xp", 0));
-  const [titles, setTitles] = useState<string[]>(() =>
-    loadFromStorage<string[]>("quest-titles", [])
-  );
+  const [titles, setTitles] = useState<string[]>(() => loadFromStorage<string[]>("quest-titles", []));
   const [completedCounts, setCompletedCounts] = useState<Record<string, number>>(() =>
     loadFromStorage<Record<string, number>>("quest-completed-counts", {})
   );
@@ -193,6 +148,9 @@ export default function App() {
       lastCompletedDate: "",
     })
   );
+  const [questHistory, setQuestHistory] = useState<QuestHistoryItem[]>(() =>
+    loadFromStorage<QuestHistoryItem[]>("quest-history", [])
+  );
 
   const [message, setMessage] = useState("");
 
@@ -201,6 +159,7 @@ export default function App() {
   useEffect(() => localStorage.setItem("quest-completed-counts", JSON.stringify(completedCounts)), [completedCounts]);
   useEffect(() => localStorage.setItem("quest-completion-stats", JSON.stringify(completionStats)), [completionStats]);
   useEffect(() => localStorage.setItem("quest-streak-data", JSON.stringify(streakData)), [streakData]);
+  useEffect(() => localStorage.setItem("quest-history", JSON.stringify(questHistory)), [questHistory]);
 
   const rank = getRank(xp);
   const nextXp = nextRankXp(xp);
@@ -208,21 +167,15 @@ export default function App() {
   const achievements = getAchievements(completionStats, streakData, titles);
   const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked);
 
-  const availableQuests = useMemo(
-    () => getQuestPool(mode, setting, time),
-    [mode, setting, time]
-  );
+  const availableQuests = useMemo(() => getQuestPool(mode, setting, time), [mode, setting, time]);
 
   function updateStreak() {
     const today = getTodayString();
     const yesterday = getYesterdayString();
 
-    if (streakData.lastCompletedDate === today) {
-      return streakData;
-    }
+    if (streakData.lastCompletedDate === today) return streakData;
 
     let newCurrentStreak = 1;
-
     if (streakData.lastCompletedDate === yesterday) {
       newCurrentStreak = streakData.currentStreak + 1;
     }
@@ -245,7 +198,6 @@ export default function App() {
     }
 
     let pool = availableQuests;
-
     if (availableQuests.length > 1) {
       pool = availableQuests.filter((quest) => quest.title !== lastQuestTitle);
     }
@@ -259,9 +211,7 @@ export default function App() {
   function completeQuest() {
     if (!currentQuest) return;
 
-    const oldAchievements = getAchievements(completionStats, streakData, titles).filter(
-      (achievement) => achievement.unlocked
-    ).length;
+    const oldAchievements = getAchievements(completionStats, streakData, titles).filter((a) => a.unlocked).length;
 
     const newXp = xp + currentQuest.xp;
     const updatedStreak = updateStreak();
@@ -287,6 +237,17 @@ export default function App() {
       },
     };
 
+    const historyItem: QuestHistoryItem = {
+      title: currentQuest.title,
+      xp: currentQuest.xp,
+      mode: currentQuest.mode,
+      setting: currentQuest.setting,
+      time: currentQuest.time,
+      completedAt: new Date().toLocaleString(),
+    };
+
+    const newHistory = [historyItem, ...questHistory].slice(0, 10);
+
     const count = newCounts[currentQuest.title];
     let newTitles = titles;
     let titleMessage = "";
@@ -296,17 +257,14 @@ export default function App() {
       titleMessage = ` 🏆 New Title: ${currentQuest.unlockTitle}.`;
     }
 
-    const newAchievementCount = getAchievements(newStats, updatedStreak, newTitles).filter(
-      (achievement) => achievement.unlocked
-    ).length;
-
-    const achievementMessage =
-      newAchievementCount > oldAchievements ? " 🎖️ New achievement unlocked!" : "";
+    const newAchievementCount = getAchievements(newStats, updatedStreak, newTitles).filter((a) => a.unlocked).length;
+    const achievementMessage = newAchievementCount > oldAchievements ? " 🎖️ New achievement unlocked!" : "";
 
     setXp(newXp);
     setCompletedCounts(newCounts);
     setCompletionStats(newStats);
     setTitles(newTitles);
+    setQuestHistory(newHistory);
 
     setMessage(
       `+${currentQuest.xp} XP earned. 🔥 Streak: ${updatedStreak.currentStreak} day(s).${titleMessage}${achievementMessage}`
@@ -315,13 +273,12 @@ export default function App() {
 
   function shareQuest() {
     if (!currentQuest) return;
-
     const text = `I got a quest: "${currentQuest.title}" — ${currentQuest.task} Reward: ${currentQuest.xp} XP.`;
     window.location.href = `sms:?&body=${encodeURIComponent(text)}`;
   }
 
   function resetProgress() {
-    const confirmed = window.confirm("Reset XP, titles, achievements, streaks, and completed quest progress?");
+    const confirmed = window.confirm("Reset XP, titles, achievements, history, streaks, and completed quest progress?");
     if (!confirmed) return;
 
     setXp(0);
@@ -329,6 +286,7 @@ export default function App() {
     setCompletedCounts({});
     setCompletionStats({ totalCompleted: 0, byMode: {}, bySetting: {}, byTime: {} });
     setStreakData({ currentStreak: 0, bestStreak: 0, lastCompletedDate: "" });
+    setQuestHistory([]);
     setCurrentQuest(null);
     setMessage("Progress reset.");
   }
@@ -377,38 +335,6 @@ export default function App() {
           <p>Current streak: 🔥 {streakData.currentStreak} day(s)</p>
           <p>Best streak: 🏆 {streakData.bestStreak} day(s)</p>
         </div>
-
-       <details style={styles.achievementCard}>
-  <summary style={styles.achievementSummary}>
-    Achievements: {unlockedAchievements.length} / {achievements.length} unlocked
-  </summary>
-
-  <div style={styles.achievementList}>
-    {achievements.map((achievement) => (
-      <div
-        key={achievement.name}
-        style={
-          achievement.unlocked
-            ? styles.achievementUnlocked
-            : styles.achievementLocked
-        }
-      >
-        <strong>
-          {achievement.unlocked ? "🏆" : "🔒"} {achievement.name}
-        </strong>
-        <p
-          style={
-            achievement.unlocked
-              ? styles.achievementText
-              : styles.lockedText
-          }
-        >
-          {achievement.description}
-        </p>
-      </div>
-    ))}
-  </div>
-</details>
 
         <div style={styles.section}>
           <h3>Who’s playing?</h3>
@@ -479,6 +405,48 @@ export default function App() {
           )}
         </div>
 
+        <details style={styles.historyCard}>
+          <summary style={styles.dropdownSummary}>
+            Recent Quest History ({questHistory.length})
+          </summary>
+
+          {questHistory.length === 0 ? (
+            <p style={styles.small}>No completed quests yet.</p>
+          ) : (
+            <div style={styles.historyList}>
+              {questHistory.map((item, index) => (
+                <div key={`${item.title}-${index}`} style={styles.historyItem}>
+                  <strong>✓ {item.title}</strong>
+                  <p style={styles.small}>
+                    {item.mode} • {item.setting} • {item.time} • +{item.xp} XP
+                  </p>
+                  <p style={styles.small}>{item.completedAt}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </details>
+
+        <details style={styles.achievementCard}>
+          <summary style={styles.dropdownSummary}>
+            Achievements: {unlockedAchievements.length} / {achievements.length} unlocked
+          </summary>
+
+          <div style={styles.achievementList}>
+            {achievements.map((achievement) => (
+              <div
+                key={achievement.name}
+                style={achievement.unlocked ? styles.achievementUnlocked : styles.achievementLocked}
+              >
+                <strong>{achievement.unlocked ? "🏆" : "🔒"} {achievement.name}</strong>
+                <p style={achievement.unlocked ? styles.achievementText : styles.lockedText}>
+                  {achievement.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </details>
+
         <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
       </div>
     </div>
@@ -492,17 +460,16 @@ const styles: Record<string, React.CSSProperties> = {
   subtitle: { textAlign: "center", color: "#d9ed92", marginBottom: "24px" },
   profile: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
   statsCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
+  historyCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "18px" },
   achievementCard: { background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "18px", padding: "18px", marginBottom: "20px" },
-  achievementList: { display: "grid", gap: "10px" },
+  dropdownSummary: { cursor: "pointer", fontWeight: "bold", fontSize: "18px" },
+  achievementList: { display: "grid", gap: "10px", marginTop: "14px" },
   achievementUnlocked: { background: "#f9c74f", color: "#132a13", padding: "12px", borderRadius: "12px" },
   achievementLocked: { background: "rgba(255,255,255,0.08)", color: "#d8f3dc", padding: "12px", borderRadius: "12px" },
   achievementText: { margin: "6px 0 0 0", color: "#132a13", fontSize: "14px" },
-  achievementSummary: {
-  cursor: "pointer",
-  fontWeight: "bold",
-  fontSize: "18px",
-},
   lockedText: { margin: "6px 0 0 0", color: "#d8f3dc", fontSize: "14px" },
+  historyList: { display: "grid", gap: "10px", marginTop: "14px" },
+  historyItem: { background: "rgba(255,255,255,0.08)", padding: "12px", borderRadius: "12px" },
   progressOuter: { height: "12px", background: "rgba(255,255,255,0.2)", borderRadius: "999px", overflow: "hidden" },
   progressInner: { height: "100%", background: "#f9c74f" },
   small: { color: "#d8f3dc", fontSize: "14px" },
