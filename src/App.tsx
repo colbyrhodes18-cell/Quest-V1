@@ -328,15 +328,15 @@ export default function App() {
     setMessage("");
   }
 
-  if (!session) {
-    return <Auth />;
-  }
-
   return (
     <div style={styles.page}>
       <button onClick={() => supabase.auth.signOut()}>
         Log Out
       </button>
+       if (!session) {
+    return <Auth />;
+  }
+
 
       <header style={styles.hero}>
         <div style={styles.heroContent}>
