@@ -323,30 +323,36 @@ export default function App() {
     setMessage("Progress reset.");
   }
 
-  function clearQuest() {
-    setCurrentQuest(null);
-    setMessage("");
-  }
+ function clearQuest() {
+  setCurrentQuest(null);
+  setMessage("");
+}
 
-  return (
-    <div style={styles.page}>
-      <button onClick={() => supabase.auth.signOut()}>
-        Log Out
-      </button>
-       if (!session) {
-    return <Auth />;
-  }
+if (!session) {
+  return <Auth />;
+}
+
+return (
+  <div style={styles.page}>
+    <button
+      onClick={() => supabase.auth.signOut()}
+    >
+      Log Out
+    </button>
+
+    <header style={styles.hero}>
+      <div style={styles.heroContent}>
+        <p style={styles.kicker}>REAL LIFE ADVENTURE GENERATOR</p>
+        <h1 style={styles.logo}>QUEST</h1>
+        <p style={styles.subtitle}>
+          Adventure is closer than you think.
+        </p>
+      </div>
+    </header>
+
+    <main style={styles.shell}>
 
 
-      <header style={styles.hero}>
-        <div style={styles.heroContent}>
-          <p style={styles.kicker}>REAL LIFE ADVENTURE GENERATOR</p>
-          <h1 style={styles.logo}>QUEST</h1>
-          <p style={styles.subtitle}>Adventure is closer than you think.</p>
-        </div>
-      </header>
-
-      <main style={styles.shell}>
         <section style={styles.rankCard}>
           <div style={styles.rankTop}>
             <div style={styles.rankBadge}>⛰️</div>
