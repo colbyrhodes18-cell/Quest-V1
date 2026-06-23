@@ -327,7 +327,7 @@ useEffect(() => {
     setMessage("");
   }
 
- if (!session) {
+  (!session) {
   return <Auth />;
 }
 
@@ -500,7 +500,7 @@ return (
         <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
       </main>
     </div>
-  );
+  ;
 }
 
 const cream = "#f5ecd9";
