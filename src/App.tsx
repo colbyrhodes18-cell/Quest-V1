@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "./supabase";
+import Auth from "./Auth";
 import { questLibrary } from "./data/quests";
 import type { Mode, Quest, Setting, TimeOfDay } from "./types";
 
