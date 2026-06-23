@@ -332,6 +332,11 @@ useEffect(() => {
   return <Auth />;
 }
     <div style={styles.page}>
+      <button
+  onClick={() => supabase.auth.signOut()}
+>
+  Log Out
+</button>
       <header style={styles.hero}>
         <div style={styles.heroContent}>
           <p style={styles.kicker}>REAL LIFE ADVENTURE GENERATOR</p>
