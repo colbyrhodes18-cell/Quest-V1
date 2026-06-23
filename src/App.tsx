@@ -328,6 +328,9 @@ useEffect(() => {
   }
 
   return (
+    if (!session) {
+  return <Auth />;
+}
     <div style={styles.page}>
       <header style={styles.hero}>
         <div style={styles.heroContent}>
