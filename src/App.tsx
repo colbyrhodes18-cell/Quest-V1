@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Session } from "@supabase/supabase-js";
+import type { Session } from "@supabase/supabase-js";
 import { supabase } from "./supabase";
 import Auth from "./Auth";
 import { questLibrary } from "./data/quests";
@@ -134,19 +134,20 @@ function getAchievements(
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
 
-useEffect(() => {
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    setSession(session);
-  });
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
 
-  const {
-    data: { subscription },
-  } = supabase.auth.onAuthStateChange((_event, session) => {
-    setSession(session);
-  });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
 
-  return () => subscription.unsubscribe();
-}, []);
+    return () => subscription.unsubscribe();
+  }, []);
+
   const [mode, setMode] = useState<Mode>("Solo");
   const [setting, setSetting] = useState<Setting>("Outdoor");
   const [time, setTime] = useState<TimeOfDay>(detectTimeOfDay());
@@ -327,17 +328,16 @@ useEffect(() => {
     setMessage("");
   }
 
-  (!session) {
-  return <Auth />;
-}
+  if (!session) {
+    return <Auth />;
+  }
 
-return (
-  <div style={styles.page}>
-      <button
-  onClick={() => supabase.auth.signOut()}
->
-  Log Out
-</button>
+  return (
+    <div style={styles.page}>
+      <button onClick={() => supabase.auth.signOut()}>
+        Log Out
+      </button>
+
       <header style={styles.hero}>
         <div style={styles.heroContent}>
           <p style={styles.kicker}>REAL LIFE ADVENTURE GENERATOR</p>
@@ -500,7 +500,7 @@ return (
         <button style={styles.resetButton} onClick={resetProgress}>Reset Progress</button>
       </main>
     </div>
-  ;
+  );
 }
 
 const cream = "#f5ecd9";
