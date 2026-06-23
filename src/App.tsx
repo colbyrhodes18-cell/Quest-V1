@@ -327,11 +327,12 @@ useEffect(() => {
     setMessage("");
   }
 
-  return (
-    if (!session) {
+ if (!session) {
   return <Auth />;
 }
-    <div style={styles.page}>
+
+return (
+  <div style={styles.page}>
       <button
   onClick={() => supabase.auth.signOut()}
 >
