@@ -236,7 +236,37 @@ useEffect(() => {
 
   loadProfile();
 }, [session]);
+useEffect(() => {
+  async function saveProfile() {
+    if (!session?.user || !profileLoaded) return;
 
+    const { error } = await supabase.from("profiles").upsert({
+      id: session.user.id,
+      email: session.user.email,
+      xp,
+      titles,
+      completed_counts: completedCounts,
+      completion_stats: completionStats,
+      streak_data: streakData,
+      quest_history: questHistory,
+    });
+
+    if (error) {
+      console.error("Failed to save profile:", error.message);
+    }
+  }
+
+  saveProfile();
+}, [
+  session,
+  profileLoaded,
+  xp,
+  titles,
+  completedCounts,
+  completionStats,
+  streakData,
+  questHistory,
+]);
   const rank = getRank(xp);
   const nextXp = nextRankXp(xp);
   const progress = nextXp === xp ? 100 : Math.min((xp / nextXp) * 100, 100);
