@@ -53,8 +53,22 @@ export default function Auth() {
   value={password}
   onChange={(e) => setPassword(e.target.value)}
 />
-3. Add a checkbox directly below the password fie
-
+<label
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    marginTop: "8px",
+    fontSize: "14px",
+  }}
+>
+  <input
+    type="checkbox"
+    checked={showPassword}
+    onChange={() => setShowPassword(!showPassword)}
+  />
+  Show Password
+</label>
         <button style={styles.button} onClick={signIn}>
           Log In
         </button>
