@@ -178,6 +178,7 @@ useEffect(() => {
   );
 
   const [message, setMessage] = useState("");
+  const [profileLoaded, setProfileLoaded] = useState(false);
 
   useEffect(() => localStorage.setItem("quest-xp", JSON.stringify(xp)), [xp]);
   useEffect(() => localStorage.setItem("quest-titles", JSON.stringify(titles)), [titles]);
@@ -185,7 +186,87 @@ useEffect(() => {
   useEffect(() => localStorage.setItem("quest-completion-stats", JSON.stringify(completionStats)), [completionStats]);
   useEffect(() => localStorage.setItem("quest-streak-data", JSON.stringify(streakData)), [streakData]);
   useEffect(() => localStorage.setItem("quest-history", JSON.stringify(questHistory)), [questHistory]);
+  useEffect(() => {
+  async function loadProfile() {
+    if (!session?.user) {
+      setProfileLoaded(false);
+      return;
+    }
 
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", session.user.id)
+      .single();
+
+    if (error || !data) {
+      await supabase.from("profiles").upsert({
+        id: session.user.id,
+        email: session.user.email,
+        display_name: session.user.email?.split("@")[0] || "Adventurer",
+        xp,
+        titles,
+        completed_counts: completedCounts,
+        completion_stats: completionStats,
+        streak_data: streakData,
+        quest_history: questHistory,
+      });
+
+      setProfileLoaded(true);
+      return;
+    }
+
+    setXp(data.xp ?? 0);
+    setTitles(data.titles ?? []);
+    setCompletedCounts(data.completed_counts ?? {});
+    setCompletionStats(data.completion_stats ?? {
+      totalCompleted: 0,
+      byMode: {},
+      bySetting: {},
+      byTime: {},
+    });
+    setStreakData(data.streak_data ?? {
+      currentStreak: 0,
+      bestStreak: 0,
+      lastCompletedDate: "",
+    });
+    setQuestHistory(data.quest_history ?? []);
+    setProfileLoaded(true);
+  }
+
+  loadProfile();
+}, [session]);
+useEffect(() => {
+  async function saveProfile() {
+    if (!session?.user || !profileLoaded) return;
+
+    const { error } = await supabase.from("profiles").upsert({
+      id: session.user.id,
+      email: session.user.email,
+      xp,
+      titles,
+      completed_counts: completedCounts,
+      completion_stats: completionStats,
+      streak_data: streakData,
+      quest_history: questHistory,
+    });
+
+    if (error) {
+      console.error("Failed to save profile:", error.message);
+    }
+  }
+
+  saveProfile();
+}, [
+  session,
+  profileLoaded,
+  xp,
+  titles,
+  completedCounts,
+  completionStats,
+  streakData,
+  questHistory,
+]);
   const rank = getRank(xp);
   const nextXp = nextRankXp(xp);
   const progress = nextXp === xp ? 100 : Math.min((xp / nextXp) * 100, 100);

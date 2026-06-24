@@ -4,6 +4,7 @@ import { supabase } from "./supabase";
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
 
   async function signUp() {
@@ -47,14 +48,27 @@ export default function Auth() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <input
-          style={styles.input}
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
+       <input
+  type={showPassword ? "text" : "password"}
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+<label
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    marginTop: "8px",
+    fontSize: "14px",
+  }}
+>
+  <input
+    type="checkbox"
+    checked={showPassword}
+    onChange={() => setShowPassword(!showPassword)}
+  />
+  Show Password
+</label>
         <button style={styles.button} onClick={signIn}>
           Log In
         </button>
