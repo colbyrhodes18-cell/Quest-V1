@@ -67,27 +67,23 @@ const quote = quotes[Math.floor(Math.random() * quotes.length)];
           onChange={(e) => setEmail(e.target.value)}
         />
 
-       <input
-  type={showPassword ? "text" : "password"}
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-/>
-<label
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    marginTop: "8px",
-    fontSize: "14px",
-  }}
->
+       <div style={styles.passwordWrap}>
   <input
-    type="checkbox"
-    checked={showPassword}
-    onChange={() => setShowPassword(!showPassword)}
+    style={styles.passwordInput}
+    placeholder="Password"
+    type={showPassword ? "text" : "password"}
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
   />
-  Show Password
-</label>
+
+  <button
+    type="button"
+    style={styles.eyeButton}
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? "🙈" : "👁️"}
+  </button>
+</div>
         <button style={styles.button} onClick={signIn}>
           Log In
         </button>
