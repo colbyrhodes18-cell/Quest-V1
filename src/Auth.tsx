@@ -104,12 +104,16 @@ const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
 const styles: Record<string, React.CSSProperties> = {
   page: {
-    minHeight: "100vh",
-    display: "grid",
-    placeItems: "center",
-    background: "#f5ecd9",
-    padding: "20px",
-  },
+  minHeight: "100vh",
+  display: "grid",
+  placeItems: "center",
+  background: `
+    radial-gradient(circle at top right, rgba(217,164,65,.25), transparent 25%),
+    radial-gradient(circle at bottom left, rgba(19,41,31,.15), transparent 35%),
+    #f5ecd9
+  `,
+  padding: "20px",
+},
   card: {
     width: "100%",
     maxWidth: "420px",
