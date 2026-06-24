@@ -43,8 +43,16 @@ export default function Auth() {
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
+  <div style={styles.page}>
+    <div style={styles.sunGlow} />
+    <div style={styles.mountainsBack} />
+    <div style={styles.mountainsFront} />
+    <div style={styles.lake} />
+    <div style={styles.treeLeft}>🌲</div>
+    <div style={styles.treeRight}>🌲</div>
+    <div style={styles.compassWatermark}>✦</div>
+
+    <div style={styles.card}>
         <div style={styles.brandBadge}>🧭</div>
 
         <h1 style={styles.logo}>QUEST</h1>
@@ -111,7 +119,86 @@ const styles: Record<string, React.CSSProperties> = {
     `,
     padding: "20px",
   },
+  
+sunGlow: {
+  position: "fixed",
+  top: "5%",
+  left: "50%",
+  transform: "translateX(-50%)",
+  width: "800px",
+  height: "400px",
+  borderRadius: "50%",
+  background:
+    "radial-gradient(circle, rgba(255,220,140,.35) 0%, rgba(255,220,140,.15) 40%, transparent 75%)",
+  pointerEvents: "none",
+},
 
+mountainsBack: {
+  position: "fixed",
+  bottom: "160px",
+  left: 0,
+  right: 0,
+  height: "240px",
+  background:
+    "linear-gradient(to top, rgba(90,110,90,.18), rgba(90,110,90,.05))",
+  clipPath:
+    "polygon(0% 100%, 0% 55%, 12% 35%, 24% 60%, 40% 20%, 55% 65%, 70% 30%, 84% 58%, 100% 40%, 100% 100%)",
+  pointerEvents: "none",
+},
+
+mountainsFront: {
+  position: "fixed",
+  bottom: "110px",
+  left: 0,
+  right: 0,
+  height: "220px",
+  background:
+    "linear-gradient(to top, rgba(60,80,60,.25), rgba(60,80,60,.08))",
+  clipPath:
+    "polygon(0% 100%, 0% 60%, 15% 40%, 30% 70%, 45% 25%, 60% 68%, 78% 35%, 90% 58%, 100% 45%, 100% 100%)",
+  pointerEvents: "none",
+},
+
+lake: {
+  position: "fixed",
+  bottom: 0,
+  left: 0,
+  right: 0,
+  height: "130px",
+  background:
+    "linear-gradient(to bottom, rgba(220,220,220,.15), rgba(180,180,180,.25))",
+  pointerEvents: "none",
+},
+
+treeLeft: {
+  position: "fixed",
+  bottom: "120px",
+  left: "3%",
+  fontSize: "140px",
+  opacity: 0.18,
+  pointerEvents: "none",
+},
+
+treeRight: {
+  position: "fixed",
+  bottom: "120px",
+  right: "3%",
+  fontSize: "140px",
+  opacity: 0.18,
+  pointerEvents: "none",
+},
+
+compassWatermark: {
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  fontSize: "700px",
+  opacity: 0.03,
+  color: "#13291f",
+  pointerEvents: "none",
+}, 
+  
   card: {
     width: "100%",
     maxWidth: "460px",
