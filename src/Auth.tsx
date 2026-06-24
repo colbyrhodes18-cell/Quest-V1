@@ -166,6 +166,30 @@ quoteBox: {
     border: "1px solid #d6c7a7",
     fontSize: "16px",
   },
+      passwordWrap: {
+  position: "relative",
+  marginBottom: "12px",
+},
+
+passwordInput: {
+  width: "100%",
+  padding: "14px 48px 14px 14px",
+  borderRadius: "12px",
+  border: "1px solid #d6c7a7",
+  fontSize: "16px",
+  boxSizing: "border-box",
+},
+
+eyeButton: {
+  position: "absolute",
+  right: "10px",
+  top: "50%",
+  transform: "translateY(-50%)",
+  border: "none",
+  background: "transparent",
+  cursor: "pointer",
+  fontSize: "18px",
+},
   button: {
     width: "100%",
     padding: "14px",
