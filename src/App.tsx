@@ -186,6 +186,56 @@ useEffect(() => {
   useEffect(() => localStorage.setItem("quest-completion-stats", JSON.stringify(completionStats)), [completionStats]);
   useEffect(() => localStorage.setItem("quest-streak-data", JSON.stringify(streakData)), [streakData]);
   useEffect(() => localStorage.setItem("quest-history", JSON.stringify(questHistory)), [questHistory]);
+  useEffect(() => {
+  async function loadProfile() {
+    if (!session?.user) {
+      setProfileLoaded(false);
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", session.user.id)
+      .single();
+
+    if (error || !data) {
+      await supabase.from("profiles").upsert({
+        id: session.user.id,
+        email: session.user.email,
+        display_name: session.user.email?.split("@")[0] || "Adventurer",
+        xp,
+        titles,
+        completed_counts: completedCounts,
+        completion_stats: completionStats,
+        streak_data: streakData,
+        quest_history: questHistory,
+      });
+
+      setProfileLoaded(true);
+      return;
+    }
+
+    setXp(data.xp ?? 0);
+    setTitles(data.titles ?? []);
+    setCompletedCounts(data.completed_counts ?? {});
+    setCompletionStats(data.completion_stats ?? {
+      totalCompleted: 0,
+      byMode: {},
+      bySetting: {},
+      byTime: {},
+    });
+    setStreakData(data.streak_data ?? {
+      currentStreak: 0,
+      bestStreak: 0,
+      lastCompletedDate: "",
+    });
+    setQuestHistory(data.quest_history ?? []);
+    setProfileLoaded(true);
+  }
+
+  loadProfile();
+}, [session]);
 
   const rank = getRank(xp);
   const nextXp = nextRankXp(xp);
