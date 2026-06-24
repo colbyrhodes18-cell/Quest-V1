@@ -6,6 +6,15 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
+  const quotes = [
+  "The side quest is usually the best part.",
+  "Touch grass. Your couch will survive.",
+  "Every boring day is one bad decision away from becoming a story.",
+  "Adventure doesn’t need mountains. It needs motion.",
+  "Nobody remembers the day they stayed home.",
+];
+
+const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
   async function signUp() {
     const { error } = await supabase.auth.signUp({
