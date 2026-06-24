@@ -47,9 +47,19 @@ const quote = quotes[Math.floor(Math.random() * quotes.length)];
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <h1>QUEST</h1>
-        <p>Log in or create your account.</p>
+        <div style={styles.brandBadge}>🧭</div>
 
+<h1 style={styles.logo}>QUEST</h1>
+
+<p style={styles.tagline}>
+  Adventure Anywhere.
+  <br />
+  Memories Everywhere.
+</p>
+
+<div style={styles.quoteBox}>
+  <strong>FIELD NOTE</strong>
+  <p>{quote}</p>
         <input
           style={styles.input}
           placeholder="Email"
