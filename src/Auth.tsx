@@ -43,8 +43,16 @@ export default function Auth() {
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
+  <div style={styles.page}>
+    <div style={styles.sunGlow} />
+    <div style={styles.mountainsBack} />
+    <div style={styles.mountainsFront} />
+    <div style={styles.lake} />
+    <div style={styles.treeLeft}>🌲</div>
+    <div style={styles.treeRight}>🌲</div>
+    <div style={styles.compassWatermark}>✦</div>
+
+    <div style={styles.card}>
         <div style={styles.brandBadge}>🧭</div>
 
         <h1 style={styles.logo}>QUEST</h1>
