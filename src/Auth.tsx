@@ -119,6 +119,43 @@ const styles: Record<string, React.CSSProperties> = {
     boxShadow: "0 12px 30px rgba(0,0,0,.12)",
     textAlign: "center",
   },
+      brandBadge: {
+  width: "70px",
+  height: "70px",
+  borderRadius: "50%",
+  background: "#13291f",
+  color: "#fff",
+  display: "grid",
+  placeItems: "center",
+  margin: "0 auto 12px",
+  fontSize: "32px",
+  boxShadow: "0 8px 20px rgba(0,0,0,.15)",
+},
+
+logo: {
+  fontSize: "48px",
+  fontWeight: 900,
+  letterSpacing: "6px",
+  color: "#13291f",
+  margin: "0",
+},
+
+tagline: {
+  color: "#566b3d",
+  fontWeight: 700,
+  marginTop: "8px",
+  marginBottom: "18px",
+  lineHeight: 1.5,
+},
+
+quoteBox: {
+  background: "#f5ecd9",
+  border: "1px solid #d6c7a7",
+  borderRadius: "14px",
+  padding: "14px",
+  marginBottom: "18px",
+  textAlign: "left",
+},
   input: {
     width: "100%",
     padding: "14px",
