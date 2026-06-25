@@ -108,20 +108,22 @@ export default function Auth() {
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    display: "grid",
-    placeItems: "center",
-    background: `
-      radial-gradient(circle at top right, rgba(217,164,65,.25), transparent 25%),
-      radial-gradient(circle at bottom left, rgba(19,41,31,.15), transparent 35%),
-      #f5ecd9
-    `,
-    padding: "20px",
-  },
+ page: {
+  minHeight: "100vh",
+  position: "relative",
+  overflow: "hidden",
+  display: "grid",
+  placeItems: "center",
+  background: `
+    radial-gradient(circle at top right, rgba(217,164,65,.25), transparent 25%),
+    radial-gradient(circle at bottom left, rgba(19,41,31,.15), transparent 35%),
+    #f5ecd9
+  `,
+  padding: "20px",
+},
   
 sunGlow: {
-  position: "fixed",
+  position: "absolute",
   top: "5%",
   left: "50%",
   transform: "translateX(-50%)",
@@ -134,7 +136,7 @@ sunGlow: {
 },
 
 mountainsBack: {
-  position: "fixed",
+  position: "absolute",
   bottom: "160px",
   left: 0,
   right: 0,
@@ -147,7 +149,7 @@ mountainsBack: {
 },
 
 mountainsFront: {
-  position: "fixed",
+  position: "absolute",
   bottom: "110px",
   left: 0,
   right: 0,
@@ -160,7 +162,7 @@ mountainsFront: {
 },
 
 lake: {
-  position: "fixed",
+  position: "absolute",
   bottom: 0,
   left: 0,
   right: 0,
@@ -171,7 +173,7 @@ lake: {
 },
 
 treeLeft: {
-  position: "fixed",
+  position: "absolute",
   bottom: "120px",
   left: "3%",
   fontSize: "140px",
@@ -180,7 +182,7 @@ treeLeft: {
 },
 
 treeRight: {
-  position: "fixed",
+  position: "absolute",
   bottom: "120px",
   right: "3%",
   fontSize: "140px",
@@ -189,7 +191,7 @@ treeRight: {
 },
 
 compassWatermark: {
-  position: "fixed",
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -199,17 +201,19 @@ compassWatermark: {
   pointerEvents: "none",
 }, 
   
-  card: {
-    width: "100%",
-    maxWidth: "460px",
-    background: "rgba(255,248,233,.95)",
-    borderRadius: "28px",
-    padding: "32px",
-    boxShadow: "0 20px 50px rgba(0,0,0,.15)",
-    textAlign: "center",
-    border: "1px solid rgba(19,41,31,.1)",
-    backdropFilter: "blur(12px)",
-  },
+ card: {
+  position: "relative",
+  zIndex: 10,
+  width: "100%",
+  maxWidth: "460px",
+  background: "rgba(255,248,233,.95)",
+  borderRadius: "28px",
+  padding: "32px",
+  boxShadow: "0 20px 50px rgba(0,0,0,.15)",
+  textAlign: "center",
+  border: "1px solid rgba(19,41,31,.1)",
+  backdropFilter: "blur(12px)",
+},
 
   brandBadge: {
     width: "70px",
