@@ -200,21 +200,32 @@ useEffect(() => {
       .single();
 
     if (error || !data) {
-      await supabase.from("profiles").upsert({
-        id: session.user.id,
-        email: session.user.email,
-        display_name: session.user.email?.split("@")[0] || "Adventurer",
-        xp,
-        titles,
-        completed_counts: completedCounts,
-        completion_stats: completionStats,
-        streak_data: streakData,
-        quest_history: questHistory,
-      });
+  const { error: profileError } = await supabase
+    .from("profiles")
+    .upsert({
+      id: session.user.id,
+      email: session.user.email,
+      display_name: session.user.email?.split("@")[0] || "Adventurer",
+      xp,
+      titles,
+      completed_counts: completedCounts,
+      completion_stats: completionStats,
+      streak_data: streakData,
+      quest_history: questHistory,
+    });
 
-      setProfileLoaded(true);
-      return;
-    }
+  if (profileError) {
+    console.error(profileError);
+    return;
+  }
+
+  await supabase.rpc("award_dew_breaker_if_eligible", {
+    profile_id: session.user.id,
+  });
+
+  setProfileLoaded(true);
+  return;
+}
 
     setXp(data.xp ?? 0);
     setTitles(data.titles ?? []);
