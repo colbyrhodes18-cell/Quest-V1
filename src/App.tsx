@@ -243,6 +243,7 @@ useEffect(() => {
       lastCompletedDate: "",
     });
     setQuestHistory(data.quest_history ?? []);
+    setActiveTitle(data.active_title ?? "");
     setProfileLoaded(true);
   }
 
