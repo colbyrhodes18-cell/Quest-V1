@@ -448,6 +448,9 @@ useEffect(() => {
             <div style={styles.rankInfo}>
               <p style={styles.rankLabel}>CURRENT RANK</p>
               <h2 style={styles.rankName}>{rank}</h2>
+              {activeTitle && (
+  <p style={styles.legacyTitle}>🌌 {activeTitle}</p>
+)}
               <p style={styles.archetypeText}>{archetype}</p>
             </div>
           </div>
