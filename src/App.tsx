@@ -705,6 +705,13 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     overflowWrap: "break-word",
   },
+  legacyTitle: {
+  margin: "4px 0",
+  color: "#f3d999",
+  fontWeight: 900,
+  fontSize: "18px",
+  letterSpacing: "1px",
+},
   progressOuter: {
     height: "12px",
     background: "rgba(255,255,255,.18)",
