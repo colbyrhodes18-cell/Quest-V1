@@ -178,6 +178,7 @@ useEffect(() => {
   );
 
   const [message, setMessage] = useState("");
+  const [activeTitle, setActiveTitle] = useState("");
   const [profileLoaded, setProfileLoaded] = useState(false);
 
   useEffect(() => localStorage.setItem("quest-xp", JSON.stringify(xp)), [xp]);
