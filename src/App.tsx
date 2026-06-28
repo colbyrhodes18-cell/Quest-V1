@@ -672,6 +672,8 @@ const styles: Record<string, React.CSSProperties> = {
     maxWidth: "1180px",
     margin: "-56px auto 0",
     padding: "0 14px 40px",
+  },
+   
     profileHeader: {
   background: "#fff8e9",
   borderRadius: "22px",
