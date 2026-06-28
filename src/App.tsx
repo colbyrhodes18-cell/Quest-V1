@@ -246,6 +246,8 @@ const [founderNumber, setFounderNumber] = useState<number | null>(null);
     });
     setQuestHistory(data.quest_history ?? []);
     setActiveTitle(data.active_title ?? "");
+    setDisplayName(data.display_name ?? session.user.email?.split("@")[0] ?? "Adventurer");
+setFounderNumber(data.founder_number ?? null);
     setProfileLoaded(true);
   }
 
