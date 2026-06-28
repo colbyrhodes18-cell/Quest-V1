@@ -179,6 +179,8 @@ useEffect(() => {
 
   const [message, setMessage] = useState("");
   const [activeTitle, setActiveTitle] = useState("");
+  const [displayName, setDisplayName] = useState("Adventurer");
+const [founderNumber, setFounderNumber] = useState<number | null>(null);
   const [profileLoaded, setProfileLoaded] = useState(false);
 
   useEffect(() => localStorage.setItem("quest-xp", JSON.stringify(xp)), [xp]);
