@@ -445,6 +445,22 @@ useEffect(() => {
       </header>
 
       <main style={styles.shell}>
+        <section style={styles.profileHeader}>
+  <div style={styles.profileAvatar}>🧭</div>
+
+  <div>
+    <p style={styles.profileLabel}>ADVENTURER PROFILE</p>
+    <h2 style={styles.profileName}>{displayName}</h2>
+
+    {activeTitle && (
+      <p style={styles.profileLegacyTitle}>
+        {activeTitle === "Dew-Breaker" && founderNumber
+          ? `🌅 Dew-Breaker #${founderNumber}`
+          : `🌌 ${activeTitle}`}
+      </p>
+    )}
+  </div>
+</section>
         <section style={styles.rankCard}>
           <div style={styles.rankTop}>
             <div style={styles.rankBadge}>⛰️</div>
