@@ -669,11 +669,56 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     margin: 0,
   },
+  
   shell: {
     maxWidth: "1180px",
     margin: "-56px auto 0",
     padding: "0 14px 40px",
-  },
+    profileHeader: {
+  background: "#fff8e9",
+  borderRadius: "22px",
+  padding: "24px",
+  marginBottom: "24px",
+  display: "flex",
+  alignItems: "center",
+  gap: "20px",
+  boxShadow: "0 10px 26px rgba(0,0,0,.08)",
+},
+
+profileAvatar: {
+  width: "90px",
+  height: "90px",
+  borderRadius: "50%",
+  display: "grid",
+  placeItems: "center",
+  fontSize: "42px",
+  background: "linear-gradient(135deg,#efe4c8,#8fa078)",
+  border: "4px solid #d9a441",
+  flexShrink: 0,
+},
+
+profileLabel: {
+  margin: 0,
+  color: "#566b3d",
+  fontSize: "12px",
+  fontWeight: 900,
+  letterSpacing: "2px",
+},
+
+profileName: {
+  margin: "6px 0",
+  fontSize: "34px",
+  color: "#13291f",
+  fontWeight: 900,
+},
+
+profileLegacyTitle: {
+  margin: 0,
+  color: "#d9a441",
+  fontSize: "20px",
+  fontWeight: 800,
+},
+  
   rankCard: {
     background: `linear-gradient(135deg, ${deepGreen}, ${forest})`,
     color: cream,
