@@ -260,6 +260,8 @@ useEffect(() => {
     const { error } = await supabase.from("profiles").upsert({
       id: session.user.id,
       email: session.user.email,
+      display_name: displayName,
+      active_title: activeTitle,
       xp,
       titles,
       completed_counts: completedCounts,
@@ -468,6 +470,7 @@ useEffect(() => {
             <div style={styles.rankInfo}>
               <p style={styles.rankLabel}>CURRENT RANK</p>
               <h2 style={styles.rankName}>{rank}</h2>
+
               {activeTitle && (
                 <p style={styles.legacyTitle}>
                   {activeTitle === "Dew-Breaker" && founderNumber
@@ -679,9 +682,7 @@ const styles: Record<string, React.CSSProperties> = {
     maxWidth: "1180px",
     margin: "-56px auto 0",
     padding: "0 14px 40px",
-  },
-
-  profileHeader: {
+    profileHeader: {
   background: "#fff8e9",
   borderRadius: "22px",
   padding: "24px",
