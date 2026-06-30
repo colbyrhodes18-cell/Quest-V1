@@ -469,7 +469,13 @@ useEffect(() => {
               <p style={styles.rankLabel}>CURRENT RANK</p>
               <h2 style={styles.rankName}>{rank}</h2>
               {activeTitle && (
-  
+                <p style={styles.legacyTitle}>
+                  {activeTitle === "Dew-Breaker" && founderNumber
+                    ? `🌅 Dew-Breaker #${founderNumber}`
+                    : `🌌 ${activeTitle}`}
+                </p>
+              )}
+
               <p style={styles.archetypeText}>{archetype}</p>
             </div>
           </div>
@@ -673,7 +679,9 @@ const styles: Record<string, React.CSSProperties> = {
     maxWidth: "1180px",
     margin: "-56px auto 0",
     padding: "0 14px 40px",
-    profileHeader: {
+  },
+
+  profileHeader: {
   background: "#fff8e9",
   borderRadius: "22px",
   padding: "24px",
