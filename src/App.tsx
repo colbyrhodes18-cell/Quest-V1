@@ -669,24 +669,22 @@ const styles: Record<string, React.CSSProperties> = {
     letterSpacing: "8px",
     color: "#fff8e9",
     margin: "6px 0",
-    fontWeight: 900,
-  },
-  subtitle: {
-    color: "#fff8e9",
-    fontSize: "clamp(16px, 4vw, 22px)",
-    fontWeight: 700,
-    margin: 0,
-  },
-  
-  shell: {
+   shell: {
     maxWidth: "1180px",
     margin: "-56px auto 0",
     padding: "0 14px 40px",
   },
-   
-    profileHeader: {
-  background: "#fff8e9",
-  borderRadius: "22px",
+
+  profileHeader: {
+    background: "#fff8e9",
+    borderRadius: "22px",
+    padding: "24px",
+    marginBottom: "24px",
+    display: "flex",
+    alignItems: "center",
+    gap: "20px",
+    boxShadow: "0 10px 26px rgba(0,0,0,.08)",
+  },
   padding: "24px",
   marginBottom: "24px",
   display: "flex",
