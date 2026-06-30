@@ -260,6 +260,8 @@ useEffect(() => {
     const { error } = await supabase.from("profiles").upsert({
       id: session.user.id,
       email: session.user.email,
+      display_name: displayName,
+      active_title: activeTitle,
       xp,
       titles,
       completed_counts: completedCounts,
@@ -468,10 +470,15 @@ useEffect(() => {
             <div style={styles.rankInfo}>
               <p style={styles.rankLabel}>CURRENT RANK</p>
               <h2 style={styles.rankName}>{rank}</h2>
-              
-  {activeTitle && (
-  <p style={styles.legacyTitle}>🌌 {activeTitle}</p>
-)}
+
+              {activeTitle && (
+                <p style={styles.legacyTitle}>
+                  {activeTitle === "Dew-Breaker" && founderNumber
+                    ? `🌅 Dew-Breaker #${founderNumber}`
+                    : `🌌 ${activeTitle}`}
+                </p>
+              )}
+
               <p style={styles.archetypeText}>{archetype}</p>
             </div>
           </div>
